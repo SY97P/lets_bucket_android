@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         adapter.addFragment(TabFragment2(), "탭2")
         adapter.addFragment(TabFragment3(), "탭3")
 
-        binding.viewPager
+        binding.viewPager.adapter = adapter
+        binding.tabLayout.setupWithViewPager(binding.viewPager)
     }
 }
