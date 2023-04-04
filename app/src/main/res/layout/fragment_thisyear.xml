@@ -11,4 +11,16 @@
         android:layout_height="match_parent"
         tools:listitem="@layout/item_thisyear_recycler_view"/>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="100dp"
+        android:backgroundTint="@color/purple_500"
+        android:contentDescription="@string/add"
+        android:foregroundGravity="bottom|center"
+        android:src="@drawable/ic_launcher_background"
+        android:tint="@color/teal_700" />
+
 </FrameLayout>

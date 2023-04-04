@@ -3,12 +3,12 @@ package com.example.letsbucket
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import com.example.letsbucket.adaptor.TabAdapter
 import com.example.letsbucket.databinding.ActivityMainBinding
 import com.example.letsbucket.fragment.PastFragment
 import com.example.letsbucket.fragment.ThisYearFragment
 import com.example.letsbucket.fragment.LifeFragment
+import com.example.letsbucket.util.DataUtil
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,6 +19,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        Log.d("mylog > MainActivity", DataUtil.thisYearBucketList.size.toString())
+    }
+
+    override fun onStart() {
+        super.onStart()
+
         val adapter = TabAdapter(supportFragmentManager)
         adapter.addFragment(PastFragment(), getString(R.string.past))
         adapter.addFragment(ThisYearFragment(), getString(R.string.this_year))
@@ -27,8 +33,6 @@ class MainActivity : AppCompatActivity() {
         binding.viewPager.adapter = adapter
         binding.tabLayout.setupWithViewPager(binding.viewPager)
 
-        binding.fab.setOnClickListener(View.OnClickListener {
-            Log.d("mylog", "floating button onclick")
-        })
+        Log.d("mylog > MainActivity", DataUtil.thisYearBucketList.size.toString())
     }
 }

@@ -44,20 +44,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tab_layout"/>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:foregroundGravity="bottom|center"
-        android:contentDescription="@string/add"
-        android:src="@drawable/ic_launcher_background"
-        android:layout_marginBottom="100dp"
-        app:rippleColor="@color/black"
-        android:tint="@color/teal_700"
-        android:backgroundTint="@color/purple_500"
-        />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
