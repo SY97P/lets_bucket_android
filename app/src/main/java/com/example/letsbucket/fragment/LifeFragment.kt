@@ -35,7 +35,7 @@ class LifeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tab3, container, false)
+        return inflater.inflate(R.layout.fragment_life, container, false)
     }
 
     companion object {
