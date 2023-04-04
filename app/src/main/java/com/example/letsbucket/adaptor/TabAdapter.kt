@@ -1,4 +1,4 @@
-package com.example.letsbucket
+package com.example.letsbucket.adaptor
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
