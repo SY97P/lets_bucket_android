@@ -20,7 +20,7 @@
         android:backgroundTint="@color/purple_500"
         android:contentDescription="@string/add"
         android:foregroundGravity="bottom|center"
-        android:src="@drawable/ic_launcher_background"
-        android:tint="@color/teal_700" />
+        android:src="@drawable/baseline_add_24"
+        android:tint="@null" />
 
 </FrameLayout>

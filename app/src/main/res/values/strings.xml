@@ -4,4 +4,6 @@
     <string name="this_year">2023</string>
     <string name="life">Life</string>
     <string name="add">Add</string>
+    <string name="bucketlist">버킷리스트</string>
+    <string name="thisyear_notice">올해 이루고 싶은 목표를 적어보세요!</string>
 </resources>
