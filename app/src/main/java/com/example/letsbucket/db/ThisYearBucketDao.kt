@@ -29,4 +29,7 @@ interface ThisYearBucketDao {
 
     @Query("DELETE FROM ThisYearBucket WHERE id = :id")
     fun deleteById(id: Int)
+
+    @Query("SELECT COUNT(*) FROM ThisYearBucket")
+    fun getCount(): Int
 }
