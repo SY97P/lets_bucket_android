@@ -41,7 +41,8 @@ class BucketAdapter(private val context: Context, private val from: DataUtil.FRO
                         }
                     }
                     popup.setOnDismissListener {
-                        Log.d(TAG, "팝업 종료")
+                        Log.d(TAG, "팝업 종료 -> 리스트 새로고침")
+                        notifyDataSetChanged()
                     }
                     popup.show()
                 }
