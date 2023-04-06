@@ -6,4 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".activity.LifeActivity">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/life_bucket_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/item_bucket_recycler_view"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

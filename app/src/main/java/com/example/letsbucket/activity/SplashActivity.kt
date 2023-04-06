@@ -5,9 +5,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.letsbucket.R
-import com.example.letsbucket.data.ThisYearItem
+import com.example.letsbucket.data.BucketItem
 import com.example.letsbucket.db.ThisYearBucket
 import com.example.letsbucket.db.ThisYearBucketDB
 import com.example.letsbucket.util.DataUtil
@@ -15,11 +16,19 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlin.properties.Delegates
 
 class SplashActivity : AppCompatActivity() {
 
     private lateinit var thisYearBucketDB: ThisYearBucketDB
-    private var thisYearDB_done: Boolean = false
+    private var thisYearDB_done: Boolean by Delegates.observable(false) {
+        property, oldValue, newValue ->
+        if (newValue) {
+            findViewById<ImageView>(R.id.button).setImageResource(R.drawable.start)
+        } else {
+            findViewById<ImageView>(R.id.button).setImageResource(R.drawable.loading)
+        }
+    }
     private var TAG = DataUtil.TAG + "SplashActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +39,7 @@ class SplashActivity : AppCompatActivity() {
 
         thisYearBucketDB = ThisYearBucketDB.getInstance(applicationContext)!!
 
-        findViewById<Button>(R.id.button).setOnClickListener(View.OnClickListener {
+        findViewById<ImageView>(R.id.button).setOnClickListener(View.OnClickListener {
             if (thisYearDB_done) {
                 val intent = Intent(applicationContext, MainActivity::class.java)
                 startActivity(intent)
@@ -46,9 +55,17 @@ class SplashActivity : AppCompatActivity() {
         getThisYearBucket()
     }
 
+//    override fun onResume() {
+//        super.onResume()
+//        Log.d(TAG, "onResume")
+//        if (!thisYearDB_done) {
+//            getThisYearBucket()
+//        }
+//    }
+
     override fun onDestroy() {
 
-        Log.d("mylog > SPLASH", "onDestroy")
+        Log.d(TAG, "onDestroy")
 
         CoroutineScope(Dispatchers.IO).launch {
             CoroutineScope(Dispatchers.IO).async {
@@ -76,7 +93,7 @@ class SplashActivity : AppCompatActivity() {
 
         thisYearDB_done = true
 
-        Log.d("mylog > SPLASH", "onDestroy -> DB task done")
+        Log.d(TAG, "onDestroy -> DB task done")
 
         super.onDestroy()
     }
@@ -89,13 +106,13 @@ class SplashActivity : AppCompatActivity() {
                 }.await()
 
                 Log.d(
-                    "mylog > SplashActivity",
+                    TAG,
                     "db size : " + DataUtil.thisYearBucketList.size.toString()
                 )
 
                 for (bucket in bucketList) {
                     DataUtil.thisYearBucketList.add(
-                        ThisYearItem(
+                        BucketItem(
                             bucket.id,
                             bucket.bucket,
                             bucket.done

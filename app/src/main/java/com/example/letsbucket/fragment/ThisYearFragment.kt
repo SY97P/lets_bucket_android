@@ -10,18 +10,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.letsbucket.PopupDialog
 import com.example.letsbucket.R
-import com.example.letsbucket.adaptor.ThisYearAdapter
+import com.example.letsbucket.adaptor.BucketAdapter
 import com.example.letsbucket.databinding.FragmentThisyearBinding
 import com.example.letsbucket.util.DataUtil
-import com.google.android.material.chip.ChipDrawable.Delegate
-import kotlin.properties.Delegates
 
 class ThisYearFragment : Fragment() {
 
-    private var TAG: String = DataUtil.TAG + "ThisYearFragment"
+    private var TAG: String = DataUtil.TAG + "TYFragment"
 
     private lateinit var binding: FragmentThisyearBinding
-    private lateinit var thisYearAdapter: ThisYearAdapter
+    private lateinit var bucketAdapter: BucketAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,31 +31,24 @@ class ThisYearFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentThisyearBinding.inflate(inflater, container, false)
-        binding.fab.setColorFilter(R.color.white)
         setupBinding()
-        Log.d(TAG, "onCreateView")
         return binding.root
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private fun setupBinding() {
         binding.fab.setOnClickListener(View.OnClickListener {
-            PopupDialog(requireContext(), DataUtil.POPUP_TYPE.ADD, DataUtil.NONE).let {
-//                it.setOnPopupDialogListener(object: PopupDialog.PopupDialogInterface{
-//                    override fun itemListChangedListener(isChanged: Boolean) {
-//                        thisYearAdapter.notifyDataSetChanged()
-//                    }
-//                })
+            PopupDialog(requireContext(), DataUtil.MODE_TYPE.ADD, DataUtil.FROM_TYPE.THIS_YEAR,null, null).let {
                 it.setOnDismissListener {
-                    thisYearAdapter.notifyDataSetChanged()
+                    bucketAdapter.notifyDataSetChanged()
                 }
                 it.show()
             }
         })
 
         binding.thisYearBucketList.apply {
-            thisYearAdapter = ThisYearAdapter(requireContext(), DataUtil.thisYearBucketList)
-            adapter = thisYearAdapter
+            bucketAdapter = BucketAdapter(requireContext(), DataUtil.FROM_TYPE.THIS_YEAR, null, DataUtil.thisYearBucketList)
+            adapter = bucketAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
     }

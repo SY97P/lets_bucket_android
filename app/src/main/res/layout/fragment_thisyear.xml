@@ -3,24 +3,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.ThisYearFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/this_year_bucket_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/item_thisyear_recycler_view"/>
+        tools:listitem="@layout/item_bucket_recycler_view"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
+        app:fabCustomSize="75dp"
+        app:maxImageSize="50dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
         android:layout_marginBottom="100dp"
-        android:backgroundTint="@color/purple_500"
+        android:backgroundTint="@color/red"
+        android:tint="@null"
         android:contentDescription="@string/add"
         android:foregroundGravity="bottom|center"
-        android:src="@drawable/baseline_add_24"
-        android:tint="@null" />
+        android:src="@drawable/baseline_add_24" />
 
 </FrameLayout>

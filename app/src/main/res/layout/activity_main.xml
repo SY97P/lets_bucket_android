@@ -10,7 +10,7 @@
         android:id="@+id/tab_layout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:tabIndicatorColor="@color/design_default_color_primary_dark"
+        app:tabIndicatorColor="@color/orange"
         app:layout_constraintWidth_percent="1"
         app:layout_constraintHeight_percent=".1"
         app:layout_constraintStart_toStartOf="parent"

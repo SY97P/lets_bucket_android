@@ -1,6 +1,6 @@
 package com.example.letsbucket.data
 
-data class LifeItem(
+data class LifeTypeItem(
     private val image: Int,
     private val text: String
 ) {

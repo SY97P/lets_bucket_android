@@ -2,36 +2,62 @@ package com.example.letsbucket.util
 
 import android.util.Log
 import com.example.letsbucket.R
-import com.example.letsbucket.data.LifeItem
-import com.example.letsbucket.data.ThisYearItem
+import com.example.letsbucket.data.LifeTypeItem
+import com.example.letsbucket.data.BucketItem
 import kotlin.properties.Delegates
 
 object DataUtil {
-    var thisYearBucketList: ArrayList<ThisYearItem> by Delegates.observable(arrayListOf()) {
+    var thisYearBucketList: ArrayList<BucketItem> by Delegates.observable(arrayListOf()) {
         property, oldValue, newValue ->
     }
 
-    var lifeList: ArrayList<LifeItem> = arrayListOf(
-        LifeItem(R.drawable.baseline_camera_enhance_24, "전체보기"),
-        LifeItem(R.drawable.baseline_camera_enhance_24, "여행"),
-        LifeItem(R.drawable.baseline_camera_enhance_24, "취미/문화"),
-        LifeItem(R.drawable.baseline_camera_enhance_24, "자기계발"),
-        LifeItem(R.drawable.baseline_camera_enhance_24, "소비/저축"),
-        LifeItem(R.drawable.baseline_camera_enhance_24, "가족/친구"),
-        LifeItem(R.drawable.baseline_camera_enhance_24, "기타"),
+    var lifelist: Array<ArrayList<BucketItem>> = arrayOf(
+        arrayListOf(
+            BucketItem(System.currentTimeMillis(), "전체", false)
+        ),
+        arrayListOf(
+            BucketItem(System.currentTimeMillis(), "여행", false)
+        ),
+        arrayListOf(
+            BucketItem(System.currentTimeMillis(), "취문", false)
+        ),
+        arrayListOf(
+            BucketItem(System.currentTimeMillis(), "계발", false)
+        ),
+        arrayListOf(
+            BucketItem(System.currentTimeMillis(), "저축", false)
+        ),
     )
 
-    var NONE: Int = -1
+    var lifeTypeList: ArrayList<LifeTypeItem> = arrayListOf(
+        LifeTypeItem(R.drawable.health, "전체보기"),
+        LifeTypeItem(R.drawable.trip, "여행"),
+        LifeTypeItem(R.drawable.hobby, "취미/문화"),
+        LifeTypeItem(R.drawable.develope, "자기계발"),
+        LifeTypeItem(R.drawable.money, "소비/저축"),
+        LifeTypeItem(R.drawable.relation, "가족/친구"),
+        LifeTypeItem(R.drawable.etc, "기타"),
+    )
 
     var TAG : String = "MYLOG > "
 
-    enum class POPUP_TYPE {
+    enum class MODE_TYPE {
         ADD, MODIFY
     }
 
-    public fun printThisYearBucketList() {
+    enum class FROM_TYPE {
+        LIFE, THIS_YEAR
+    }
+
+    fun printThisYearBucketList() {
         for (item in thisYearBucketList) {
-            Log.d(TAG, "id : " + item.itemId + " text : " + item.itemText + " done : " + item.itemDone)
+            Log.d(TAG, "id : " + item.itemId + "\ntext : " + item.itemText + "\ndone : " + item.itemDone)
+        }
+    }
+
+    fun printLifeList(lifetype: Int) {
+        for (item in lifelist[lifetype]) {
+            Log.d(TAG, "id : " + item.itemId + "\ntext : " + item.itemText + "\ndone : " + item.itemDone)
         }
     }
 }

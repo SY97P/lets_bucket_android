@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.LifeFragment">
+    tools:context=".fragment.LifeTypeFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/life_list"
+        android:id="@+id/life_type_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/item_life_recycler_view"/>
+        tools:listitem="@layout/item_life_type_recycler_view"/>
 
 </FrameLayout>
