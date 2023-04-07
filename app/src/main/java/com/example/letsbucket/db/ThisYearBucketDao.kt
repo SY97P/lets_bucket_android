@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 /**
@@ -15,8 +16,14 @@ interface ThisYearBucketDao {
     @Insert
     fun insert(thisYearBucket: ThisYearBucket)
 
-    @Insert
+    @Update
     fun update(thisYearBucket: ThisYearBucket)
+
+    @Query("UPDATE ThisYearBucket SET bucket = :text WHERE id = :id")
+    fun updateText(text: String, id: Long)
+
+    @Query("UPDATE ThisYearBucket SET done = :done WHERE id = :id")
+    fun updateDone(done: Boolean, id: Long)
 
     @Delete
     fun delete(thisYearBucket: ThisYearBucket)
@@ -24,11 +31,12 @@ interface ThisYearBucketDao {
     @Query("DELETE FROM ThisYearBucket")
     fun deleteAll()
 
+    @Query("DELETE FROM ThisYearBucket WHERE id = :id")
+    fun deleteById(id: Long)
+
     @Query("SELECT * FROM ThisYearBucket")
     fun getAll(): List<ThisYearBucket>
 
-    @Query("DELETE FROM ThisYearBucket WHERE id = :id")
-    fun deleteById(id: Int)
 
     @Query("SELECT COUNT(*) FROM ThisYearBucket")
     fun getCount(): Int

@@ -2,14 +2,11 @@ package com.example.letsbucket.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import com.example.letsbucket.R
 import com.example.letsbucket.adaptor.TabAdapter
 import com.example.letsbucket.databinding.ActivityMainBinding
-import com.example.letsbucket.fragment.PastFragment
 import com.example.letsbucket.fragment.ThisYearFragment
 import com.example.letsbucket.fragment.LifeTypeFragment
-import com.example.letsbucket.util.DataUtil
 
 class MainActivity : AppCompatActivity() {
 

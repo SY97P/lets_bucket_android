@@ -14,17 +14,24 @@ interface LifeBucketDao {
     @Update
     fun update(lifeBucket: LifeBucket)
 
+    @Query("UPDATE LifeBucket SET text = :text WHERE id = :id")
+    fun updateText(text: String, id: Long)
+
+    @Query("UPDATE LifeBucket SET done = :done WHERE id = :id")
+    fun updateDone(done: Boolean, id: Long)
+
     @Delete
     fun delete(lifeBucket: LifeBucket)
 
     @Query("DELETE FROM LifeBucket")
     fun deleteAll()
 
+    @Query("DELETE FROM LifeBucket WHERE id = :id")
+    fun deleteById(id: Long)
+
     @Query("SELECT * FROM LifeBucket")
     fun getAll(): List<LifeBucket>
 
-    @Query("DELETE FROM LifeBucket WHERE id = :id")
-    fun deleteById(id: Int)
 
     @Query("SELECT COUNT(*) FROM LifeBucket")
     fun getCount(): Int

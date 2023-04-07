@@ -4,8 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database (entities = [LifeBucket::class], version=1)
+@Database (entities = [LifeBucket::class], version=2)
 abstract class LifeBucketDB : RoomDatabase() {
     abstract fun lifebucketDao(): LifeBucketDao
 
@@ -20,10 +22,19 @@ abstract class LifeBucketDB : RoomDatabase() {
                         context.applicationContext,
                         LifeBucketDB::class.java,
                         "life_database"
-                    ).build()
+                    )
+                        .addMigrations(MIGRATION_1_2)
+                        .build()
                 }
             }
             return instance
+        }
+
+        private val MIGRATION_1_2 = object : Migration(1, 2) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE LifeBucket ADD COLUMN type INTEGER NOT NULL default 0")
+            }
+
         }
     }
 }

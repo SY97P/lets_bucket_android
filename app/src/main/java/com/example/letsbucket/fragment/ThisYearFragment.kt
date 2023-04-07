@@ -2,21 +2,19 @@ package com.example.letsbucket.fragment
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.letsbucket.PopupDialog
-import com.example.letsbucket.R
+import com.example.letsbucket.PopupDiaLogUtil
 import com.example.letsbucket.adaptor.BucketAdapter
 import com.example.letsbucket.databinding.FragmentThisyearBinding
 import com.example.letsbucket.util.DataUtil
 
 class ThisYearFragment : Fragment() {
 
-    private var TAG: String = DataUtil.TAG + "TYFragment"
+    private var TAG: String = "TYFragment"
 
     private lateinit var binding: FragmentThisyearBinding
     private lateinit var bucketAdapter: BucketAdapter
@@ -38,7 +36,7 @@ class ThisYearFragment : Fragment() {
     @SuppressLint("NotifyDataSetChanged")
     private fun setupBinding() {
         binding.fab.setOnClickListener(View.OnClickListener {
-            PopupDialog(requireContext(), DataUtil.MODE_TYPE.ADD, DataUtil.FROM_TYPE.THIS_YEAR,null, null).let {
+            PopupDiaLogUtil(requireContext(), DataUtil.MODE_TYPE.ADD, DataUtil.FROM_TYPE.THIS_YEAR,null, null).let {
                 it.setOnDismissListener {
                     bucketAdapter.notifyDataSetChanged()
                 }

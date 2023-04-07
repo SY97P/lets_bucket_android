@@ -2,16 +2,14 @@ package com.example.letsbucket.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.letsbucket.R
-import com.example.letsbucket.data.BucketItem
-import com.example.letsbucket.db.ThisYearBucket
+import com.example.letsbucket.db.LifeBucketDB
 import com.example.letsbucket.db.ThisYearBucketDB
 import com.example.letsbucket.util.DataUtil
+import com.example.letsbucket.util.LogUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -20,8 +18,12 @@ import kotlin.properties.Delegates
 
 class SplashActivity : AppCompatActivity() {
 
+    private var TAG = "SplashActivity"
+
     private lateinit var thisYearBucketDB: ThisYearBucketDB
-    private var thisYearDB_done: Boolean by Delegates.observable(false) {
+    private lateinit var lifeBucketDB: LifeBucketDB
+
+    private var dbTaskDone: Boolean by Delegates.observable(false) {
         property, oldValue, newValue ->
         if (newValue) {
             findViewById<ImageView>(R.id.button).setImageResource(R.drawable.start)
@@ -29,103 +31,96 @@ class SplashActivity : AppCompatActivity() {
             findViewById<ImageView>(R.id.button).setImageResource(R.drawable.loading)
         }
     }
-    private var TAG = DataUtil.TAG + "SplashActivity"
+
+    private var thisYearDBDone: Boolean by Delegates.observable(false) {
+        property, oldValue, newValue ->
+        var result = newValue && lifeDBDone
+        if (result != dbTaskDone){
+            dbTaskDone = !dbTaskDone
+        }
+    }
+
+    private var lifeDBDone: Boolean by Delegates.observable(false) {
+        property, oldValue, newValue ->
+        var result = newValue && thisYearDBDone
+        if (result != dbTaskDone){
+            dbTaskDone = !dbTaskDone
+        }
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        Log.d("mylog > SplashActivity", "db size : " + DataUtil.thisYearBucketList.size.toString())
+        LogUtil.d(TAG, "onCreate")
 
         thisYearBucketDB = ThisYearBucketDB.getInstance(applicationContext)!!
+        lifeBucketDB = LifeBucketDB.getInstance(applicationContext)!!
 
         findViewById<ImageView>(R.id.button).setOnClickListener(View.OnClickListener {
-            if (thisYearDB_done) {
+            if (dbTaskDone) {
                 val intent = Intent(applicationContext, MainActivity::class.java)
                 startActivity(intent)
             } else {
-                Log.d("mylog", "아직 DB 못 읽어옴")
+                LogUtil.d("myLogUtil", "아직 DB 못 읽어옴")
             }
         })
     }
 
     override fun onStart() {
         super.onStart()
-        Log.d(TAG, "onStart")
-        getThisYearBucket()
+        LogUtil.d(TAG, "onStart")
+        getDBtoList()
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//        Log.d(TAG, "onResume")
-//        if (!thisYearDB_done) {
-//            getThisYearBucket()
-//        }
-//    }
-
     override fun onDestroy() {
-
-        Log.d(TAG, "onDestroy")
-
-        CoroutineScope(Dispatchers.IO).launch {
-            CoroutineScope(Dispatchers.IO).async {
-                thisYearBucketDB.thisYearBucketDao().deleteAll()
-                Log.d(TAG, thisYearBucketDB.thisYearBucketDao().getCount().toString())
-            }.await()
-        }
-
-        CoroutineScope(Dispatchers.IO).launch {
-            CoroutineScope(Dispatchers.IO).async {
-                for (item in DataUtil.thisYearBucketList) {
-                    thisYearBucketDB.thisYearBucketDao().insert(
-                        ThisYearBucket(
-                            id = item.itemId,
-                            bucket = item.itemText,
-                            done = item.itemDone
-                        )
-                    )
-                }
-                Log.d(TAG, thisYearBucketDB.thisYearBucketDao().getCount().toString())
-            }.await()
-        }
-
-        Thread.sleep(1000)
-
-        thisYearDB_done = true
-
-        Log.d(TAG, "onDestroy -> DB task done")
-
+        LogUtil.d(TAG, "onDestroy")
+        thisYearDBDone = true
+        lifeDBDone = true
         super.onDestroy()
     }
 
-    private fun getThisYearBucket() {
-        if (DataUtil.thisYearBucketList.size <= 0) {
-            CoroutineScope(Dispatchers.Main).launch {
-                val bucketList = CoroutineScope(Dispatchers.IO).async {
-                    thisYearBucketDB.thisYearBucketDao().getAll()
-                }.await()
+    private fun getDBtoList() {
+        getThisYearDB()
+        getLifeDB()
+    }
 
-                Log.d(
-                    TAG,
-                    "db size : " + DataUtil.thisYearBucketList.size.toString()
-                )
+    private fun getLifeDB() {
+        CoroutineScope(Dispatchers.Main).launch {
+            val bucketList = CoroutineScope(Dispatchers.IO).async{
+                lifeBucketDB.lifebucketDao().getAll()
+            }.await()
 
-                for (bucket in bucketList) {
-                    DataUtil.thisYearBucketList.add(
-                        BucketItem(
-                            bucket.id,
-                            bucket.bucket,
-                            bucket.done
-                        )
-                    )
-                }
+            for (itemList in DataUtil.lifelist) {
+                itemList.clear()
+            }
 
-                thisYearDB_done = true
-                Log.d(
-                    "mylog > SplashActivity",
-                    "list size : " + DataUtil.thisYearBucketList.size.toString()
+            for (bucket in bucketList) {
+                DataUtil.lifelist[bucket.type].add(
+                    bucket.converToBucket()
                 )
             }
+
+            lifeDBDone = true
+        }
+    }
+
+    private fun getThisYearDB() {
+        CoroutineScope(Dispatchers.Main).launch {
+            val bucketList = CoroutineScope(Dispatchers.IO).async {
+                thisYearBucketDB.thisYearBucketDao().getAll()
+            }.await()
+
+            DataUtil.thisYearBucketList.clear()
+
+            for (bucket in bucketList) {
+                DataUtil.thisYearBucketList.add(
+                    bucket.convertToList()
+                )
+            }
+
+            thisYearDBDone = true
         }
     }
 }
