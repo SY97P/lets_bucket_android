@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.letsbucket.PopupDiaLogUtil
 import com.example.letsbucket.R

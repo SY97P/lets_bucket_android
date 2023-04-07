@@ -1,11 +1,16 @@
 package com.example.letsbucket.adaptor
 
+import android.animation.Animator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.Animation.AnimationListener
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.letsbucket.PopupDiaLogUtil
@@ -19,8 +24,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlin.properties.Delegates
 
-class BucketAdapter(private val context: Context, private val from: DataUtil.FROM_TYPE, private val lifeType: Int?, private val dataSet: ArrayList<BucketItem>) :
+class BucketAdapter(
+    private val context: Context,
+    private val from: DataUtil.FROM_TYPE,
+    private val lifeType: Int?,
+    private val dataSet: ArrayList<BucketItem>
+) :
     RecyclerView.Adapter<BucketAdapter.ThisYearViewHolder>() {
 
     private var TAG = "BucketAdapter"
@@ -29,6 +40,24 @@ class BucketAdapter(private val context: Context, private val from: DataUtil.FRO
     inner class ThisYearViewHolder(context: Context, view: View) : RecyclerView.ViewHolder(view) {
         val textView: TextView = itemView.findViewById(R.id.text)
         val checkbox: ImageView = itemView.findViewById(R.id.checkbox)
+        val removeBtn: ImageView = itemView.findViewById(R.id.remove)
+        val layoutCheckBox: LinearLayout = itemView.findViewById(R.id.layout_checkbox)
+        val layoutRemove: LinearLayout = itemView.findViewById(R.id.layout_remove)
+        val toLeftAnim: Animation = AnimationUtils.loadAnimation(context, R.anim.translate_left)
+        val toRightAnim: Animation = AnimationUtils.loadAnimation(context, R.anim.translate_right)
+        var animToggle: Boolean by Delegates.observable(false) {
+            property, oldValue, newValue ->
+            if (newValue) {
+                layoutRemove.visibility = View.VISIBLE
+                layoutCheckBox.visibility = View.GONE
+                layoutRemove.startAnimation(toLeftAnim)
+            } else {
+                layoutRemove.visibility = View.GONE
+                layoutCheckBox.visibility = View.VISIBLE
+                layoutCheckBox.startAnimation(toLeftAnim)
+                layoutRemove.visibility = View.GONE
+            }
+        }
 
         init {
             // click -> 수정
@@ -38,10 +67,22 @@ class BucketAdapter(private val context: Context, private val from: DataUtil.FRO
                     var popup: PopupDiaLogUtil? = null
                     when (from) {
                         DataUtil.FROM_TYPE.THIS_YEAR -> {
-                            popup = PopupDiaLogUtil(context, DataUtil.MODE_TYPE.MODIFY, DataUtil.FROM_TYPE.THIS_YEAR, lifeType, adapterPosition)
+                            popup = PopupDiaLogUtil(
+                                context,
+                                DataUtil.MODE_TYPE.MODIFY,
+                                DataUtil.FROM_TYPE.THIS_YEAR,
+                                lifeType,
+                                adapterPosition
+                            )
                         }
                         DataUtil.FROM_TYPE.LIFE -> {
-                            popup = PopupDiaLogUtil(context, DataUtil.MODE_TYPE.MODIFY, DataUtil.FROM_TYPE.LIFE, lifeType, adapterPosition)
+                            popup = PopupDiaLogUtil(
+                                context,
+                                DataUtil.MODE_TYPE.MODIFY,
+                                DataUtil.FROM_TYPE.LIFE,
+                                lifeType,
+                                adapterPosition
+                            )
                         }
                         else -> {}
                     }
@@ -56,11 +97,8 @@ class BucketAdapter(private val context: Context, private val from: DataUtil.FRO
 
             view.setOnLongClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
-                    if (from == DataUtil.FROM_TYPE.THIS_YEAR) {
-                        DataUtil.thisYearBucketList.removeAt(adapterPosition)
-                    } else {
-                        DataUtil.lifelist[lifeType!!].removeAt(adapterPosition)
-                    }
+                    LogUtil.d(TAG, "Long Click Event Start")
+                    animToggle = !animToggle
                     true
                 } else {
                     false
@@ -85,7 +123,7 @@ class BucketAdapter(private val context: Context, private val from: DataUtil.FRO
             notifyDataSetChanged()
 
             CoroutineScope(Dispatchers.Main).launch {
-                CoroutineScope(Dispatchers.IO).async{
+                CoroutineScope(Dispatchers.IO).async {
                     when (from) {
                         DataUtil.FROM_TYPE.THIS_YEAR -> {
                             ThisYearBucketDB.getInstance(context)!!.thisYearBucketDao().updateDone(
@@ -97,6 +135,40 @@ class BucketAdapter(private val context: Context, private val from: DataUtil.FRO
                             LifeBucketDB.getInstance(context)!!.lifebucketDao().updateDone(
                                 dataSet[position].itemDone,
                                 dataSet[position].itemId
+                            )
+                        }
+                        else -> {}
+                    }
+                }.await()
+            }
+        }
+
+        holder.removeBtn.setOnClickListener {
+            LogUtil.d(TAG, "삭제 버튼 클릭")
+
+            var deletedItem: BucketItem? = null
+
+            if (from == DataUtil.FROM_TYPE.THIS_YEAR) {
+                deletedItem = dataSet[position]
+                DataUtil.thisYearBucketList.removeAt(position)
+            } else {
+                deletedItem = dataSet[position]
+                DataUtil.lifelist[lifeType!!].removeAt(position)
+            }
+            holder.animToggle = !holder.animToggle
+            notifyDataSetChanged()
+
+            CoroutineScope(Dispatchers.Main).launch {
+                CoroutineScope(Dispatchers.IO).async {
+                    when (from) {
+                        DataUtil.FROM_TYPE.THIS_YEAR -> {
+                            ThisYearBucketDB.getInstance(context)!!.thisYearBucketDao().deleteById(
+                                deletedItem.itemId
+                            )
+                        }
+                        DataUtil.FROM_TYPE.LIFE -> {
+                            LifeBucketDB.getInstance(context)!!.lifebucketDao().deleteById(
+                                deletedItem.itemId
                             )
                         }
                         else -> {}

@@ -3,6 +3,7 @@
     <style name="Theme.LetsBucket" parent="Theme.AppCompat.Light">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/orange</item>
+        <item name="colorControlHighlight">@color/pastel_orange</item>
         <item name="colorPrimaryVariant">@color/orange</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->

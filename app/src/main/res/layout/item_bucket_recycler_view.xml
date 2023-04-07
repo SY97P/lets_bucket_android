@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="80dp"
+    android:background="?attr/selectableItemBackground"
     android:paddingHorizontal="15dp"
     android:orientation="vertical">
 
@@ -26,7 +27,9 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/layout_checkbox"
             android:paddingLeft="15dp"
+            android:visibility="visible"
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
 
@@ -36,6 +39,21 @@
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:src="@drawable/unchecked" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_remove"
+            android:visibility="gone"
+            android:paddingHorizontal="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/remove"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:src="@drawable/remove" />
         </LinearLayout>
     </LinearLayout>
 

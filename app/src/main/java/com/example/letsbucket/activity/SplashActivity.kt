@@ -27,6 +27,7 @@ class SplashActivity : AppCompatActivity() {
     private var dbTaskDone: Boolean by Delegates.observable(false) {
         property, oldValue, newValue ->
         if (newValue) {
+            Thread.sleep(600)
             findViewById<ImageView>(R.id.button).setImageResource(R.drawable.start)
         } else {
             findViewById<ImageView>(R.id.button).setImageResource(R.drawable.loading)
