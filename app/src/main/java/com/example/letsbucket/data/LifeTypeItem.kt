@@ -2,8 +2,8 @@ package com.example.letsbucket.data
 
 data class LifeTypeItem(
     private val image: Int,
-    private val text: String
+    private val stringRes: Int
 ) {
     var lifeImage: Int = image
-    var lifeText: String = text
+    var lifeString: Int = stringRes
 }

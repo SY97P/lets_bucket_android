@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.letsbucket.PopupDiaLogUtil
+import com.example.letsbucket.R
 import com.example.letsbucket.adaptor.BucketAdapter
 import com.example.letsbucket.databinding.ActivityLifeBinding
 import com.example.letsbucket.util.DataUtil
@@ -26,7 +27,8 @@ class LifeActivity : AppCompatActivity() {
 
         binding = ActivityLifeBinding.inflate(layoutInflater)
 
-
+        binding.subjectImage.setImageResource(DataUtil.lifeTypeList.get(lifeType!!).lifeImage)
+        binding.subjectText.text = getString(DataUtil.lifeTypeList.get(lifeType!!).lifeString)
 
         lifeAdapter =
             BucketAdapter(this, DataUtil.FROM_TYPE.LIFE, lifeType, DataUtil.lifelist[lifeType!!])

@@ -6,4 +6,11 @@
     <string name="add">Add</string>
     <string name="bucketlist">버킷리스트</string>
     <string name="thisyear_notice">올해 이루고 싶은 목표를 적어보세요!</string>
+    <string name="health">건강</string>
+    <string name="trip">여행</string>
+    <string name="hobby">취미/문화</string>
+    <string name="develope">자기계발</string>
+    <string name="money">소비/저축</string>
+    <string name="relation">가족/친구</string>
+    <string name="etc">기타</string>
 </resources>

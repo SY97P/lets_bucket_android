@@ -28,7 +28,7 @@ class LifeTypeAdapter(private val context: Context, private val dataSet: ArrayLi
 
     override fun onBindViewHolder(holder: LifeTypeAdapter.LifeTypeViewHolder, position: Int) {
         holder.imgView.setImageResource(dataSet[position].lifeImage)
-        holder.textView.text = dataSet[position].lifeText
+        holder.textView.text = context.getString(dataSet[position].lifeString)
     }
 
     inner class LifeTypeViewHolder(context: Context, view : View): RecyclerView.ViewHolder(view) {

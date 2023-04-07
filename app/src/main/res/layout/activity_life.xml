@@ -9,6 +9,8 @@
     <LinearLayout
         android:id="@+id/subject_view"
         android:orientation="horizontal"
+        android:paddingHorizontal="15dp"
+        android:background="@color/pastel_orange"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -18,18 +20,21 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:paddingVertical="10dp"
+            android:paddingRight="10dp"
             android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/subject_image"
                 android:layout_gravity="center"
-                android:layout_width="50dp"
-                android:layout_height="50dp"/>
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="2"
+            android:gravity="center"
             android:layout_height="match_parent">
 
             <TextView
@@ -47,8 +52,7 @@
             android:layout_weight="1"
             android:layout_height="match_parent">
 
-            <TextView
-                android:text="텍스트"
+            <View
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>

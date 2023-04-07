@@ -14,13 +14,13 @@ object DataUtil {
     )
 
     var lifeTypeList: ArrayList<LifeTypeItem> = arrayListOf(
-        LifeTypeItem(R.drawable.health, "건강"),
-        LifeTypeItem(R.drawable.trip, "여행"),
-        LifeTypeItem(R.drawable.hobby, "취미/문화"),
-        LifeTypeItem(R.drawable.develope, "자기계발"),
-        LifeTypeItem(R.drawable.money, "소비/저축"),
-        LifeTypeItem(R.drawable.relation, "가족/친구"),
-        LifeTypeItem(R.drawable.etc, "기타"),
+        LifeTypeItem(R.drawable.health, R.string.health),
+        LifeTypeItem(R.drawable.trip, R.string.trip),
+        LifeTypeItem(R.drawable.hobby, R.string.hobby),
+        LifeTypeItem(R.drawable.develope, R.string.develope),
+        LifeTypeItem(R.drawable.money, R.string.money),
+        LifeTypeItem(R.drawable.relation, R.string.relation),
+        LifeTypeItem(R.drawable.etc, R.string.etc),
     )
 
     enum class MODE_TYPE {

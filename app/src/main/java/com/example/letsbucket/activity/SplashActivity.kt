@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.letsbucket.R
+import com.example.letsbucket.data.BucketItem
 import com.example.letsbucket.db.LifeBucketDB
 import com.example.letsbucket.db.ThisYearBucketDB
 import com.example.letsbucket.util.DataUtil
@@ -102,6 +103,14 @@ class SplashActivity : AppCompatActivity() {
                 )
             }
 
+            for (i in 0 until DataUtil.lifelist.size) {
+                if (DataUtil.lifelist.get(i).size <= 0) {
+                    DataUtil.lifelist[i].add(
+                        BucketItem(System.currentTimeMillis(), "꼭 이루고 싶은 걸 적어보세요", true, i)
+                    )
+                }
+            }
+
             lifeDBDone = true
         }
     }
@@ -117,6 +126,12 @@ class SplashActivity : AppCompatActivity() {
             for (bucket in bucketList) {
                 DataUtil.thisYearBucketList.add(
                     bucket.convertToList()
+                )
+            }
+
+            if (DataUtil.thisYearBucketList.size <= 0) {
+                DataUtil.thisYearBucketList.add(
+                    BucketItem(System.currentTimeMillis(), "올해 목표를 세워보세요!", true, null)
                 )
             }
 
