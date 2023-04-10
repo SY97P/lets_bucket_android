@@ -5,8 +5,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.MutableLiveData
 import com.example.letsbucket.R
 import com.example.letsbucket.data.BucketItem
+import com.example.letsbucket.databinding.ActivitySplashBinding
 import com.example.letsbucket.db.LifeBucketDB
 import com.example.letsbucket.db.ThisYearBucketDB
 import com.example.letsbucket.util.DataUtil
@@ -24,13 +27,17 @@ class SplashActivity : AppCompatActivity() {
     private lateinit var thisYearBucketDB: ThisYearBucketDB
     private lateinit var lifeBucketDB: LifeBucketDB
 
+    private lateinit var binding: ActivitySplashBinding
+
+    val imgRes = MutableLiveData<Int>(R.drawable.loading)
+
     private var dbTaskDone: Boolean by Delegates.observable(false) {
         property, oldValue, newValue ->
         if (newValue) {
-            Thread.sleep(600)
-            findViewById<ImageView>(R.id.button).setImageResource(R.drawable.start)
+            Thread.sleep(1000)
+            imgRes.value = R.drawable.start
         } else {
-            findViewById<ImageView>(R.id.button).setImageResource(R.drawable.loading)
+            imgRes.value = R.drawable.loading
         }
     }
 
@@ -53,21 +60,24 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
 
         LogUtil.d(TAG, "onCreate")
 
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
+        binding.apply {
+            lifecycleOwner = this@SplashActivity
+            activity = this@SplashActivity
+            button.setOnClickListener {
+                if (dbTaskDone) {
+                    startActivity(Intent(applicationContext, MainActivity::class.java))
+                } else {
+                    LogUtil.d("myLogUtil", "아직 DB 못 읽어옴")
+                }
+            }
+        }
+
         thisYearBucketDB = ThisYearBucketDB.getInstance(applicationContext)!!
         lifeBucketDB = LifeBucketDB.getInstance(applicationContext)!!
-
-        findViewById<ImageView>(R.id.button).setOnClickListener(View.OnClickListener {
-            if (dbTaskDone) {
-                val intent = Intent(applicationContext, MainActivity::class.java)
-                startActivity(intent)
-            } else {
-                LogUtil.d("myLogUtil", "아직 DB 못 읽어옴")
-            }
-        })
     }
 
     override fun onStart() {
