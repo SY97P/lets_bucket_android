@@ -6,12 +6,15 @@ import android.os.Bundle
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.letsbucket.PopupDiaLogUtil
 import com.example.letsbucket.R
 import com.example.letsbucket.adaptor.BucketAdapter
 import com.example.letsbucket.databinding.ActivityLifeBinding
 import com.example.letsbucket.util.DataUtil
+import com.example.letsbucket.util.LogUtil
 
 class LifeActivity : AppCompatActivity() {
 
@@ -19,7 +22,10 @@ class LifeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLifeBinding
     private lateinit var lifeAdapter: BucketAdapter
+
     private var lifeType: Int? = null
+    var subjectImgRes: MutableLiveData<Int> = MutableLiveData()
+    var subjectString: MutableLiveData<String> = MutableLiveData()
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,33 +33,41 @@ class LifeActivity : AppCompatActivity() {
 
         lifeType = intent.getIntExtra("LIFE_TYPE", -1)
 
-        binding = ActivityLifeBinding.inflate(layoutInflater)
+        LogUtil.d("LifeActivity", lifeType.toString())
 
-        binding.subjectImage.setImageResource(DataUtil.lifeTypeList.get(lifeType!!).lifeImage)
-        binding.subjectText.text = getString(DataUtil.lifeTypeList.get(lifeType!!).lifeString)
+        binding = DataBindingUtil.setContentView<ActivityLifeBinding?>(this, R.layout.activity_life)
+            .apply {
+                lifecycleOwner = this@LifeActivity
+                activity = this@LifeActivity
 
-        lifeAdapter =
-            BucketAdapter(this, DataUtil.FROM_TYPE.LIFE, lifeType, DataUtil.lifelist[lifeType!!])
-        binding.lifeBucketList.adapter = lifeAdapter
-        binding.lifeBucketList.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+                subjectImgRes.value = DataUtil.lifeTypeList.get(lifeType!!).lifeImage
+                subjectString.value = getString(DataUtil.lifeTypeList.get(lifeType!!).lifeString)
 
-        // 버킷리스트 추가
-        binding.fab.setOnClickListener(View.OnClickListener {
-            PopupDiaLogUtil(
-                this,
-                DataUtil.MODE_TYPE.ADD,
-                DataUtil.FROM_TYPE.LIFE,
-                lifeType,
-                null
-            ).let {
-                it.setOnDismissListener {
-                    lifeAdapter.notifyDataSetChanged()
-                }
-                it.show()
+
+                lifeAdapter = BucketAdapter(
+                    this@LifeActivity,
+                    DataUtil.FROM_TYPE.LIFE,
+                    lifeType,
+                    DataUtil.lifelist[lifeType!!]
+                )
+                lifeBucketList.adapter = lifeAdapter
+                lifeBucketList.layoutManager =
+                    LinearLayoutManager(this@LifeActivity, LinearLayoutManager.VERTICAL, false)
+
+                fab.setOnClickListener(View.OnClickListener {
+                    PopupDiaLogUtil(
+                        this@LifeActivity,
+                        DataUtil.MODE_TYPE.ADD,
+                        DataUtil.FROM_TYPE.LIFE,
+                        lifeType,
+                        null
+                    ).let {
+                        it.setOnDismissListener {
+                            lifeAdapter.notifyDataSetChanged()
+                        }
+                        it.show()
+                    }
+                })
             }
-        })
-
-        setContentView(binding.root)
     }
 }
