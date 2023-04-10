@@ -9,7 +9,7 @@ import android.view.animation.AnimationUtils
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.letsbucket.PopupDiaLogUtil
+import com.example.letsbucket.PopupDialog
 import com.example.letsbucket.R
 import com.example.letsbucket.adaptor.BucketAdapter
 import com.example.letsbucket.databinding.ActivityLifeBinding
@@ -55,7 +55,7 @@ class LifeActivity : AppCompatActivity() {
                     LinearLayoutManager(this@LifeActivity, LinearLayoutManager.VERTICAL, false)
 
                 fab.setOnClickListener(View.OnClickListener {
-                    PopupDiaLogUtil(
+                    PopupDialog(
                         this@LifeActivity,
                         DataUtil.MODE_TYPE.ADD,
                         DataUtil.FROM_TYPE.LIFE,

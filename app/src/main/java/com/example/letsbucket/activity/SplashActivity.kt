@@ -3,6 +3,7 @@ package com.example.letsbucket.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -36,6 +37,7 @@ class SplashActivity : AppCompatActivity() {
         if (newValue) {
             Thread.sleep(1000)
             imgRes.value = R.drawable.start
+            binding.button.startAnimation(AnimationUtils.loadAnimation(this, R.anim.cover_appear))
         } else {
             imgRes.value = R.drawable.loading
         }

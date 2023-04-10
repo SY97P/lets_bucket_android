@@ -14,7 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-class PopupDiaLogUtil(
+class PopupDialog(
     context: Context,
     mode: DataUtil.MODE_TYPE,
     from: DataUtil.FROM_TYPE,
