@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.letsbucket.PopupDialog
 import com.example.letsbucket.adaptor.BucketAdapter
 import com.example.letsbucket.databinding.FragmentThisyearBinding
 import com.example.letsbucket.util.DataUtil

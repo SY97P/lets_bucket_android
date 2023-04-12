@@ -1,4 +1,4 @@
-package com.example.letsbucket
+package com.example.letsbucket.fragment
 
 import android.app.Dialog
 import android.content.Context
@@ -45,7 +45,7 @@ class PopupDialog(
         setContentView(binding.root)
 
         if (FROM == DataUtil.FROM_TYPE.LIFE && lifeType == null) {
-            LogUtil.d(TAG, "Invalid Popup inflate: FROM_TYPE.LIFE & lifetype = null")
+            LogUtil.d("Invalid Popup inflate: FROM_TYPE.LIFE & lifetype = null")
             onBackPressed()
         }
 
@@ -66,7 +66,7 @@ class PopupDialog(
                 manupulateList()
                 manupulateDB()
             } else {
-                LogUtil.d(TAG, "text is blank")
+                LogUtil.d("text is blank")
             }
 
             dismiss()
@@ -103,7 +103,7 @@ class PopupDialog(
                 }
             }.await()
         }
-        LogUtil.d(TAG, "DB 추가")
+        LogUtil.d("DB 추가")
     }
 
     private fun modifyToDB() {
@@ -129,22 +129,22 @@ class PopupDialog(
                 }
 
             }.await()
-            LogUtil.d(TAG, "팝업 종료 -> DB 데이터 변경 완료(수정)")
+            LogUtil.d("팝업 종료 -> DB 데이터 변경 완료(수정)")
         }
     }
 
     private fun manupulateList() {
         when (MODE) {
             DataUtil.MODE_TYPE.ADD -> {
-                LogUtil.d(TAG, "ADD -> " + binding.popupEditText.text!!.toString())
+                LogUtil.d("ADD -> " + binding.popupEditText.text!!.toString())
                 addToList()
             }
             DataUtil.MODE_TYPE.MODIFY -> {
-                LogUtil.d(TAG, "MOD -> " + binding.popupEditText.text!!.toString())
+                LogUtil.d("MOD -> " + binding.popupEditText.text!!.toString())
                 modifyToList()
             }
             else -> {
-                LogUtil.d(TAG, "Invalid MODE_TYPE")
+                LogUtil.d("Invalid MODE_TYPE")
             }
         }
     }
@@ -160,7 +160,7 @@ class PopupDialog(
                 )
                 DataUtil.thisYearBucketList.add(addedBucketItem)
 
-                LogUtil.d(TAG, "thisyearbucklist length : " + DataUtil.thisYearBucketList.size)
+                LogUtil.d("thisyearbucklist length : " + DataUtil.thisYearBucketList.size)
             }
             DataUtil.FROM_TYPE.LIFE -> {
                 addedBucketItem = BucketItem(
@@ -171,7 +171,7 @@ class PopupDialog(
                 )
                 DataUtil.lifelist[lifeType!!].add(addedBucketItem)
 
-                LogUtil.d(TAG, "lifelist length : " + DataUtil.lifelist.size)
+                LogUtil.d("lifelist length : " + DataUtil.lifelist.size)
             }
             else -> {}
         }
@@ -192,7 +192,7 @@ class PopupDialog(
                         )
                     )
                 } else {
-                    LogUtil.d(TAG, "itemIdx!! is out of range")
+                    LogUtil.d("itemIdx!! is out of range")
                 }
             }
             DataUtil.FROM_TYPE.LIFE -> {
@@ -208,7 +208,7 @@ class PopupDialog(
                         )
                     )
                 } else {
-                    LogUtil.d(TAG, "itemIdx!! is out of range")
+                    LogUtil.d("itemIdx!! is out of range")
                 }
             }
             else -> {}

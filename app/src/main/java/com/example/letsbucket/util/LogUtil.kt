@@ -7,8 +7,8 @@ object LogUtil {
 
     private var DEVELOPE_MODE: Boolean = true
 
-    fun d(compName: String, comment: String) {
+    fun d(comment: String) {
         if (DEVELOPE_MODE)
-            Log.d(TAG+compName, comment)
+            Log.d(TAG, comment)
     }
 }

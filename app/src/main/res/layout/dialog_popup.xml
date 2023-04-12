@@ -63,6 +63,8 @@
             android:layout_height="wrap_content">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/popup_edit_text"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
                 android:hint="나는 토마토가 될테야"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

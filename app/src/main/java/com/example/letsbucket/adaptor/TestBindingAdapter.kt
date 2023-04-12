@@ -1,13 +1,23 @@
 package com.example.letsbucket.adaptor
 
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.example.letsbucket.R
 
 object TestBindingAdapter {
     @JvmStatic
     @BindingAdapter("imgRes")
     fun setImgRes(imageView: ImageView, imgRes: Int) {
         imageView.setImageResource(imgRes)
+    }
+
+    @JvmStatic
+    @BindingAdapter("checkImgRes")
+    fun setCheckImgRes(imageView: ImageView, done: Boolean) {
+        if (done) {
+            imageView.setImageResource(R.drawable.checked)
+        } else {
+            imageView.setImageResource(R.drawable.unchecked)
+        }
     }
 }

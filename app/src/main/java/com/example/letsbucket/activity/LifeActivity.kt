@@ -4,12 +4,10 @@ import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.letsbucket.PopupDialog
+import com.example.letsbucket.fragment.PopupDialog
 import com.example.letsbucket.R
 import com.example.letsbucket.adaptor.BucketAdapter
 import com.example.letsbucket.databinding.ActivityLifeBinding
@@ -33,7 +31,7 @@ class LifeActivity : AppCompatActivity() {
 
         lifeType = intent.getIntExtra("LIFE_TYPE", -1)
 
-        LogUtil.d("LifeActivity", lifeType.toString())
+        LogUtil.d(lifeType.toString())
 
         binding = DataBindingUtil.setContentView<ActivityLifeBinding?>(this, R.layout.activity_life)
             .apply {
@@ -69,5 +67,12 @@ class LifeActivity : AppCompatActivity() {
                     }
                 })
             }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        for (item in DataUtil.lifelist[lifeType!!]) {
+            LogUtil.d(item.itemId.toString() + " " + item.itemText + " " + item.itemDone)
+        }
     }
 }
