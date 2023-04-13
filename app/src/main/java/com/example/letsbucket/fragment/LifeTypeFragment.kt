@@ -22,10 +22,10 @@ class LifeTypeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentLifeTypeBinding.inflate(inflater, container, false)
-        lifeTypeAdapter = LifeTypeAdapter(requireContext(), DataUtil.lifeTypeList)
+        lifeTypeAdapter = LifeTypeAdapter(requireContext(), DataUtil.LIFE_TYPE_LIST)
         binding.lifeTypeList.adapter = lifeTypeAdapter
         binding.lifeTypeList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         return binding.root

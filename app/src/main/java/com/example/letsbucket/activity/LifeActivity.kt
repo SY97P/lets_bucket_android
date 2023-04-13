@@ -7,7 +7,7 @@ import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.letsbucket.fragment.PopupDialog
+import com.example.letsbucket.fragment.AddPopupDialog
 import com.example.letsbucket.R
 import com.example.letsbucket.adaptor.BucketAdapter
 import com.example.letsbucket.databinding.ActivityLifeBinding
@@ -38,27 +38,24 @@ class LifeActivity : AppCompatActivity() {
                 lifecycleOwner = this@LifeActivity
                 activity = this@LifeActivity
 
-                subjectImgRes.value = DataUtil.lifeTypeList.get(lifeType!!).lifeImage
-                subjectString.value = getString(DataUtil.lifeTypeList.get(lifeType!!).lifeString)
+                subjectImgRes.value = DataUtil.LIFE_TYPE_LIST.get(lifeType!!).lifeImage
+                subjectString.value = getString(DataUtil.LIFE_TYPE_LIST.get(lifeType!!).lifeString)
 
 
                 lifeAdapter = BucketAdapter(
                     this@LifeActivity,
                     DataUtil.FROM_TYPE.LIFE,
-                    lifeType,
-                    DataUtil.lifelist[lifeType!!]
+                    DataUtil.LIFE_LIST[lifeType!!]
                 )
                 lifeBucketList.adapter = lifeAdapter
                 lifeBucketList.layoutManager =
                     LinearLayoutManager(this@LifeActivity, LinearLayoutManager.VERTICAL, false)
 
                 fab.setOnClickListener(View.OnClickListener {
-                    PopupDialog(
+                    AddPopupDialog(
                         this@LifeActivity,
-                        DataUtil.MODE_TYPE.ADD,
                         DataUtil.FROM_TYPE.LIFE,
-                        lifeType,
-                        null
+                        lifeType
                     ).let {
                         it.setOnDismissListener {
                             lifeAdapter.notifyDataSetChanged()
@@ -71,7 +68,7 @@ class LifeActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        for (item in DataUtil.lifelist[lifeType!!]) {
+        for (item in DataUtil.LIFE_LIST[lifeType!!]) {
             LogUtil.d(item.itemId.toString() + " " + item.itemText + " " + item.itemDone)
         }
     }

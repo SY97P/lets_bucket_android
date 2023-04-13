@@ -11,11 +11,12 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.letsbucket.fragment.PopupDialog
+import com.example.letsbucket.fragment.AddPopupDialog
 import com.example.letsbucket.R
 import com.example.letsbucket.data.BucketItem
 import com.example.letsbucket.db.LifeBucketDB
 import com.example.letsbucket.db.ThisYearBucketDB
+import com.example.letsbucket.fragment.ModifyPopupDialog
 import com.example.letsbucket.util.DataUtil
 import com.example.letsbucket.util.LogUtil
 import kotlinx.coroutines.CoroutineScope
@@ -27,7 +28,6 @@ import kotlin.properties.Delegates
 class BucketAdapter(
     private val context: Context,
     private val from: DataUtil.FROM_TYPE,
-    private val lifeType: Int?,
     private val dataSet: ArrayList<BucketItem>
 ) :
     RecyclerView.Adapter<BucketAdapter.ThisYearViewHolder>() {
@@ -41,10 +41,9 @@ class BucketAdapter(
         val removeBtn: ImageView = itemView.findViewById(R.id.remove)
         val layoutCheckBox: LinearLayout = itemView.findViewById(R.id.layout_checkbox)
         val layoutRemove: LinearLayout = itemView.findViewById(R.id.layout_remove)
+
         val toLeftAnim: Animation = AnimationUtils.loadAnimation(context, R.anim.translate_left)
-        val toRightAnim: Animation = AnimationUtils.loadAnimation(context, R.anim.translate_right)
-        var animToggle: Boolean by Delegates.observable(false) {
-            property, oldValue, newValue ->
+        var animToggle: Boolean by Delegates.observable(false) { property, oldValue, newValue ->
             if (newValue) {
                 layoutRemove.visibility = View.VISIBLE
                 layoutCheckBox.visibility = View.GONE
@@ -107,34 +106,18 @@ class BucketAdapter(
     @SuppressLint("NotifyDataSetChanged")
     private fun modifyBucketItem(adapterPosition: Int) {
         if (adapterPosition != RecyclerView.NO_POSITION) {
-            var popup: PopupDialog? = null
-            when (from) {
-                DataUtil.FROM_TYPE.THIS_YEAR -> {
-                    popup = PopupDialog(
-                        context,
-                        DataUtil.MODE_TYPE.MODIFY,
-                        DataUtil.FROM_TYPE.THIS_YEAR,
-                        lifeType,
-                        adapterPosition
-                    )
+            ModifyPopupDialog(
+                context,
+                from,
+                dataSet[adapterPosition],
+                adapterPosition
+            ).let {
+                it.setOnDismissListener {
+                    LogUtil.d("팝업 종료 -> 리스트 새로고침")
+                    notifyDataSetChanged()
                 }
-                DataUtil.FROM_TYPE.LIFE -> {
-                    popup = PopupDialog(
-                        context,
-                        DataUtil.MODE_TYPE.MODIFY,
-                        DataUtil.FROM_TYPE.LIFE,
-                        lifeType,
-                        adapterPosition
-                    )
-                }
-                else -> {}
+                it.show()
             }
-            popup!!.setOnDismissListener {
-                LogUtil.d("팝업 종료 -> 리스트 새로고침")
-                notifyDataSetChanged()
-//                        modifyToDB(adapterPosition)
-            }
-            popup.show()
         }
     }
 
@@ -177,10 +160,10 @@ class BucketAdapter(
 
         if (from == DataUtil.FROM_TYPE.THIS_YEAR) {
             deletedItem = dataSet[position]
-            DataUtil.thisYearBucketList.removeAt(position)
+            DataUtil.THIS_YEAR_LIST.removeAt(position)
         } else {
             deletedItem = dataSet[position]
-            DataUtil.lifelist[lifeType!!].removeAt(position)
+            DataUtil.LIFE_LIST[deletedItem.itemType!!].removeAt(position)
         }
         holder.animToggle = !holder.animToggle
         notifyDataSetChanged()

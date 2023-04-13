@@ -7,9 +7,9 @@ data class BucketItem(private val id: Long, private val text: String, private va
     var itemId: Long = id
     var itemText: String = text
     var itemDone: Boolean = done
-    var lifeType: Int? = lifetype
+    var itemType: Int? = lifetype
 
-    fun convertToLifeEntity(): LifeBucket = LifeBucket(this.itemId, this.itemText, this.itemDone, this.lifeType!!)
+    fun convertToLifeEntity(): LifeBucket = LifeBucket(this.itemId, this.itemText, this.itemDone, this.itemType!!)
 
     fun convertToThisYearEntity(): ThisYearBucket = ThisYearBucket(this.itemId, this.itemText, this.itemDone)
 }

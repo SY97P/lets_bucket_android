@@ -26,7 +26,7 @@ class ThisYearFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentThisyearBinding.inflate(inflater, container, false)
         setupBinding()
         return binding.root
@@ -35,7 +35,7 @@ class ThisYearFragment : Fragment() {
     @SuppressLint("NotifyDataSetChanged")
     private fun setupBinding() {
         binding.fab.setOnClickListener(View.OnClickListener {
-            PopupDialog(requireContext(), DataUtil.MODE_TYPE.ADD, DataUtil.FROM_TYPE.THIS_YEAR,null, null).let {
+            AddPopupDialog(requireContext(), DataUtil.FROM_TYPE.THIS_YEAR,null).let {
                 it.setOnDismissListener {
                     bucketAdapter.notifyDataSetChanged()
                 }
@@ -44,7 +44,7 @@ class ThisYearFragment : Fragment() {
         })
 
         binding.thisYearBucketList.apply {
-            bucketAdapter = BucketAdapter(requireContext(), DataUtil.FROM_TYPE.THIS_YEAR, null, DataUtil.thisYearBucketList)
+            bucketAdapter = BucketAdapter(requireContext(), DataUtil.FROM_TYPE.THIS_YEAR, DataUtil.THIS_YEAR_LIST)
             adapter = bucketAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }

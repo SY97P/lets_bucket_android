@@ -106,19 +106,19 @@ class SplashActivity : AppCompatActivity() {
                 lifeBucketDB.lifebucketDao().getAll()
             }.await()
 
-            for (itemList in DataUtil.lifelist) {
+            for (itemList in DataUtil.LIFE_LIST) {
                 itemList.clear()
             }
 
             for (bucket in bucketList) {
-                DataUtil.lifelist[bucket.type].add(
+                DataUtil.LIFE_LIST[bucket.type].add(
                     bucket.converToBucket()
                 )
             }
 
-            for (i in 0 until DataUtil.lifelist.size) {
-                if (DataUtil.lifelist.get(i).size <= 0) {
-                    DataUtil.lifelist[i].add(
+            for (i in 0 until DataUtil.LIFE_LIST.size) {
+                if (DataUtil.LIFE_LIST.get(i).size <= 0) {
+                    DataUtil.LIFE_LIST[i].add(
                         BucketItem(System.currentTimeMillis(), "꼭 이루고 싶은 걸 적어보세요", true, i)
                     )
                 }
@@ -134,16 +134,16 @@ class SplashActivity : AppCompatActivity() {
                 thisYearBucketDB.thisYearBucketDao().getAll()
             }.await()
 
-            DataUtil.thisYearBucketList.clear()
+            DataUtil.THIS_YEAR_LIST.clear()
 
             for (bucket in bucketList) {
-                DataUtil.thisYearBucketList.add(
+                DataUtil.THIS_YEAR_LIST.add(
                     bucket.convertToList()
                 )
             }
 
-            if (DataUtil.thisYearBucketList.size <= 0) {
-                DataUtil.thisYearBucketList.add(
+            if (DataUtil.THIS_YEAR_LIST.size <= 0) {
+                DataUtil.THIS_YEAR_LIST.add(
                     BucketItem(System.currentTimeMillis(), "올해 목표를 세워보세요!", true, null)
                 )
             }
