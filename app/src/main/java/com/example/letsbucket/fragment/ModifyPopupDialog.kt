@@ -75,12 +75,15 @@ class ModifyPopupDialog (
             }
         }
 
+        LogUtil.d(item.itemDate + " " + date + " " + binding.calendarText.text.toString())
+
         setupBinding()
     }
 
     private fun setupBinding() {
         binding.let {
             it.bucketText.setText(item.itemText)
+            it.calendarText.setText(item.itemDate)
             if (item.itemDone) {
                 it.bucketCheck.setImageResource(R.drawable.checked)
             } else {
@@ -95,6 +98,7 @@ class ModifyPopupDialog (
                 if (binding.bucketText.text.length > 0) {
                     modifyToList()
                     modifyToDB()
+                    item.printBucketItem()
                     dismiss()
                 } else {
                     Toast.makeText(context, "버킷리스트를 작성해주세요!", Toast.LENGTH_SHORT).show()

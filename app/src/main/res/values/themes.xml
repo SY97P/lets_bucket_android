@@ -16,4 +16,17 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+    
+    <style name="EditTextStyle" parent="Widget.Design.TextInputLayout">
+        <item name="colorControlNormal">@color/orange</item>  // unFocus 상태일때 밑줄 색.
+        <item name="colorControlActivated">@color/orange</item>
+        <item name="colorControlHighlight">@color/orange</item>
+        <item name="boxStrokeColor">@color/orange</item> // Focus 상태일때 밑줄 색.
+        <item name="android:textCursorDrawable">@color/orange</item>  // cursor 색.
+        <item name="android:textColorHint">@color/orange</item>  // hint 색
+        <item name="hintTextColor">@color/orange</item>   // floating hint 색
+        <item name="helperTextTextColor">@color/orange</item>
+        <item name="errorTextColor">@color/orange</item>
+        <item name="tint">@color/orange</item>
+    </style>
 </resources>

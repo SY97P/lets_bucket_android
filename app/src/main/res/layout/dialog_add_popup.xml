@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@drawable/popup_round"
-    android:layout_width="300dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <!--  닫기 버튼  -->
     <LinearLayout
+        android:id="@+id/linear_1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -25,10 +27,12 @@
 
     <!--  타이틀  -->
     <LinearLayout
+        android:id="@+id/linear_2"
         android:paddingHorizontal="15dp"
         android:paddingBottom="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/linear_1">
         <TextView
             android:text="@string/bucketlist"
             android:textSize="40dp"
@@ -40,9 +44,11 @@
 
     <!--  설명  -->
     <LinearLayout
+        android:id="@+id/linear_3"
         android:paddingHorizontal="18dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/linear_2">
         <TextView
             android:text="@string/thisyear_notice"
             android:layout_width="match_parent"
@@ -52,22 +58,32 @@
 
     <!--  텍스트 입력  -->
     <LinearLayout
-        android:paddingLeft="5dp"
-        android:paddingRight="15dp"
+        android:id="@+id/linear_4"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="10dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linear_3">
         <com.google.android.material.textfield.TextInputLayout
             android:padding="10dp"
             app:counterEnabled="true"
             app:counterMaxLength="15"
+            android:theme="@style/EditTextStyle"
+            style="@style/EditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/popup_edit_text"
                 android:imeOptions="actionDone"
                 android:singleLine="true"
+                android:textColorHighlight="@color/orange"
+                android:textColor="@color/orange"
+                android:textColorHint="@color/orange"
                 android:hint="나는 토마토가 될테야"
-                android:layout_width="match_parent"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
@@ -75,8 +91,13 @@
 
     <!--  확인 버튼  -->
     <LinearLayout
+        android:id="@+id/linear_5"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linear_4">
         <Button
             android:id="@+id/popup_confirm_btn"
             android:layout_gravity="center"
@@ -87,4 +108,4 @@
     </LinearLayout>
     <!--  확인 버튼  -->
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
