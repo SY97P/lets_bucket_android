@@ -71,7 +71,9 @@ class SplashActivity : AppCompatActivity() {
             activity = this@SplashActivity
             button.setOnClickListener {
                 if (dbTaskDone) {
-                    startActivity(Intent(applicationContext, MainActivity::class.java))
+                    val intent = Intent(applicationContext, MainActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
                 } else {
                     LogUtil.d("아직 DB 못 읽어옴")
                 }
@@ -85,7 +87,11 @@ class SplashActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         LogUtil.d("onStart")
-        getDBtoList()
+        try {
+            getDBtoList()
+        } catch (e: Exception){
+            e.printStackTrace()
+        }
     }
 
     override fun onDestroy() {
@@ -117,9 +123,9 @@ class SplashActivity : AppCompatActivity() {
             }
 
             for (i in 0 until DataUtil.LIFE_LIST.size) {
-                if (DataUtil.LIFE_LIST.get(i).size <= 0) {
+                if (DataUtil.LIFE_LIST[i].size <= 0) {
                     DataUtil.LIFE_LIST[i].add(
-                        BucketItem(System.currentTimeMillis(), "꼭 이루고 싶은 걸 적어보세요", true, i)
+                        BucketItem(System.currentTimeMillis(), "꼭 이루고 싶은 걸 적어보세요", true, i, "")
                     )
                 }
             }
@@ -144,7 +150,7 @@ class SplashActivity : AppCompatActivity() {
 
             if (DataUtil.THIS_YEAR_LIST.size <= 0) {
                 DataUtil.THIS_YEAR_LIST.add(
-                    BucketItem(System.currentTimeMillis(), "올해 목표를 세워보세요!", true, null)
+                    BucketItem(System.currentTimeMillis(), "올해 목표를 세워보세요!", true, null, "")
                 )
             }
 

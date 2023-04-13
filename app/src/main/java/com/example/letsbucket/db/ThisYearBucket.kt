@@ -10,8 +10,9 @@ data class ThisYearBucket (
 //    var id: Int,
     @PrimaryKey(autoGenerate = true)
     var id: Long,
-    var bucket: String,
-    var done: Boolean
+    var text: String,
+    var done: Boolean,
+    var date: String,
 ) {
-    fun convertToList(): BucketItem = BucketItem(id, bucket, done, null)
+    fun convertToList(): BucketItem = BucketItem(id, text, done, null, date)
 }

@@ -3,8 +3,12 @@ package com.example.letsbucket.fragment
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.icu.util.Calendar
 import android.os.Bundle
+import android.widget.Toast
+import com.example.letsbucket.R
 import com.example.letsbucket.data.BucketItem
 import com.example.letsbucket.databinding.DialogModifyPopupBinding
 import com.example.letsbucket.db.LifeBucketDB
@@ -16,6 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.util.GregorianCalendar
+import kotlin.properties.Delegates
 
 class ModifyPopupDialog (
     context: Context,
@@ -29,7 +34,18 @@ class ModifyPopupDialog (
     private var fromType: DataUtil.FROM_TYPE
     private var item: BucketItem
     private var idx: Int
-    private var date: String = ""
+    private var done: Boolean by Delegates.observable(item.itemDone) {
+        property, oldValue, newValue ->
+        if (newValue) {
+            binding.bucketCheck.setImageResource(R.drawable.checked)
+        } else {
+            binding.bucketCheck.setImageResource(R.drawable.unchecked)
+        }
+    }
+    private var date: String by Delegates.observable(item.itemDate) {
+        property, oldValue, newValue ->
+        binding.calendarText.text = newValue
+    }
 
     init {
         this.fromType = from
@@ -41,6 +57,7 @@ class ModifyPopupDialog (
         super.onCreate(savedInstanceState)
 
         binding = DialogModifyPopupBinding.inflate(layoutInflater)
+        window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         setContentView(binding.root)
 
         if (fromType == DataUtil.FROM_TYPE.LIFE) {
@@ -63,19 +80,29 @@ class ModifyPopupDialog (
 
     private fun setupBinding() {
         binding.let {
+            it.bucketText.setText(item.itemText)
+            if (item.itemDone) {
+                it.bucketCheck.setImageResource(R.drawable.checked)
+            } else {
+                it.bucketCheck.setImageResource(R.drawable.unchecked)
+            }
+
             // 뒤로가기 버튼
             it.buttonBack.setOnClickListener { dismiss() }
 
             // 확인 버튼
             it.buttonConfirm.setOnClickListener {
-                modifyToList()
-                modifyToDB()
+                if (binding.bucketText.text.length > 0) {
+                    modifyToList()
+                    modifyToDB()
+                    dismiss()
+                } else {
+                    Toast.makeText(context, "버킷리스트를 작성해주세요!", Toast.LENGTH_SHORT).show()
+                }
             }
 
             // 아이템 완료 버튼
-            it.bucketCheck.setOnClickListener {
-
-            }
+            it.bucketCheck.setOnClickListener { done = !done }
 
             // 캘린더뷰
             it.calendarLayout.setOnClickListener {
@@ -96,26 +123,26 @@ class ModifyPopupDialog (
     private fun modifyToList() {
         when (fromType) {
             DataUtil.FROM_TYPE.THIS_YEAR -> {
-                val copyItem = DataUtil.THIS_YEAR_LIST.get(idx)
                 DataUtil.THIS_YEAR_LIST.set(
                     idx,
                     BucketItem(
-                        id = copyItem.itemId,
+                        id = item.itemId,
                         text = binding.bucketText.text.toString(),
-                        done = copyItem.itemDone,
-                        lifetype = copyItem.itemType
+                        done = done,
+                        lifetype = item.itemType,
+                        date = date
                     )
                 )
             }
             DataUtil.FROM_TYPE.LIFE -> {
-                val copyItem = DataUtil.LIFE_LIST[item.itemType!!].get(idx)
                 DataUtil.LIFE_LIST[item.itemType!!].set(
                     idx,
                     BucketItem(
-                        id = copyItem.itemId,
+                        id = item.itemId,
                         text = binding.bucketText.text.toString(),
-                        done = copyItem.itemDone,
-                        lifetype = copyItem.itemType
+                        done = done,
+                        lifetype = item.itemType,
+                        date = date
                     )
                 )
             }
@@ -131,15 +158,19 @@ class ModifyPopupDialog (
                 when (fromType) {
                     DataUtil.FROM_TYPE.THIS_YEAR -> {
                         val modifiedItem = DataUtil.THIS_YEAR_LIST.get(idx)
-                        ThisYearBucketDB.getInstance(context)!!.thisYearBucketDao().updateText(
+                        ThisYearBucketDB.getInstance(context)!!.thisYearBucketDao().updateItem(
                             modifiedItem.itemText,
+                            modifiedItem.itemDone,
+                            modifiedItem.itemDate,
                             modifiedItem.itemId
                         )
                     }
                     DataUtil.FROM_TYPE.LIFE -> {
                         val modifiedItem = DataUtil.LIFE_LIST[item.itemType!!].get(idx)
-                        LifeBucketDB.getInstance(context)!!.lifebucketDao().updateText(
+                        LifeBucketDB.getInstance(context)!!.lifebucketDao().updateItem(
                             modifiedItem.itemText,
+                            modifiedItem.itemDone,
+                            modifiedItem.itemDate,
                             modifiedItem.itemId
                         )
                     }

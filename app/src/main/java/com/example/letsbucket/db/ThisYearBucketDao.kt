@@ -19,11 +19,14 @@ interface ThisYearBucketDao {
     @Update
     fun update(thisYearBucket: ThisYearBucket)
 
-    @Query("UPDATE ThisYearBucket SET bucket = :text WHERE id = :id")
+    @Query("UPDATE ThisYearBucket SET text = :text WHERE id = :id")
     fun updateText(text: String, id: Long)
 
     @Query("UPDATE ThisYearBucket SET done = :done WHERE id = :id")
     fun updateDone(done: Boolean, id: Long)
+
+    @Query("UPDATE ThisYearBucket SET text = :text, done = :done, date = :date WHERE id = :id")
+    fun updateItem(text: String, done: Boolean, date: String, id: Long)
 
     @Delete
     fun delete(thisYearBucket: ThisYearBucket)

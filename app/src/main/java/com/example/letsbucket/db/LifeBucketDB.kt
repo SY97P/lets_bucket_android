@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database (entities = [LifeBucket::class], version=2)
+@Database (entities = [LifeBucket::class], version=3)
 abstract class LifeBucketDB : RoomDatabase() {
     abstract fun lifebucketDao(): LifeBucketDao
 
@@ -24,6 +24,7 @@ abstract class LifeBucketDB : RoomDatabase() {
                         "life_database"
                     )
                         .addMigrations(MIGRATION_1_2)
+                        .addMigrations(MIGRATION_2_3)
                         .build()
                 }
             }
@@ -34,7 +35,11 @@ abstract class LifeBucketDB : RoomDatabase() {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE LifeBucket ADD COLUMN type INTEGER NOT NULL default 0")
             }
-
+        }
+        private val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE LifeBucket ADD COLUMN date TEXT NOT NULL default 0")
+            }
         }
     }
 }

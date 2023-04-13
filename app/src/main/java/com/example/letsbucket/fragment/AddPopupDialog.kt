@@ -2,6 +2,8 @@ package com.example.letsbucket.fragment
 
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import com.example.letsbucket.data.BucketItem
 import com.example.letsbucket.databinding.DialogAddPopupBinding
@@ -38,6 +40,7 @@ class AddPopupDialog(
         super.onCreate(savedInstanceState)
 
         binding = DialogAddPopupBinding.inflate(layoutInflater)
+        window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         setContentView(binding.root)
 
         if (fromType == DataUtil.FROM_TYPE.LIFE && lifeType == null) {
@@ -103,7 +106,8 @@ class AddPopupDialog(
                     id = System.currentTimeMillis(),
                     text = binding.popupEditText.text.toString(),
                     done = false,
-                    lifetype = null
+                    lifetype = null,
+                    date = ""
                 )
                 DataUtil.THIS_YEAR_LIST.add(addedBucketItem)
 
@@ -114,7 +118,8 @@ class AddPopupDialog(
                     id = System.currentTimeMillis(),
                     text = binding.popupEditText.text.toString(),
                     done = false,
-                    lifetype = lifeType
+                    lifetype = lifeType,
+                    date = ""
                 )
                 DataUtil.LIFE_LIST[lifeType!!].add(addedBucketItem)
 
