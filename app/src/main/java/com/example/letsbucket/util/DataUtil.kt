@@ -3,6 +3,7 @@ package com.example.letsbucket.util
 import com.example.letsbucket.R
 import com.example.letsbucket.data.LifeTypeItem
 import com.example.letsbucket.data.BucketItem
+import java.util.jar.Manifest
 
 object DataUtil {
     var THIS_YEAR_LIST: ArrayList<BucketItem> = arrayListOf()
@@ -26,4 +27,10 @@ object DataUtil {
     enum class FROM_TYPE {
         LIFE, THIS_YEAR
     }
+
+    val permissionList = arrayOf(
+        android.Manifest.permission.CAMERA,
+        android.Manifest.permission.READ_EXTERNAL_STORAGE,
+        android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+    )
 }

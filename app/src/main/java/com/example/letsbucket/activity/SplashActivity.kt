@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.animation.AnimationUtils
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.MutableLiveData
@@ -30,6 +32,17 @@ class SplashActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashBinding
 
+    private val reqPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
+        results ->
+        results.forEach {
+            if (!it.value) {
+                Toast.makeText(applicationContext, "${it.key} 권한 허용 필요", Toast.LENGTH_SHORT).show()
+                finish()
+            }
+        }
+        permissionDone = true
+    }
+
     val imgRes = MutableLiveData<Int>(R.drawable.loading)
 
     private var dbTaskDone: Boolean by Delegates.observable(false) { property, oldValue, newValue ->
@@ -43,24 +56,33 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private var thisYearDBDone: Boolean by Delegates.observable(false) { property, oldValue, newValue ->
-        var result = newValue && lifeDBDone
+        val result = newValue && lifeDBDone && permissionDone
         if (result != dbTaskDone) {
             dbTaskDone = !dbTaskDone
         }
     }
 
     private var lifeDBDone: Boolean by Delegates.observable(false) { property, oldValue, newValue ->
-        var result = newValue && thisYearDBDone
+        val result = newValue && thisYearDBDone && permissionDone
         if (result != dbTaskDone) {
             dbTaskDone = !dbTaskDone
         }
+    }
 
+    private var permissionDone: Boolean by Delegates.observable(false) { property, oldValue, newValue ->
+        val result = newValue && thisYearDBDone && lifeDBDone
+        if (result != dbTaskDone) {
+            dbTaskDone = !dbTaskDone
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
+
+        reqPermissionLauncher.launch(DataUtil.permissionList)
+
         binding.apply {
             lifecycleOwner = this@SplashActivity
             activity = this@SplashActivity
