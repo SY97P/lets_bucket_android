@@ -23,10 +23,12 @@ import java.util.*
 import kotlin.properties.Delegates
 
 class DetailActivity : AppCompatActivity() {
+    private val TAG = "DetailActivity"
 
     private lateinit var binding: ActivityDetailBinding
 
     private val launcher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        LogUtil.d(TAG, "URI : " + uri.toString())
         binding.bucketImage.load(uri)
     }
 
@@ -63,15 +65,15 @@ class DetailActivity : AppCompatActivity() {
     private fun checkInvalidAccess() {
         if (fromType == DataUtil.FROM_TYPE.LIFE) {
             if (data.lifetype == null) {
-                LogUtil.d(" TYPE is null")
+                LogUtil.d(TAG, "lifeType is null -> invalid access")
                 onBackPressed()
             } else if (data.idx < 0 || data.idx >= DataUtil.LIFE_LIST[data.lifetype!!].size) {
-                LogUtil.d("index out of range")
+                LogUtil.d(TAG,"index out of range -> invalid access")
                 onBackPressed()
             }
         } else if (fromType == DataUtil.FROM_TYPE.THIS_YEAR) {
             if (data.idx < 0 || data.idx >= DataUtil.THIS_YEAR_LIST.size) {
-                LogUtil.d("index out of range")
+                LogUtil.d(TAG,"index out of range -> invalid access")
                 onBackPressed()
             }
         }
@@ -122,7 +124,7 @@ class DetailActivity : AppCompatActivity() {
 
             // 이미지뷰
             it.bucketImage.setOnClickListener {
-                LogUtil.d("이미지뷰 클릭")
+                LogUtil.d(TAG,"choose image from local gallery")
                 launcher.launch("image/*")
             }
         }

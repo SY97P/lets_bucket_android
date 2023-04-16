@@ -22,7 +22,7 @@ class AddPopupDialog(
     type: Int?
 ) : Dialog(context) {
 
-    private var TAG: String = "PopupDiaLogUtil"
+    private var TAG: String = "AddPopupDialog"
 
     private lateinit var binding: DialogAddPopupBinding
 
@@ -44,7 +44,7 @@ class AddPopupDialog(
         setContentView(binding.root)
 
         if (fromType == DataUtil.FROM_TYPE.LIFE && lifeType == null) {
-            LogUtil.d("lifetype is null")
+            LogUtil.d(TAG, "lifetype is null -> invalid access")
             onBackPressed()
         }
 
@@ -71,7 +71,7 @@ class AddPopupDialog(
                 addToList()
                 addToDB()
             } else {
-                LogUtil.d("text is blank")
+                LogUtil.d(TAG, "text is blank -> Adding item denied")
             }
 
             dismiss()
@@ -96,7 +96,6 @@ class AddPopupDialog(
                 }
             }.await()
         }
-        LogUtil.d("DB 추가")
     }
 
     private fun addToList() {
@@ -110,8 +109,6 @@ class AddPopupDialog(
                     date = ""
                 )
                 DataUtil.THIS_YEAR_LIST.add(addedBucketItem)
-
-                LogUtil.d("thisyearbucklist length : " + DataUtil.THIS_YEAR_LIST.size)
             }
             DataUtil.FROM_TYPE.LIFE -> {
                 addedBucketItem = BucketItem(
@@ -122,8 +119,6 @@ class AddPopupDialog(
                     date = ""
                 )
                 DataUtil.LIFE_LIST[lifeType!!].add(addedBucketItem)
-
-                LogUtil.d("LIFE_LIST length : " + DataUtil.LIFE_LIST.size)
             }
             else -> {}
         }

@@ -11,6 +11,7 @@ import com.example.letsbucket.fragment.LifeTypeFragment
 import com.example.letsbucket.util.LogUtil
 
 class MainActivity : AppCompatActivity() {
+    private val TAG = "MainActivity"
 
     private lateinit var binding: ActivityMainBinding
 
@@ -39,8 +40,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        LogUtil.d((System.currentTimeMillis() - initialBackTime).toString())
-
         if (System.currentTimeMillis() - initialBackTime <= 2000) {
             toast?.cancel()
             finish()

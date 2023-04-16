@@ -61,8 +61,6 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        LogUtil.d("onCreate")
-
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
         binding.apply {
             lifecycleOwner = this@SplashActivity
@@ -73,7 +71,7 @@ class SplashActivity : AppCompatActivity() {
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)
                 } else {
-                    LogUtil.d("아직 DB 못 읽어옴")
+                    LogUtil.d(TAG,"Not Read DB yet")
                 }
             }
         }
@@ -84,7 +82,6 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        LogUtil.d("onStart")
         try {
             getDBtoList()
         } catch (e: Exception){
@@ -93,7 +90,6 @@ class SplashActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        LogUtil.d("onDestroy")
         thisYearDBDone = true
         lifeDBDone = true
         super.onDestroy()

@@ -31,7 +31,7 @@ class LifeActivity : AppCompatActivity() {
 
         lifeType = intent.getIntExtra("LIFE_TYPE", -1)
 
-        LogUtil.d(lifeType.toString())
+        LogUtil.d(TAG, lifeType.toString())
 
         binding = DataBindingUtil.setContentView<ActivityLifeBinding?>(this, R.layout.activity_life)
             .apply {
@@ -69,7 +69,7 @@ class LifeActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         for (item in DataUtil.LIFE_LIST[lifeType!!]) {
-            LogUtil.d(item.itemId.toString() + " " + item.itemText + " " + item.itemDone)
+            LogUtil.d(TAG, item.itemId.toString() + " " + item.itemText + " " + item.itemDone)
         }
     }
 }

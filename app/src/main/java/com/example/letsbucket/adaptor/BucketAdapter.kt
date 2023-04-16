@@ -62,13 +62,11 @@ class BucketAdapter(
         init {
             // click -> 수정
             view.setOnClickListener {
-                LogUtil.d(adapterPosition.toString() + " is clicked")
                 modifyBucketItem(adapterPosition)
             }
 
             view.setOnLongClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
-                    LogUtil.d("Long Click Event Start")
                     animToggle = !animToggle
                     true
                 } else {
@@ -96,12 +94,10 @@ class BucketAdapter(
         }
 
         holder.checkbox.setOnClickListener {
-            LogUtil.d("체크박스 클릭")
             checkBucketItem(holder, position)
         }
 
         holder.removeBtn.setOnClickListener {
-            LogUtil.d("삭제 버튼 클릭")
             deleteBucketItem(holder, position)
         }
     }
@@ -121,18 +117,6 @@ class BucketAdapter(
                 )
             )
             startActivity(context, intent, null)
-//            ModifyPopupDialog(
-//                context,
-//                from,
-//                dataSet[adapterPosition],
-//                adapterPosition
-//            ).let {
-//                it.setOnDismissListener {
-//                    LogUtil.d("팝업 종료 -> 리스트 새로고침")
-//                    notifyDataSetChanged()
-//                }
-//                it.show()
-//            }
         }
     }
 
@@ -204,7 +188,7 @@ class BucketAdapter(
 
     @SuppressLint("NotifyDataSetChanged")
     override fun dataChanged() {
-        LogUtil.d("데이터 변경 감지! -> notifyDataSetChange()")
+        LogUtil.d(TAG, "데이터 변경 감지! -> notifyDataSetChange()")
         notifyDataSetChanged()
     }
 }

@@ -23,9 +23,9 @@ data class BucketItem(
     fun convertToThisYearEntity(): ThisYearBucket =
         ThisYearBucket(this.itemId, this.itemText, this.itemDone, this.itemDate)
 
-    fun printBucketItem() {
-        LogUtil.d(
-            "itemId: ${itemId}\nitemText: ${itemText}\nitemDone: ${itemDone}\nitemType: ${itemType}\nitemDate: ${itemDate}"
-        )
-    }
+//    fun printBucketItem() {
+//        LogUtil.d(
+//            "itemId: ${itemId}\nitemText: ${itemText}\nitemDone: ${itemDone}\nitemType: ${itemType}\nitemDate: ${itemDate}"
+//        )
+//    }
 }
