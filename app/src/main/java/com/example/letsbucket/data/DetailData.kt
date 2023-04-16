@@ -10,6 +10,7 @@ data class DetailData(
     val done: Boolean,
     val lifetype: Int?,
     val date: String?,
+    var uri: String?,
     val idx: Int
 ): Parcelable {
     constructor(parcel: Parcel) : this(
@@ -18,6 +19,7 @@ data class DetailData(
         parcel.readString(),
         parcel.readByte() != 0.toByte(),
         parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readString(),
         parcel.readString(),
         parcel.readInt()
     ) {
@@ -30,6 +32,7 @@ data class DetailData(
         parcel.writeByte(if (done) 1 else 0)
         parcel.writeValue(lifetype)
         parcel.writeString(date)
+        parcel.writeString(uri)
         parcel.writeInt(idx)
     }
 

@@ -12,6 +12,7 @@ data class ThisYearBucket (
     var text: String,
     var done: Boolean,
     var date: String,
+    var uri: String,
 ) {
-    fun convertToList(): BucketItem = BucketItem(id, text, done, null, date)
+    fun convertToList(): BucketItem = BucketItem(id, text, done, null, date, uri)
 }

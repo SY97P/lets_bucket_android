@@ -112,7 +112,7 @@ class BucketAdapter(
             intent.putExtra(
                 "DATA", DetailData(
                     from.ordinal,
-                    data.itemId, data.itemText, data.itemDone, data.itemType, data.itemDate,
+                    data.itemId, data.itemText, data.itemDone, data.itemType, data.itemDate, data.itemUri,
                     adapterPosition,
                 )
             )

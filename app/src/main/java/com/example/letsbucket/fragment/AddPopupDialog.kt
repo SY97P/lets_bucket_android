@@ -106,7 +106,8 @@ class AddPopupDialog(
                     text = binding.popupEditText.text.toString(),
                     done = false,
                     lifetype = null,
-                    date = ""
+                    date = "",
+                    uri = ""
                 )
                 DataUtil.THIS_YEAR_LIST.add(addedBucketItem)
             }
@@ -116,7 +117,8 @@ class AddPopupDialog(
                     text = binding.popupEditText.text.toString(),
                     done = false,
                     lifetype = lifeType,
-                    date = ""
+                    date = "",
+                    uri = ""
                 )
                 DataUtil.LIFE_LIST[lifeType!!].add(addedBucketItem)
             }

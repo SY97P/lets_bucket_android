@@ -1,5 +1,6 @@
 package com.example.letsbucket.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.animation.AnimationUtils
@@ -19,6 +20,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlin.properties.Delegates
 
+@SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
 
     private var TAG = "SplashActivity"
@@ -30,8 +32,7 @@ class SplashActivity : AppCompatActivity() {
 
     val imgRes = MutableLiveData<Int>(R.drawable.loading)
 
-    private var dbTaskDone: Boolean by Delegates.observable(false) {
-        property, oldValue, newValue ->
+    private var dbTaskDone: Boolean by Delegates.observable(false) { property, oldValue, newValue ->
         if (newValue) {
             Thread.sleep(1000)
             imgRes.value = R.drawable.start
@@ -41,18 +42,16 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
-    private var thisYearDBDone: Boolean by Delegates.observable(false) {
-        property, oldValue, newValue ->
+    private var thisYearDBDone: Boolean by Delegates.observable(false) { property, oldValue, newValue ->
         var result = newValue && lifeDBDone
-        if (result != dbTaskDone){
+        if (result != dbTaskDone) {
             dbTaskDone = !dbTaskDone
         }
     }
 
-    private var lifeDBDone: Boolean by Delegates.observable(false) {
-        property, oldValue, newValue ->
+    private var lifeDBDone: Boolean by Delegates.observable(false) { property, oldValue, newValue ->
         var result = newValue && thisYearDBDone
-        if (result != dbTaskDone){
+        if (result != dbTaskDone) {
             dbTaskDone = !dbTaskDone
         }
 
@@ -71,7 +70,7 @@ class SplashActivity : AppCompatActivity() {
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)
                 } else {
-                    LogUtil.d(TAG,"Not Read DB yet")
+                    LogUtil.d(TAG, "Not Read DB yet")
                 }
             }
         }
@@ -84,7 +83,7 @@ class SplashActivity : AppCompatActivity() {
         super.onStart()
         try {
             getDBtoList()
-        } catch (e: Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }
@@ -102,7 +101,7 @@ class SplashActivity : AppCompatActivity() {
 
     private fun getLifeDB() {
         CoroutineScope(Dispatchers.Main).launch {
-            val bucketList = CoroutineScope(Dispatchers.IO).async{
+            val bucketList = CoroutineScope(Dispatchers.IO).async {
                 lifeBucketDB.lifebucketDao().getAll()
             }.await()
 
@@ -119,7 +118,7 @@ class SplashActivity : AppCompatActivity() {
             for (i in 0 until DataUtil.LIFE_LIST.size) {
                 if (DataUtil.LIFE_LIST[i].size <= 0) {
                     DataUtil.LIFE_LIST[i].add(
-                        BucketItem(System.currentTimeMillis(), "꼭 이루고 싶은 걸 적어보세요", true, i, "")
+                        BucketItem(System.currentTimeMillis(), "꼭 이루고 싶은 걸 적어보세요", true, i, "", "")
                     )
                 }
             }
@@ -144,7 +143,7 @@ class SplashActivity : AppCompatActivity() {
 
             if (DataUtil.THIS_YEAR_LIST.size <= 0) {
                 DataUtil.THIS_YEAR_LIST.add(
-                    BucketItem(System.currentTimeMillis(), "올해 목표를 세워보세요!", true, null, "")
+                    BucketItem(System.currentTimeMillis(), "올해 목표를 세워보세요!", true, null, "", "")
                 )
             }
 

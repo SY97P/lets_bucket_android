@@ -25,16 +25,21 @@ import kotlin.properties.Delegates
 class DetailActivity : AppCompatActivity() {
     private val TAG = "DetailActivity"
 
+    // Binding
     private lateinit var binding: ActivityDetailBinding
 
+    // Gallery Task
     private val launcher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         LogUtil.d(TAG, "URI : " + uri.toString())
+        data.uri = uri.toString()
         binding.bucketImage.load(uri)
     }
 
+    // Parcelable Data
     private lateinit var data: DetailData
     private lateinit var fromType: DataUtil.FROM_TYPE
 
+    // Variable which changes View
     private var done: Boolean by Delegates.observable(false) { property, oldValue, newValue ->
         if (newValue) {
             binding.bucketCheck.setImageResource(R.drawable.checked)
@@ -83,6 +88,9 @@ class DetailActivity : AppCompatActivity() {
         binding.let {
             it.bucketText.setText(data.text)
             it.calendarText.setText(data.date)
+            if (data.uri != "") {
+                it.bucketImage.load(data.uri)
+            }
             if (data.done) {
                 it.bucketCheck.setImageResource(R.drawable.checked)
             } else {
@@ -140,7 +148,8 @@ class DetailActivity : AppCompatActivity() {
                         text = binding.bucketText.text.toString(),
                         done = this.done,
                         lifetype = data.lifetype,
-                        date = this.date
+                        date = this.date,
+                        uri = data.uri!!
                     )
                 )
             }
@@ -152,7 +161,8 @@ class DetailActivity : AppCompatActivity() {
                         text = binding.bucketText.text.toString(),
                         done = this.done,
                         lifetype = data.lifetype,
-                        date = this.date
+                        date = this.date,
+                        uri = data.uri!!
                     )
                 )
             }
@@ -172,6 +182,7 @@ class DetailActivity : AppCompatActivity() {
                                 modifiedItem.itemText,
                                 modifiedItem.itemDone,
                                 modifiedItem.itemDate,
+                                modifiedItem.itemUri,
                                 modifiedItem.itemId
                             )
                     }
@@ -181,6 +192,7 @@ class DetailActivity : AppCompatActivity() {
                             modifiedItem.itemText,
                             modifiedItem.itemDone,
                             modifiedItem.itemDate,
+                            modifiedItem.itemUri,
                             modifiedItem.itemId
                         )
                     }
