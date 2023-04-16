@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/popup_round"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    tools:context=".activity.DetailActivity">
 
     <LinearLayout
         android:id="@+id/flow_layout"
@@ -39,9 +40,8 @@
         android:id="@+id/scroll_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="10dp"
+        android:paddingHorizontal="15dp"
         android:paddingVertical="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/flow_layout">
 
         <LinearLayout
@@ -128,8 +128,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:paddingVertical="15dp"
                 android:gravity="center"
+                android:background="@color/pastel_orange"
                 android:orientation="horizontal">
 
                 <ImageView

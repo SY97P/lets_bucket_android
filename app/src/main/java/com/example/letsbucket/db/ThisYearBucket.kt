@@ -1,6 +1,5 @@
 package com.example.letsbucket.db
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.letsbucket.data.BucketItem

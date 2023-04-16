@@ -1,9 +1,9 @@
 package com.example.letsbucket.util
 
 import com.example.letsbucket.R
+import com.example.letsbucket.DataChangedListener
 import com.example.letsbucket.data.LifeTypeItem
 import com.example.letsbucket.data.BucketItem
-import kotlin.properties.Delegates
 
 object DataUtil {
     var THIS_YEAR_LIST: ArrayList<BucketItem> = arrayListOf()
@@ -21,6 +21,8 @@ object DataUtil {
         LifeTypeItem(R.drawable.relation, R.string.relation),
         LifeTypeItem(R.drawable.etc, R.string.etc),
     )
+
+    var DATA_CHANGED_LISTENER: DataChangedListener? = null
 
     enum class FROM_TYPE {
         LIFE, THIS_YEAR

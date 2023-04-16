@@ -2,7 +2,6 @@ package com.example.letsbucket.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.KeyEvent
 import android.widget.Toast
 import com.example.letsbucket.R
 import com.example.letsbucket.adaptor.TabAdapter

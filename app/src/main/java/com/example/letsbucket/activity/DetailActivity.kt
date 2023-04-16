@@ -1,16 +1,16 @@
-package com.example.letsbucket.fragment
+package com.example.letsbucket.activity
 
 import android.app.DatePickerDialog
-import android.app.Dialog
-import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.icu.util.Calendar
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import coil.load
 import com.example.letsbucket.R
 import com.example.letsbucket.data.BucketItem
-import com.example.letsbucket.databinding.DialogModifyPopupBinding
+import com.example.letsbucket.data.DetailData
+import com.example.letsbucket.databinding.ActivityDetailBinding
 import com.example.letsbucket.db.LifeBucketDB
 import com.example.letsbucket.db.ThisYearBucketDB
 import com.example.letsbucket.util.DataUtil
@@ -19,107 +19,111 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import java.util.GregorianCalendar
+import java.util.*
 import kotlin.properties.Delegates
 
-class ModifyPopupDialog (
-    context: Context,
-    from: DataUtil.FROM_TYPE,
-    item: BucketItem,
-    idx: Int
-): Dialog(context) {
+class DetailActivity : AppCompatActivity() {
 
-    private lateinit var binding: DialogModifyPopupBinding
+    private lateinit var binding: ActivityDetailBinding
 
-    private var fromType: DataUtil.FROM_TYPE
-    private var item: BucketItem
-    private var idx: Int
-    private var done: Boolean by Delegates.observable(item.itemDone) {
-        property, oldValue, newValue ->
+    private val launcher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        binding.bucketImage.load(uri)
+    }
+
+    private lateinit var data: DetailData
+    private lateinit var fromType: DataUtil.FROM_TYPE
+
+    private var done: Boolean by Delegates.observable(false) { property, oldValue, newValue ->
         if (newValue) {
             binding.bucketCheck.setImageResource(R.drawable.checked)
         } else {
             binding.bucketCheck.setImageResource(R.drawable.unchecked)
         }
     }
-    private var date: String by Delegates.observable(item.itemDate) {
-        property, oldValue, newValue ->
+    private var date: String by Delegates.observable("") { property, oldValue, newValue ->
         binding.calendarText.text = newValue
-    }
-
-    init {
-        this.fromType = from
-        this.item = item
-        this.idx = idx
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = DialogModifyPopupBinding.inflate(layoutInflater)
-        window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        setContentView(binding.root)
+        binding = ActivityDetailBinding.inflate(layoutInflater)
 
+        data = intent.getParcelableExtra("DATA")!!
+        this.fromType = DataUtil.FROM_TYPE.values()[data.from]
+        this.done = data.done
+        this.date = data.date.toString()
+
+        checkInvalidAccess()
+        setupBinding()
+
+        setContentView(binding.root)
+    }
+
+    private fun checkInvalidAccess() {
         if (fromType == DataUtil.FROM_TYPE.LIFE) {
-            if (item.itemType == null) {
+            if (data.lifetype == null) {
                 LogUtil.d(" TYPE is null")
                 onBackPressed()
-            } else if (idx < 0 || idx >= DataUtil.LIFE_LIST[item.itemType!!].size){
+            } else if (data.idx < 0 || data.idx >= DataUtil.LIFE_LIST[data.lifetype!!].size) {
                 LogUtil.d("index out of range")
                 onBackPressed()
             }
         } else if (fromType == DataUtil.FROM_TYPE.THIS_YEAR) {
-            if (idx < 0 || idx >= DataUtil.THIS_YEAR_LIST.size) {
+            if (data.idx < 0 || data.idx >= DataUtil.THIS_YEAR_LIST.size) {
                 LogUtil.d("index out of range")
                 onBackPressed()
             }
         }
-
-        LogUtil.d(item.itemDate + " " + date + " " + binding.calendarText.text.toString())
-
-        setupBinding()
     }
 
     private fun setupBinding() {
         binding.let {
-            it.bucketText.setText(item.itemText)
-            it.calendarText.setText(item.itemDate)
-            if (item.itemDone) {
+            it.bucketText.setText(data.text)
+            it.calendarText.setText(data.date)
+            if (data.done) {
                 it.bucketCheck.setImageResource(R.drawable.checked)
             } else {
                 it.bucketCheck.setImageResource(R.drawable.unchecked)
             }
 
             // 뒤로가기 버튼
-            it.buttonBack.setOnClickListener { dismiss() }
+            it.buttonBack.setOnClickListener { onBackPressed() }
 
             // 확인 버튼
             it.buttonConfirm.setOnClickListener {
                 if (binding.bucketText.text.length > 0) {
                     modifyToList()
                     modifyToDB()
-                    item.printBucketItem()
-                    dismiss()
+//                    item.printBucketItem()
+                    DataUtil.DATA_CHANGED_LISTENER?.dataChanged()
+                    onBackPressed()
                 } else {
-                    Toast.makeText(context, "버킷리스트를 작성해주세요!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "버킷리스트를 작성해주세요!", Toast.LENGTH_SHORT).show()
                 }
             }
 
             // 아이템 완료 버튼
-            it.bucketCheck.setOnClickListener { done = !done }
+            it.bucketCheck.setOnClickListener { this.done = !this.done }
 
             // 캘린더뷰
             it.calendarLayout.setOnClickListener {
                 val today = GregorianCalendar()
                 DatePickerDialog(
-                    context,
-                    DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
-                        this.date = "${year}/${month+1}/${dayOfMonth}"
+                    this,
+                    { view, year, month, dayOfMonth ->
+                        this.date = "${year}/${month + 1}/${dayOfMonth}"
                     },
                     today.get(Calendar.YEAR),
                     today.get(Calendar.MONTH),
                     today.get(Calendar.DAY_OF_MONTH)
                 ).show()
+            }
+
+            // 이미지뷰
+            it.bucketImage.setOnClickListener {
+                LogUtil.d("이미지뷰 클릭")
+                launcher.launch("image/*")
             }
         }
     }
@@ -128,25 +132,25 @@ class ModifyPopupDialog (
         when (fromType) {
             DataUtil.FROM_TYPE.THIS_YEAR -> {
                 DataUtil.THIS_YEAR_LIST.set(
-                    idx,
+                    data.idx,
                     BucketItem(
-                        id = item.itemId,
+                        id = data.id,
                         text = binding.bucketText.text.toString(),
-                        done = done,
-                        lifetype = item.itemType,
-                        date = date
+                        done = this.done,
+                        lifetype = data.lifetype,
+                        date = this.date
                     )
                 )
             }
             DataUtil.FROM_TYPE.LIFE -> {
-                DataUtil.LIFE_LIST[item.itemType!!].set(
-                    idx,
+                DataUtil.LIFE_LIST[data.lifetype!!].set(
+                    data.idx,
                     BucketItem(
-                        id = item.itemId,
+                        id = data.id,
                         text = binding.bucketText.text.toString(),
-                        done = done,
-                        lifetype = item.itemType,
-                        date = date
+                        done = this.done,
+                        lifetype = data.lifetype,
+                        date = this.date
                     )
                 )
             }
@@ -154,24 +158,24 @@ class ModifyPopupDialog (
         }
     }
 
-
     private fun modifyToDB() {
         // 아이템 텍스트 변경 시 DB 작업
         CoroutineScope(Dispatchers.Main).launch {
             CoroutineScope(Dispatchers.IO).async {
                 when (fromType) {
                     DataUtil.FROM_TYPE.THIS_YEAR -> {
-                        val modifiedItem = DataUtil.THIS_YEAR_LIST.get(idx)
-                        ThisYearBucketDB.getInstance(context)!!.thisYearBucketDao().updateItem(
-                            modifiedItem.itemText,
-                            modifiedItem.itemDone,
-                            modifiedItem.itemDate,
-                            modifiedItem.itemId
-                        )
+                        val modifiedItem = DataUtil.THIS_YEAR_LIST.get(data.idx)
+                        ThisYearBucketDB.getInstance(this@DetailActivity)!!.thisYearBucketDao()
+                            .updateItem(
+                                modifiedItem.itemText,
+                                modifiedItem.itemDone,
+                                modifiedItem.itemDate,
+                                modifiedItem.itemId
+                            )
                     }
                     DataUtil.FROM_TYPE.LIFE -> {
-                        val modifiedItem = DataUtil.LIFE_LIST[item.itemType!!].get(idx)
-                        LifeBucketDB.getInstance(context)!!.lifebucketDao().updateItem(
+                        val modifiedItem = DataUtil.LIFE_LIST[data.lifetype!!].get(data.idx)
+                        LifeBucketDB.getInstance(this@DetailActivity)!!.lifebucketDao().updateItem(
                             modifiedItem.itemText,
                             modifiedItem.itemDone,
                             modifiedItem.itemDate,

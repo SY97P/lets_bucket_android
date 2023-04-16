@@ -2,6 +2,7 @@ package com.example.letsbucket.adaptor
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,13 +11,15 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.letsbucket.fragment.AddPopupDialog
+import com.example.letsbucket.DataChangedListener
 import com.example.letsbucket.R
+import com.example.letsbucket.activity.DetailActivity
 import com.example.letsbucket.data.BucketItem
+import com.example.letsbucket.data.DetailData
 import com.example.letsbucket.db.LifeBucketDB
 import com.example.letsbucket.db.ThisYearBucketDB
-import com.example.letsbucket.fragment.ModifyPopupDialog
 import com.example.letsbucket.util.DataUtil
 import com.example.letsbucket.util.LogUtil
 import kotlinx.coroutines.CoroutineScope
@@ -30,7 +33,7 @@ class BucketAdapter(
     private val from: DataUtil.FROM_TYPE,
     private val dataSet: ArrayList<BucketItem>
 ) :
-    RecyclerView.Adapter<BucketAdapter.ThisYearViewHolder>() {
+    RecyclerView.Adapter<BucketAdapter.ThisYearViewHolder>(), DataChangedListener {
 
     private var TAG = "BucketAdapter"
 
@@ -78,6 +81,8 @@ class BucketAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ThisYearViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_bucket_recycler_view, parent, false)
+        // 데이터 변경 감지 리스너 등록
+        DataUtil.DATA_CHANGED_LISTENER = this
         return ThisYearViewHolder(this.context, view)
     }
 
@@ -106,18 +111,28 @@ class BucketAdapter(
     @SuppressLint("NotifyDataSetChanged")
     private fun modifyBucketItem(adapterPosition: Int) {
         if (adapterPosition != RecyclerView.NO_POSITION) {
-            ModifyPopupDialog(
-                context,
-                from,
-                dataSet[adapterPosition],
-                adapterPosition
-            ).let {
-                it.setOnDismissListener {
-                    LogUtil.d("팝업 종료 -> 리스트 새로고침")
-                    notifyDataSetChanged()
-                }
-                it.show()
-            }
+            val intent = Intent(context, DetailActivity::class.java)
+            val data = dataSet[adapterPosition]
+            intent.putExtra(
+                "DATA", DetailData(
+                    from.ordinal,
+                    data.itemId, data.itemText, data.itemDone, data.itemType, data.itemDate,
+                    adapterPosition,
+                )
+            )
+            startActivity(context, intent, null)
+//            ModifyPopupDialog(
+//                context,
+//                from,
+//                dataSet[adapterPosition],
+//                adapterPosition
+//            ).let {
+//                it.setOnDismissListener {
+//                    LogUtil.d("팝업 종료 -> 리스트 새로고침")
+//                    notifyDataSetChanged()
+//                }
+//                it.show()
+//            }
         }
     }
 
@@ -185,5 +200,11 @@ class BucketAdapter(
                 }
             }.await()
         }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    override fun dataChanged() {
+        LogUtil.d("데이터 변경 감지! -> notifyDataSetChange()")
+        notifyDataSetChanged()
     }
 }
