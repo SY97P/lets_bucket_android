@@ -1,7 +1,6 @@
 package com.example.letsbucket.util
 
 import com.example.letsbucket.R
-import com.example.letsbucket.DataChangedListener
 import com.example.letsbucket.data.LifeTypeItem
 import com.example.letsbucket.data.BucketItem
 

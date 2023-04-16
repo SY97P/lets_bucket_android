@@ -13,7 +13,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.letsbucket.DataChangedListener
+import com.example.letsbucket.util.DataChangedListener
 import com.example.letsbucket.R
 import com.example.letsbucket.activity.DetailActivity
 import com.example.letsbucket.data.BucketItem

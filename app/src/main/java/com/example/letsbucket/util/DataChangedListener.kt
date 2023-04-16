@@ -1,4 +1,4 @@
-package com.example.letsbucket
+package com.example.letsbucket.util
 
 interface DataChangedListener {
     fun dataChanged()
