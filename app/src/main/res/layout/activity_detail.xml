@@ -103,7 +103,7 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/knowledge"/>
+                    android:src="@drawable/calendar"/>
 
                 <View
                     android:layout_width="0dp"
@@ -127,18 +127,30 @@
                 android:background="@color/orange"/>
 
             <LinearLayout
+                android:id="@+id/layout_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingVertical="15dp"
                 android:gravity="center"
-                android:background="@color/pastel_orange"
-                android:orientation="horizontal">
+                android:background="@color/grey"
+                android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/bucket_image"
                     android:layout_width="300dp"
                     android:layout_height="300dp"
+                    android:src="@drawable/basic"
                     android:layout_gravity="center_horizontal"/>
+
+                <TextView
+                    android:id="@+id/no_image_hint_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_img"
+                    android:textAlignment="center"
+                    android:visibility="visible"
+                    android:textColor="@color/white"/>
+
             </LinearLayout>
 
             <View

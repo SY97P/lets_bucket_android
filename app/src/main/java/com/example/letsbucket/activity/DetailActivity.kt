@@ -5,6 +5,7 @@ import android.hardware.Camera
 import android.icu.util.Calendar
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import coil.load
@@ -32,8 +33,12 @@ class DetailActivity : AppCompatActivity() {
     // Gallery Task
     private val launcher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         LogUtil.d(TAG, "URI : " + uri.toString())
-        data.uri = uri.toString()
-        binding.bucketImage.load(uri)
+        if (uri != null) {
+            data.uri = uri.toString()
+            binding.noImageHintText.visibility = View.GONE
+            binding.layoutImage.setBackgroundResource(R.color.pastel_orange)
+            binding.bucketImage.load(uri)
+        }
     }
 
     // Parcelable Data
@@ -91,6 +96,7 @@ class DetailActivity : AppCompatActivity() {
             it.calendarText.setText(data.date)
             if (data.uri != "") {
                 it.bucketImage.load(data.uri)
+                it.noImageHintText.visibility = View.GONE
             }
             if (data.done) {
                 it.bucketCheck.setImageResource(R.drawable.checked)
