@@ -37,6 +37,7 @@
             android:text="@string/bucketlist"
             android:textSize="40dp"
             android:textFontWeight="100"
+            android:textColor="@color/dark_grey"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -51,6 +52,7 @@
         app:layout_constraintTop_toBottomOf="@id/linear_2">
         <TextView
             android:text="@string/thisyear_notice"
+            android:textColor="@color/dark_grey"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>
@@ -104,6 +106,7 @@
             android:backgroundTint="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/dark_grey"
             android:text="확인" />
     </LinearLayout>
     <!--  확인 버튼  -->

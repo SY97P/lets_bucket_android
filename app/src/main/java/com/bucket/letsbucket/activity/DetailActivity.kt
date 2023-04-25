@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -172,7 +174,7 @@ class DetailActivity : AppCompatActivity() {
                 LogUtil.d(TAG, "choose image from local gallery")
                 val wayItems = arrayOf("갤러리에서 선택할래요", "카메라로 찍을래요")
                 var selectedItem: Int? = null
-                AlertDialog.Builder(this)
+                AlertDialog.Builder(this, R.style.AlertDialogStyle)
                     .setTitle("인증샷 선택하기")
 //                    .setMessage("갤러리에서 선택하실래요, 사진을 찍으실래요?")
                     .setSingleChoiceItems(wayItems, -1) { dialog, which ->

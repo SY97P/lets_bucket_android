@@ -34,7 +34,7 @@
             android:layout_gravity="center_vertical"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            app:tint="@color/darkgrey" />
+            app:tint="@color/dark_grey" />
 
     </LinearLayout>
 
