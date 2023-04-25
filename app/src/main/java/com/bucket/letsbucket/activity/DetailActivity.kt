@@ -1,12 +1,19 @@
 package com.bucket.letsbucket.activity
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.DatePickerDialog
+import android.content.ContentValues
+import android.content.DialogInterface
 import android.icu.util.Calendar
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import coil.load
 import com.bucket.letsbucket.R
 import com.bucket.letsbucket.data.BucketItem
@@ -20,6 +27,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.properties.Delegates
 
@@ -30,15 +38,27 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
 
     // Gallery Task
-    private val launcher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+    private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         LogUtil.d(TAG, "URI : " + uri.toString())
         if (uri != null) {
-            data.uri = uri.toString()
-            binding.noImageHintText.visibility = View.GONE
-            binding.layoutImage.setBackgroundResource(R.color.pastel_orange)
-            binding.bucketImage.load(uri)
+            this.uri = uri.toString()
         }
     }
+
+    // Camera Task -> Store
+    private var pictureUri: Uri? = null
+    private val cameraStoreLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) {
+        if (it) {
+            this.uri = pictureUri.toString()
+        }
+    }
+
+    // Camera Task -> Preview (Not Store)
+//    private val cameraPreviewLauncher = registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
+//        if (bitmap != null) {
+//            binding.bucketImage.setImageBitmap(bitmap)
+//        }
+//    }
 
     // Parcelable Data
     private lateinit var data: DetailData
@@ -55,6 +75,16 @@ class DetailActivity : AppCompatActivity() {
     private var date: String by Delegates.observable("") { property, oldValue, newValue ->
         binding.calendarText.text = newValue
     }
+    private var uri: String by Delegates.observable("") { property, oldValue, newValue ->
+        if (newValue == "") {
+            binding.noImageHintText.visibility = View.VISIBLE
+            binding.layoutImage.setBackgroundResource(R.color.grey)
+        } else {
+            binding.noImageHintText.visibility = View.GONE
+            binding.layoutImage.setBackgroundResource(R.color.pastel_orange)
+            binding.bucketImage.load(newValue)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +95,7 @@ class DetailActivity : AppCompatActivity() {
         this.fromType = DataUtil.FROM_TYPE.values()[data.from]
         this.done = data.done
         this.date = data.date.toString()
+        this.uri = data.uri.toString()
 
         checkInvalidAccess()
         setupBinding()
@@ -93,10 +124,6 @@ class DetailActivity : AppCompatActivity() {
         binding.let {
             it.bucketText.setText(data.text)
             it.calendarText.setText(data.date)
-            if (data.uri != "") {
-                it.bucketImage.load(data.uri)
-                it.noImageHintText.visibility = View.GONE
-            }
             if (data.done) {
                 it.bucketCheck.setImageResource(R.drawable.checked)
             } else {
@@ -138,10 +165,48 @@ class DetailActivity : AppCompatActivity() {
 
             // 이미지뷰
             it.bucketImage.setOnClickListener {
-                LogUtil.d(TAG,"choose image from local gallery")
-                launcher.launch("image/*")
+                LogUtil.d(TAG, "choose image from local gallery")
+                val wayItems = arrayOf("갤러리에서 선택할래요", "카메라로 찍을래요")
+                var selectedItem: Int? = null
+                AlertDialog.Builder(this)
+                    .setTitle("인증샷 선택하기")
+//                    .setMessage("갤러리에서 선택하실래요, 사진을 찍으실래요?")
+                    .setSingleChoiceItems(wayItems, -1) { dialog, which ->
+                        selectedItem = which
+                    }
+                    .setPositiveButton("확인") { dialog, which ->
+                        LogUtil.d(TAG, "${selectedItem} Task Selected")
+                        if (selectedItem != null) {
+                            when (selectedItem) {
+                                0 -> galleryLauncher.launch("image/*")
+                                1 -> {
+                                    try {
+                                        pictureUri = createImageFile()
+                                        cameraStoreLauncher.launch(pictureUri)
+                                    } catch (e: NullPointerException) {
+                                        e.printStackTrace()
+                                    }
+                                }
+//                                2 -> cameraPreviewLauncher.launch(null)
+                            }
+                        }
+                    }
+                    .setNegativeButton("취소") { dialog, which ->
+                        LogUtil.d(TAG, "Cancel Image Select Task")
+                    }
+                    .show()
             }
         }
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun createImageFile(): Uri? {
+        val now = SimpleDateFormat("yyMMdd_HHmmss").format(Date())
+        val content = ContentValues().apply {
+            put(MediaStore.Images.Media.DISPLAY_NAME, "img_bucket_$now.jpg")
+            put(MediaStore.Images.Media.MIME_TYPE, "image/jpg")
+        }
+        return contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, content)
     }
 
     private fun modifyToList() {
@@ -155,7 +220,7 @@ class DetailActivity : AppCompatActivity() {
                         done = this.done,
                         lifetype = data.lifetype,
                         date = this.date,
-                        uri = data.uri!!
+                        uri = this.uri
                     )
                 )
             }
@@ -168,7 +233,7 @@ class DetailActivity : AppCompatActivity() {
                         done = this.done,
                         lifetype = data.lifetype,
                         date = this.date,
-                        uri = data.uri!!
+                        uri = this.uri
                     )
                 )
             }
