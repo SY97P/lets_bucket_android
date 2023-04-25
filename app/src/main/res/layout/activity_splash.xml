@@ -6,7 +6,7 @@
     <data>
         <variable
             name="activity"
-            type="com.example.letsbucket.activity.SplashActivity" />
+            type="com.bucket.letsbucket.activity.SplashActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
