@@ -29,4 +29,29 @@
         <item name="errorTextColor">@color/orange</item>
         <item name="tint">@color/orange</item>
     </style>
+
+    <style name="DatePickerStyle" parent="Theme.AppCompat.Light.Dialog">
+        <!--    상단 Title 배경색    -->
+        <item name="colorAccent">@color/orange</item>
+        <!--    선택한 날짜 배경색    -->
+        <item name="colorControlActivated">@color/dark_orange</item>
+        <!--    HighLight item color    -->
+        <item name="colorControlHighlight">@color/orange</item>
+        <item name="android:textColor">@color/red_orange</item>
+<!--        Calendar Background Color-->
+<!--        <item name="android:colorBackground">@color/white</item>-->
+<!--        &lt;!&ndash;Week TextColor&ndash;&gt;-->
+<!--        <item name="android:textColorSecondary">@color/pastel_light_orange</item>-->
+<!--        &lt;!&ndash;Calendar Number color arrow color&ndash;&gt;-->
+<!--        <item name="android:textColorPrimary">@color/pastel_orange</item>-->
+<!--        &lt;!&ndash;day, month textcolor&ndash;&gt;-->
+<!--        <item name="android:textColorPrimaryInverse">@color/pastel_orange</item>-->
+<!--        &lt;!&ndash;year&ndash;&gt;-->
+<!--        <item name="android:textColorSecondaryInverse">@color/pastel_light_orange</item>-->
+<!--        &lt;!&ndash;취소/확인 버튼 색상&ndash;&gt;-->
+<!--        <item name="android:textColor">@color/orange</item>-->
+<!--        <item name="android:textSize">20sp</item>-->
+<!--        <item name="cornerSize">16dp</item>-->
+<!--        <item name="windowActionBar">false</item>-->
+    </style>
 </resources>

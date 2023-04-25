@@ -154,13 +154,17 @@ class DetailActivity : AppCompatActivity() {
                 val today = GregorianCalendar()
                 DatePickerDialog(
                     this,
+                    R.style.DatePickerStyle,
                     { view, year, month, dayOfMonth ->
                         this.date = "${year}/${month + 1}/${dayOfMonth}"
                     },
                     today.get(Calendar.YEAR),
                     today.get(Calendar.MONTH),
                     today.get(Calendar.DAY_OF_MONTH)
-                ).show()
+                ).let {
+                    it.setIcon(R.drawable.calendar)
+                    it.show()
+                }
             }
 
             // 이미지뷰
@@ -194,6 +198,7 @@ class DetailActivity : AppCompatActivity() {
                     .setNegativeButton("취소") { dialog, which ->
                         LogUtil.d(TAG, "Cancel Image Select Task")
                     }
+                    .setIcon(R.drawable.basic)
                     .show()
             }
         }
