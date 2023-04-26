@@ -17,6 +17,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import coil.load
+import com.bucket.letsbucket.FireWorkDialog
 import com.bucket.letsbucket.R
 import com.bucket.letsbucket.data.BucketItem
 import com.bucket.letsbucket.data.DetailData
@@ -142,7 +143,22 @@ class DetailActivity : AppCompatActivity() {
                     modifyToDB()
 //                    item.printBucketItem()
                     DataUtil.DATA_CHANGED_LISTENER?.dataChanged()
-                    onBackPressed()
+                    if (this.done) {
+                        val alert = AlertDialog.Builder(this, R.style.AlertDialogStyle)
+                            .setIcon(R.drawable.basic)
+                            .setTitle("버킷리스트 달성!!")
+                            .setMessage("축하해요!!")
+                            .show()
+                        FireWorkDialog(this).let {
+                            it.setOnDismissListener {
+                                alert.cancel()
+                                onBackPressed()
+                            }
+                            it.show()
+                        }
+                    } else {
+                        onBackPressed()
+                    }
                 } else {
                     Toast.makeText(this, "버킷리스트를 작성해주세요!", Toast.LENGTH_SHORT).show()
                 }
