@@ -27,6 +27,10 @@ object DataUtil {
         LIFE, THIS_YEAR
     }
 
+    enum class ANIM_TYPE {
+        FIRE_WORK, CLICK
+    }
+
     val permissionList = arrayOf(
         android.Manifest.permission.READ_EXTERNAL_STORAGE,
         android.Manifest.permission.WRITE_EXTERNAL_STORAGE,

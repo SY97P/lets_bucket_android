@@ -14,6 +14,7 @@ import com.bucket.letsbucket.data.BucketItem
 import com.bucket.letsbucket.databinding.ActivitySplashBinding
 import com.bucket.letsbucket.db.LifeBucketDB
 import com.bucket.letsbucket.db.ThisYearBucketDB
+import com.bucket.letsbucket.fragment.AnimationDialog
 import com.bucket.letsbucket.util.DataUtil
 import com.bucket.letsbucket.util.LogUtil
 import kotlinx.coroutines.CoroutineScope
@@ -50,6 +51,7 @@ class SplashActivity : AppCompatActivity() {
             Thread.sleep(1000)
             imgRes.value = R.drawable.start
             binding.button.startAnimation(AnimationUtils.loadAnimation(this, R.anim.cover_appear))
+            AnimationDialog(this, DataUtil.ANIM_TYPE.CLICK).show()
         } else {
             imgRes.value = R.drawable.loading
         }

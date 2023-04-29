@@ -1,23 +1,19 @@
 package com.bucket.letsbucket.activity
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.ContentValues
-import android.content.DialogInterface
 import android.icu.util.Calendar
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import coil.load
-import com.bucket.letsbucket.FireWorkDialog
+import com.bucket.letsbucket.fragment.AnimationDialog
 import com.bucket.letsbucket.R
 import com.bucket.letsbucket.data.BucketItem
 import com.bucket.letsbucket.data.DetailData
@@ -149,7 +145,7 @@ class DetailActivity : AppCompatActivity() {
                             .setTitle("버킷리스트 달성!!")
                             .setMessage("축하해요!!")
                             .show()
-                        FireWorkDialog(this).let {
+                        AnimationDialog(this, DataUtil.ANIM_TYPE.FIRE_WORK).let {
                             it.setOnDismissListener {
                                 alert.cancel()
                                 onBackPressed()
