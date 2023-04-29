@@ -18,6 +18,8 @@
             android:layout_weight="1"/>
         <Button
             android:id="@+id/popup_close_btn"
+            android:paddingRight="5px"
+            android:paddingTop="5px"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="right"
@@ -97,6 +99,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:background="@color/transparent"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/linear_4">
@@ -107,7 +111,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/dark_grey"
-            android:text="확인" />
+            android:text="확인"
+            style="?android:attr/borderlessButtonStyle"/>
     </LinearLayout>
     <!--  확인 버튼  -->
 

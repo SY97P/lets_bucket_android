@@ -8,14 +8,14 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.WindowManager
 import com.bucket.letsbucket.R
-import com.bucket.letsbucket.databinding.LayoutAnimationDialogBinding
+import com.bucket.letsbucket.databinding.DialogAnimationPopupBinding
 import com.bucket.letsbucket.util.DataUtil
 
 class AnimationDialog (context: Context, animType: DataUtil.ANIM_TYPE): Dialog(context) {
 
     private var TAG = "AnimationDialog"
 
-    private lateinit var binding: LayoutAnimationDialogBinding
+    private lateinit var binding: DialogAnimationPopupBinding
 
     private var animationType: DataUtil.ANIM_TYPE
 
@@ -25,7 +25,7 @@ class AnimationDialog (context: Context, animType: DataUtil.ANIM_TYPE): Dialog(c
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = LayoutAnimationDialogBinding.inflate(layoutInflater)
+        binding = DialogAnimationPopupBinding.inflate(layoutInflater)
 
         window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -37,7 +37,7 @@ class AnimationDialog (context: Context, animType: DataUtil.ANIM_TYPE): Dialog(c
             }
             DataUtil.ANIM_TYPE.CLICK -> {
                 binding.layoutAnimation.setAnimation(R.raw.click)
-                binding.layoutAnimation.repeatCount = 2
+                binding.layoutAnimation.repeatCount = 1
             }
         }
 
