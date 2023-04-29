@@ -93,7 +93,7 @@
                 android:background="@color/orange"/>
 
             <LinearLayout
-                android:id="@+id/calendar_layout"
+                android:id="@+id/calendar_target_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingVertical="5dp"
@@ -106,13 +106,62 @@
                     android:layout_height="30dp"
                     android:src="@drawable/calendar"/>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="목표일"
+                    android:textColor="@color/dark_grey"
+                    android:paddingLeft="10dp"/>
+
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_weight="1"/>
 
                 <TextView
-                    android:id="@+id/calendar_text"
+                    android:id="@+id/calendar_target_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="6"
+                    android:textSize="12sp"
+                    android:textAlignment="viewEnd" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/orange"/>
+
+            <LinearLayout
+                android:id="@+id/calendar_done_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="5dp"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="5dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/calendar"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="완료일"
+                    android:textColor="@color/dark_grey"
+                    android:paddingLeft="10dp"/>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/calendar_done_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="6"
@@ -159,6 +208,17 @@
                 android:layout_height="5dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/orange"/>
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/layout_detail_text"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:paddingVertical="15dp"-->
+<!--                android:gravity="center"-->
+<!--                android:background="@color/grey"-->
+<!--                android:orientation="vertical">-->
+<!--                -->
+<!--            </LinearLayout>-->
 
         </LinearLayout>
 
