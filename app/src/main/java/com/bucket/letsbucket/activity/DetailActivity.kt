@@ -71,8 +71,11 @@ class DetailActivity : AppCompatActivity() {
             binding.bucketCheck.setImageResource(R.drawable.unchecked)
         }
     }
-    private var date: String by Delegates.observable("") { property, oldValue, newValue ->
-        binding.calendarText.text = newValue
+    private var doneDate: String by Delegates.observable("") { property, oldValue, newValue ->
+        binding.calendarDoneText.text = newValue
+    }
+    private var targetDate: String by Delegates.observable("") { property, oldValue, newValue ->
+        binding.calendarTargetText.text = newValue
     }
     private var uri: String by Delegates.observable("") { property, oldValue, newValue ->
         if (newValue == "") {
@@ -93,7 +96,8 @@ class DetailActivity : AppCompatActivity() {
         data = intent.getParcelableExtra("DATA")!!
         this.fromType = DataUtil.FROM_TYPE.values()[data.from]
         this.done = data.done
-        this.date = data.date.toString()
+        this.doneDate = data.doneDate.toString()
+        this.targetDate = data.targetDate.toString()
         this.uri = data.uri.toString()
 
         checkInvalidAccess()
@@ -122,7 +126,8 @@ class DetailActivity : AppCompatActivity() {
     private fun setupBinding() {
         binding.let {
             it.bucketText.setText(data.text)
-            it.calendarText.setText(data.date)
+            it.calendarDoneText.setText(data.doneDate)
+            it.calendarTargetText.setText(data.targetDate)
             if (data.done) {
                 it.bucketCheck.setImageResource(R.drawable.checked)
             } else {
@@ -163,22 +168,14 @@ class DetailActivity : AppCompatActivity() {
             // 아이템 완료 버튼
             it.bucketCheck.setOnClickListener { this.done = !this.done }
 
-            // 캘린더뷰
-            it.calendarLayout.setOnClickListener {
-                val today = GregorianCalendar()
-                DatePickerDialog(
-                    this,
-                    R.style.DatePickerStyle,
-                    { view, year, month, dayOfMonth ->
-                        this.date = "${year}/${month + 1}/${dayOfMonth}"
-                    },
-                    today.get(Calendar.YEAR),
-                    today.get(Calendar.MONTH),
-                    today.get(Calendar.DAY_OF_MONTH)
-                ).let {
-                    it.setIcon(R.drawable.calendar)
-                    it.show()
-                }
+            // 달성 캘린더뷰
+            it.calendarDoneLayout.setOnClickListener {
+                datePickerTask(isTarget = false)
+            }
+
+            // 목표 캘린더뷰
+            it.calendarTargetLayout.setOnClickListener {
+                datePickerTask(isTarget = true)
             }
 
             // 이미지뷰
@@ -218,6 +215,32 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
+    private fun datePickerTask(isTarget: Boolean) {
+        val today = GregorianCalendar()
+        DatePickerDialog(
+            this,
+            R.style.DatePickerStyle,
+            { view, year, month, dayOfMonth ->
+                if (isTarget) {
+                    this.targetDate = "${year}/${month + 1}/${dayOfMonth}"
+                } else {
+                    this.doneDate = "${year}/${month + 1}/${dayOfMonth}"
+                }
+            },
+            today.get(Calendar.YEAR),
+            today.get(Calendar.MONTH),
+            today.get(Calendar.DAY_OF_MONTH)
+        ).let {
+            if (isTarget) {
+                // TODO: 목표 캘린더 이미지 세팅
+            } else {
+                // TODO: 달성 캘린더 이미지 세팅
+            }
+            it.setIcon(R.drawable.calendar)
+            it.show()
+        }
+    }
+
     @SuppressLint("SimpleDateFormat")
     private fun createImageFile(): Uri? {
         val now = SimpleDateFormat("yyMMdd_HHmmss").format(Date())
@@ -238,7 +261,8 @@ class DetailActivity : AppCompatActivity() {
                         text = binding.bucketText.text.toString(),
                         done = this.done,
                         lifetype = data.lifetype,
-                        date = this.date,
+                        doneDate = this.doneDate,
+                        targetDate = this.targetDate,
                         uri = this.uri
                     )
                 )
@@ -251,7 +275,8 @@ class DetailActivity : AppCompatActivity() {
                         text = binding.bucketText.text.toString(),
                         done = this.done,
                         lifetype = data.lifetype,
-                        date = this.date,
+                        doneDate = this.doneDate,
+                        targetDate = this.targetDate,
                         uri = this.uri
                     )
                 )
@@ -271,20 +296,23 @@ class DetailActivity : AppCompatActivity() {
                             .updateItem(
                                 modifiedItem.itemText,
                                 modifiedItem.itemDone,
-                                modifiedItem.itemDate,
+                                modifiedItem.itemDoneDate,
+                                modifiedItem.itemTargetDate,
                                 modifiedItem.itemUri,
                                 modifiedItem.itemId
                             )
                     }
                     DataUtil.FROM_TYPE.LIFE -> {
                         val modifiedItem = DataUtil.LIFE_LIST[data.lifetype!!].get(data.idx)
-                        LifeBucketDB.getInstance(this@DetailActivity)!!.lifebucketDao().updateItem(
-                            modifiedItem.itemText,
-                            modifiedItem.itemDone,
-                            modifiedItem.itemDate,
-                            modifiedItem.itemUri,
-                            modifiedItem.itemId
-                        )
+                        LifeBucketDB.getInstance(this@DetailActivity)!!.lifebucketDao()
+                            .updateItem(
+                                modifiedItem.itemText,
+                                modifiedItem.itemDone,
+                                modifiedItem.itemDoneDate,
+                                modifiedItem.itemTargetDate,
+                                modifiedItem.itemUri,
+                                modifiedItem.itemId
+                            )
                     }
                     else -> {}
                 }

@@ -14,7 +14,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
  *
  * DB 인스턴스 생성을 위해 필요
  */
-@Database(entities = [ThisYearBucket::class], version = 4)
+@Database(entities = [ThisYearBucket::class], version = 5)
 abstract class ThisYearBucketDB: RoomDatabase() {
     abstract fun thisYearBucketDao() : ThisYearBucketDao
 
@@ -33,6 +33,9 @@ abstract class ThisYearBucketDB: RoomDatabase() {
                         .addMigrations(MIGRATION_1_2)
                         .addMigrations(MIGRATION_2_3)
                         .addMigrations(MIGRATION_3_4)
+                        .addMigrations(MIGRATION_4_5)
+                        .addMigrations(MIGRATION_5_6)
+                        .addMigrations(MIGRATION_6_7)
                         .build()
                 }
             }
@@ -52,6 +55,21 @@ abstract class ThisYearBucketDB: RoomDatabase() {
         private val MIGRATION_3_4 = object : Migration(3, 4) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE ThisYearBucket ADD COLUMN uri TEXT NOT NULL default 0")
+            }
+        }
+        private val MIGRATION_4_5 = object : Migration(4, 5) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE ThisYearBucket RENAME COLUMN date TO doneDate")
+            }
+        }
+        private val MIGRATION_5_6 = object : Migration(5, 6) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE ThisYearBucket ADD COLUMN targetDate TEXT NOT NULL default 0")
+            }
+        }
+        private val MIGRATION_6_7 = object : Migration(6, 7) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE ThisYearBucket ADD COLUMN detailText TEXT")
             }
         }
     }

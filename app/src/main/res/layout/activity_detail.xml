@@ -209,16 +209,20 @@
                 android:layout_marginTop="10dp"
                 android:background="@color/orange"/>
 
-<!--            <LinearLayout-->
-<!--                android:id="@+id/layout_detail_text"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:paddingVertical="15dp"-->
-<!--                android:gravity="center"-->
-<!--                android:background="@color/grey"-->
-<!--                android:orientation="vertical">-->
-<!--                -->
-<!--            </LinearLayout>-->
+            <LinearLayout
+                android:id="@+id/layout_detail_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="15dp"
+                android:gravity="center"
+                android:background="@color/grey"
+                android:orientation="vertical">
+
+<!--                <EditText-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+
+            </LinearLayout>
 
         </LinearLayout>
 

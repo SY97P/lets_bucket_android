@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database (entities = [LifeBucket::class], version=4)
+@Database (entities = [LifeBucket::class], version=5)
 abstract class LifeBucketDB : RoomDatabase() {
     abstract fun lifebucketDao(): LifeBucketDao
 
@@ -26,6 +26,9 @@ abstract class LifeBucketDB : RoomDatabase() {
                         .addMigrations(MIGRATION_1_2)
                         .addMigrations(MIGRATION_2_3)
                         .addMigrations(MIGRATION_3_4)
+                        .addMigrations(MIGRATION_4_5)
+                        .addMigrations(MIGRATION_5_6)
+                        .addMigrations(MIGRATION_6_7)
                         .build()
                 }
             }
@@ -45,6 +48,21 @@ abstract class LifeBucketDB : RoomDatabase() {
         private val MIGRATION_3_4 = object : Migration(3, 4) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE LifeBucket ADD COLUMN uri TEXT NOT NULL default 0")
+            }
+        }
+        private val MIGRATION_4_5 = object : Migration(4, 5) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE LifeBucket RENAME COLUMN date TO doneDate")
+            }
+        }
+        private val MIGRATION_5_6 = object : Migration(5, 6) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE LifeBucket ADD COLUMN targetDate TEXT NOT NULL default 0")
+            }
+        }
+        private val MIGRATION_6_7 = object : Migration(6, 7) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE LifeBucket ADD COLUMN detailText TEXT")
             }
         }
     }

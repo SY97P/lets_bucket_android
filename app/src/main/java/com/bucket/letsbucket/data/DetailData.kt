@@ -9,7 +9,8 @@ data class DetailData(
     val text: String?,
     val done: Boolean,
     val lifetype: Int?,
-    val date: String?,
+    val doneDate: String?,
+    val targetDate: String?,
     var uri: String?,
     val idx: Int
 ): Parcelable {
@@ -19,6 +20,7 @@ data class DetailData(
         parcel.readString(),
         parcel.readByte() != 0.toByte(),
         parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readInt()
@@ -31,7 +33,8 @@ data class DetailData(
         parcel.writeString(text)
         parcel.writeByte(if (done) 1 else 0)
         parcel.writeValue(lifetype)
-        parcel.writeString(date)
+        parcel.writeString(doneDate)
+        parcel.writeString(targetDate)
         parcel.writeString(uri)
         parcel.writeInt(idx)
     }

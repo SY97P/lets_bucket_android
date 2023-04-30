@@ -20,8 +20,8 @@ interface LifeBucketDao {
     @Query("UPDATE LifeBucket SET done = :done WHERE id = :id")
     fun updateDone(done: Boolean, id: Long)
 
-    @Query("UPDATE LifeBucket SET text = :text, done = :done, date = :date, uri = :uri WHERE id = :id")
-    fun updateItem(text: String, done: Boolean, date: String, uri: String, id: Long)
+    @Query("UPDATE LifeBucket SET text = :text, done = :done, doneDate = :doneDate, targetDate = :targetDate, uri = :uri WHERE id = :id")
+    fun updateItem(text: String, done: Boolean, doneDate: String, targetDate: String, uri: String, id: Long)
 
     @Delete
     fun delete(lifeBucket: LifeBucket)
