@@ -61,7 +61,9 @@ class BucketAdapter(
         init {
             // click -> 수정
             view.setOnClickListener {
-                modifyBucketItem(adapterPosition)
+                if (!dataSet[adapterPosition].itemText.equals("올해 목표를 세워보세요!") && !dataSet[adapterPosition].itemText.equals("꼭 이루고 싶은 걸 적어보세요")) {
+                    modifyBucketItem(adapterPosition)
+                }
             }
 
             view.setOnLongClickListener {
@@ -93,11 +95,15 @@ class BucketAdapter(
         }
 
         holder.checkbox.setOnClickListener {
-            checkBucketItem(holder, position)
+            if (!dataSet[position].itemText.equals("올해 목표를 세워보세요!") && !dataSet[position].itemText.equals("꼭 이루고 싶은 걸 적어보세요")) {
+                checkBucketItem(holder, position)
+            }
         }
 
         holder.removeBtn.setOnClickListener {
-            deleteBucketItem(holder, position)
+            if (!dataSet[position].itemText.equals("올해 목표를 세워보세요!") && !dataSet[position].itemText.equals("꼭 이루고 싶은 걸 적어보세요")) {
+                deleteBucketItem(holder, position)
+            }
         }
     }
 
