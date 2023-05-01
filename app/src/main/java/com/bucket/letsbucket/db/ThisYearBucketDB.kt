@@ -14,7 +14,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
  *
  * DB 인스턴스 생성을 위해 필요
  */
-@Database(entities = [ThisYearBucket::class], version = 5)
+@Database(entities = [ThisYearBucket::class], version = 6)
 abstract class ThisYearBucketDB: RoomDatabase() {
     abstract fun thisYearBucketDao() : ThisYearBucketDao
 
@@ -35,7 +35,6 @@ abstract class ThisYearBucketDB: RoomDatabase() {
                         .addMigrations(MIGRATION_3_4)
                         .addMigrations(MIGRATION_4_5)
                         .addMigrations(MIGRATION_5_6)
-                        .addMigrations(MIGRATION_6_7)
                         .build()
                 }
             }
@@ -65,10 +64,6 @@ abstract class ThisYearBucketDB: RoomDatabase() {
         private val MIGRATION_5_6 = object : Migration(5, 6) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE ThisYearBucket ADD COLUMN targetDate TEXT NOT NULL default 0")
-            }
-        }
-        private val MIGRATION_6_7 = object : Migration(6, 7) {
-            override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE ThisYearBucket ADD COLUMN detailText TEXT")
             }
         }

@@ -14,6 +14,8 @@ data class LifeBucket(
     var doneDate: String,
     var targetDate: String,
     var uri: String,
+    var detailText: String?
 ) {
-    fun converToBucket(): BucketItem = BucketItem(id, text, done, type, doneDate, targetDate, uri)
+    fun converToBucket(): BucketItem =
+        BucketItem(id, text, done, type, doneDate, targetDate, uri, detailText)
 }

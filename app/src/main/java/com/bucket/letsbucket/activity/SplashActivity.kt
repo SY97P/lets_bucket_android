@@ -33,16 +33,17 @@ class SplashActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashBinding
 
-    private val reqPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
-        results ->
-        results.forEach {
-            if (!it.value) {
-                Toast.makeText(applicationContext, "${it.key} 권한 허용 필요", Toast.LENGTH_SHORT).show()
-                finish()
+    private val reqPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { results ->
+            results.forEach {
+                if (!it.value) {
+                    Toast.makeText(applicationContext, "${it.key} 권한 허용 필요", Toast.LENGTH_SHORT)
+                        .show()
+                    finish()
+                }
             }
+            permissionDone = true
         }
-        permissionDone = true
-    }
 
     val imgRes = MutableLiveData<Int>(R.drawable.loading)
 
@@ -142,7 +143,16 @@ class SplashActivity : AppCompatActivity() {
             for (i in 0 until DataUtil.LIFE_LIST.size) {
                 if (DataUtil.LIFE_LIST[i].size <= 0) {
                     DataUtil.LIFE_LIST[i].add(
-                        BucketItem(System.currentTimeMillis(), "꼭 이루고 싶은 걸 적어보세요", true, i, "", "")
+                        BucketItem(
+                            System.currentTimeMillis(),
+                            "꼭 이루고 싶은 걸 적어보세요",
+                            true,
+                            i,
+                            "",
+                            "",
+                            "",
+                            null
+                        )
                     )
                 }
             }
@@ -167,7 +177,16 @@ class SplashActivity : AppCompatActivity() {
 
             if (DataUtil.THIS_YEAR_LIST.size <= 0) {
                 DataUtil.THIS_YEAR_LIST.add(
-                    BucketItem(System.currentTimeMillis(), "올해 목표를 세워보세요!", true, null, "", "")
+                    BucketItem(
+                        System.currentTimeMillis(),
+                        "올해 목표를 세워보세요!",
+                        true,
+                        null,
+                        "",
+                        "",
+                        "",
+                        null
+                    )
                 )
             }
 

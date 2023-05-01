@@ -12,6 +12,7 @@ data class DetailData(
     val doneDate: String?,
     val targetDate: String?,
     var uri: String?,
+    var detailText: String?,
     val idx: Int
 ): Parcelable {
     constructor(parcel: Parcel) : this(
@@ -23,9 +24,9 @@ data class DetailData(
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
+        parcel.readString(),
         parcel.readInt()
-    ) {
-    }
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(from)
@@ -36,6 +37,7 @@ data class DetailData(
         parcel.writeString(doneDate)
         parcel.writeString(targetDate)
         parcel.writeString(uri)
+        parcel.writeString(detailText)
         parcel.writeInt(idx)
     }
 

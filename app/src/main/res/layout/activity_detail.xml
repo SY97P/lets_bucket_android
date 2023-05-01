@@ -104,7 +104,7 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/calendar"/>
+                    android:src="@drawable/target_calendar"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -146,7 +146,7 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/calendar"/>
+                    android:src="@drawable/done_calendar"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -214,13 +214,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingVertical="15dp"
-                android:gravity="center"
-                android:background="@color/grey"
                 android:orientation="vertical">
 
-<!--                <EditText-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
+                <EditText
+                    android:id="@+id/bucket_detail_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 

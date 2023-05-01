@@ -125,13 +125,21 @@ class DetailActivity : AppCompatActivity() {
 
     private fun setupBinding() {
         binding.let {
+            // 버킷리스트 텍스트
             it.bucketText.setText(data.text)
+            // 완료일
             it.calendarDoneText.setText(data.doneDate)
+            // 목표일
             it.calendarTargetText.setText(data.targetDate)
+            // 달성 여부
             if (data.done) {
                 it.bucketCheck.setImageResource(R.drawable.checked)
             } else {
                 it.bucketCheck.setImageResource(R.drawable.unchecked)
+            }
+            // 세부 텍스트
+            if (data.detailText != null) {
+                it.bucketDetailText.setText(data.detailText)
             }
 
             // 뒤로가기 버튼
@@ -232,11 +240,10 @@ class DetailActivity : AppCompatActivity() {
             today.get(Calendar.DAY_OF_MONTH)
         ).let {
             if (isTarget) {
-                // TODO: 목표 캘린더 이미지 세팅
+                it.setIcon(R.drawable.target_calendar)
             } else {
-                // TODO: 달성 캘린더 이미지 세팅
+                it.setIcon(R.drawable.done_calendar)
             }
-            it.setIcon(R.drawable.calendar)
             it.show()
         }
     }
@@ -263,7 +270,8 @@ class DetailActivity : AppCompatActivity() {
                         lifetype = data.lifetype,
                         doneDate = this.doneDate,
                         targetDate = this.targetDate,
-                        uri = this.uri
+                        uri = this.uri,
+                        detailText = binding.bucketDetailText.text.toString()
                     )
                 )
             }
@@ -277,7 +285,8 @@ class DetailActivity : AppCompatActivity() {
                         lifetype = data.lifetype,
                         doneDate = this.doneDate,
                         targetDate = this.targetDate,
-                        uri = this.uri
+                        uri = this.uri,
+                        detailText = binding.bucketDetailText.text.toString()
                     )
                 )
             }
@@ -299,6 +308,7 @@ class DetailActivity : AppCompatActivity() {
                                 modifiedItem.itemDoneDate,
                                 modifiedItem.itemTargetDate,
                                 modifiedItem.itemUri,
+                                modifiedItem.itemDetailText,
                                 modifiedItem.itemId
                             )
                     }
@@ -311,6 +321,7 @@ class DetailActivity : AppCompatActivity() {
                                 modifiedItem.itemDoneDate,
                                 modifiedItem.itemTargetDate,
                                 modifiedItem.itemUri,
+                                modifiedItem.itemDetailText,
                                 modifiedItem.itemId
                             )
                     }

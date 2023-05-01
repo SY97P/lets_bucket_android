@@ -11,6 +11,7 @@ data class BucketItem(
     private val doneDate: String,
     private val targetDate: String,
     private val uri: String,
+    private val detailText: String?,
 ) {
     var itemId: Long = id
     var itemText: String = text
@@ -19,12 +20,30 @@ data class BucketItem(
     var itemDoneDate: String = doneDate
     var itemTargetDate: String = targetDate
     var itemUri: String = uri
+    var itemDetailText: String? = detailText
 
     fun convertToLifeEntity(): LifeBucket =
-        LifeBucket(this.itemId, this.itemText, this.itemDone, this.itemType!!, this.itemDoneDate, this.itemTargetDate, this.itemUri)
+        LifeBucket(
+            this.itemId,
+            this.itemText,
+            this.itemDone,
+            this.itemType!!,
+            this.itemDoneDate,
+            this.itemTargetDate,
+            this.itemUri,
+            this.itemDetailText
+        )
 
     fun convertToThisYearEntity(): ThisYearBucket =
-        ThisYearBucket(this.itemId, this.itemText, this.itemDone, this.itemDoneDate, this.itemTargetDate, this.itemUri)
+        ThisYearBucket(
+            this.itemId,
+            this.itemText,
+            this.itemDone,
+            this.itemDoneDate,
+            this.itemTargetDate,
+            this.itemUri,
+            this.itemDetailText
+        )
 
 //    fun printBucketItem() {
 //        LogUtil.d(

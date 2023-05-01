@@ -112,7 +112,7 @@ class BucketAdapter(
                 "DATA", DetailData(
                     from.ordinal,
                     data.itemId, data.itemText, data.itemDone, data.itemType,
-                    data.itemDoneDate, data.itemTargetDate, data.itemUri,
+                    data.itemDoneDate, data.itemTargetDate, data.itemUri, data.itemDetailText,
                     adapterPosition,
                 )
             )

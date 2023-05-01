@@ -5,8 +5,7 @@ import androidx.room.PrimaryKey
 import com.bucket.letsbucket.data.BucketItem
 
 @Entity
-data class ThisYearBucket (
-//    var id: Int,
+data class ThisYearBucket(
     @PrimaryKey(autoGenerate = true)
     var id: Long,
     var text: String,
@@ -14,6 +13,8 @@ data class ThisYearBucket (
     var doneDate: String,
     var targetDate: String,
     var uri: String,
+    var detailText: String?
 ) {
-    fun convertToList(): BucketItem = BucketItem(id, text, done, null, doneDate, targetDate, uri)
+    fun convertToList(): BucketItem =
+        BucketItem(id, text, done, null, doneDate, targetDate, uri, detailText)
 }
