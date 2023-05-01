@@ -128,9 +128,9 @@ class DetailActivity : AppCompatActivity() {
             // 버킷리스트 텍스트
             it.bucketText.setText(data.text)
             // 완료일
-            it.calendarDoneText.setText(data.doneDate)
+            it.calendarDoneText.text = data.doneDate
             // 목표일
-            it.calendarTargetText.setText(data.targetDate)
+            it.calendarTargetText.text = data.targetDate
             // 달성 여부
             if (data.done) {
                 it.bucketCheck.setImageResource(R.drawable.checked)

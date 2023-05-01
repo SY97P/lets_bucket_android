@@ -213,12 +213,22 @@
                 android:id="@+id/layout_detail_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingVertical="15dp"
+                android:paddingTop="15dp"
                 android:orientation="vertical"
-                android:layout_marginBottom="50dp">
+                android:paddingBottom="100dp">
 
                 <EditText
                     android:id="@+id/bucket_detail_text"
+                    android:hint="계획이나 현황을 적어보세요!"
+                    android:backgroundTint="@color/orange"
+                    android:foregroundTint="@color/orange"
+                    android:drawableTint="@color/orange"
+                    android:textColor="@color/dark_grey"
+                    android:textCursorDrawable="@color/orange"
+                    android:textColorHighlight="@color/orange"
+                    android:textSelectHandle="@color/orange"
+                    android:colorControlActivated="@color/orange"
+                    android:colorControlNormal="@color/grey"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
