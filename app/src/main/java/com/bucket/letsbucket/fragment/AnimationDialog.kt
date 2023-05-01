@@ -57,6 +57,10 @@ class AnimationDialog (context: Context, animType: DataUtil.ANIM_TYPE): Dialog(c
 
         })
 
+        binding.layoutAnimation.setOnClickListener {
+            dismiss()
+        }
+
         setContentView(binding.root)
     }
 }

@@ -214,7 +214,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingVertical="15dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginBottom="50dp">
 
                 <EditText
                     android:id="@+id/bucket_detail_text"
