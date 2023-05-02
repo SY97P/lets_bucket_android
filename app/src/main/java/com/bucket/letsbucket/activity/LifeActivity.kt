@@ -54,6 +54,9 @@ class LifeActivity : AppCompatActivity(), AlertAndAnimationDismissListener {
                     LinearLayoutManager(this@LifeActivity, LinearLayoutManager.VERTICAL, false)
 
                 fab.setOnClickListener(View.OnClickListener {
+                    if (DataUtil.LIFE_LIST[lifeType!!].get(0).itemText.contains("꼭 이루고")) {
+                        DataUtil.LIFE_LIST[lifeType!!].removeAt(0)
+                    }
                     AddPopupDialog(
                         this@LifeActivity,
                         DataUtil.FROM_TYPE.LIFE,

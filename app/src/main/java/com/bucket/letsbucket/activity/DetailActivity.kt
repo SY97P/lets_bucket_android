@@ -151,9 +151,9 @@ class DetailActivity : AppCompatActivity(), AlertAndAnimationDismissListener {
             it.buttonBack.setOnClickListener { onBackPressed() }
             
             // 도움말 버튼
-            it.buttonHelp.setOnClickListener { 
-                // TODO: 도움말 팝업
-            }
+//            it.buttonHelp.setOnClickListener {
+//                // TODO: 도움말 팝업
+//            }
 
             // 확인 버튼
             it.buttonConfirm.setOnClickListener {
