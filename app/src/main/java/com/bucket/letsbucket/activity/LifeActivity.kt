@@ -11,13 +11,12 @@ import com.bucket.letsbucket.fragment.AddPopupDialog
 import com.bucket.letsbucket.R
 import com.bucket.letsbucket.adaptor.BucketAdapter
 import com.bucket.letsbucket.databinding.ActivityLifeBinding
-import com.bucket.letsbucket.fragment.AnimationDialog
+import com.bucket.letsbucket.util.AlertAndAnimationDismissListener
+import com.bucket.letsbucket.util.AlertAndAnimationUtil
 import com.bucket.letsbucket.util.DataUtil
 import com.bucket.letsbucket.util.LogUtil
-import com.tomergoldst.tooltips.ToolTip
-import com.tomergoldst.tooltips.ToolTipsManager
 
-class LifeActivity : AppCompatActivity() {
+class LifeActivity : AppCompatActivity(), AlertAndAnimationDismissListener {
 
     private var TAG: String = "LifeActivity"
 
@@ -67,9 +66,10 @@ class LifeActivity : AppCompatActivity() {
                     }
                 })
 
-                buttonHelp.setOnClickListener {
-
-                }
+//                buttonHelp.setOnClickListener {
+//                    AlertAndAnimationUtil(this@LifeActivity, this@LifeActivity)
+//                        .build("버킷리스트 클릭!!", "버킷리스트 ")
+//                }
             }
     }
 
@@ -78,5 +78,9 @@ class LifeActivity : AppCompatActivity() {
         for (item in DataUtil.LIFE_LIST[lifeType!!]) {
             LogUtil.d(TAG, item.itemId.toString() + " " + item.itemText + " " + item.itemDone)
         }
+    }
+
+    override fun onDismiss() {
+        TODO("Not yet implemented")
     }
 }

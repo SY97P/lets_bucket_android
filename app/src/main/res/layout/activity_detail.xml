@@ -26,13 +26,13 @@
             android:layout_height="0dp"
             android:layout_weight="1"/>
 
-        <ImageView
-            android:id="@+id/button_help"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_marginRight="5dp"
-            android:src="@drawable/help"/>
+<!--        <ImageView-->
+<!--            android:id="@+id/button_help"-->
+<!--            android:layout_width="50dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:layout_marginRight="5dp"-->
+<!--            android:src="@drawable/help"/>-->
 
         <Button
             android:id="@+id/button_confirm"
