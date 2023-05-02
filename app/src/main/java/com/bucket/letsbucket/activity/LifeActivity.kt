@@ -11,8 +11,11 @@ import com.bucket.letsbucket.fragment.AddPopupDialog
 import com.bucket.letsbucket.R
 import com.bucket.letsbucket.adaptor.BucketAdapter
 import com.bucket.letsbucket.databinding.ActivityLifeBinding
+import com.bucket.letsbucket.fragment.AnimationDialog
 import com.bucket.letsbucket.util.DataUtil
 import com.bucket.letsbucket.util.LogUtil
+import com.tomergoldst.tooltips.ToolTip
+import com.tomergoldst.tooltips.ToolTipsManager
 
 class LifeActivity : AppCompatActivity() {
 
@@ -63,6 +66,10 @@ class LifeActivity : AppCompatActivity() {
                         it.show()
                     }
                 })
+
+                buttonHelp.setOnClickListener {
+
+                }
             }
     }
 

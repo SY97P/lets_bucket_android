@@ -13,13 +13,14 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import coil.load
-import com.bucket.letsbucket.fragment.AnimationDialog
 import com.bucket.letsbucket.R
 import com.bucket.letsbucket.data.BucketItem
 import com.bucket.letsbucket.data.DetailData
 import com.bucket.letsbucket.databinding.ActivityDetailBinding
 import com.bucket.letsbucket.db.LifeBucketDB
 import com.bucket.letsbucket.db.ThisYearBucketDB
+import com.bucket.letsbucket.util.AlertAndAnimationDismissListener
+import com.bucket.letsbucket.util.AlertAndAnimationUtil
 import com.bucket.letsbucket.util.DataUtil
 import com.bucket.letsbucket.util.LogUtil
 import kotlinx.coroutines.CoroutineScope
@@ -30,7 +31,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.properties.Delegates
 
-class DetailActivity : AppCompatActivity() {
+class DetailActivity : AppCompatActivity(), AlertAndAnimationDismissListener {
     private val TAG = "DetailActivity"
 
     // Binding
@@ -106,6 +107,10 @@ class DetailActivity : AppCompatActivity() {
         setContentView(binding.root)
     }
 
+    override fun onDismiss() {
+        onBackPressed()
+    }
+
     private fun checkInvalidAccess() {
         if (fromType == DataUtil.FROM_TYPE.LIFE) {
             if (data.lifetype == null) {
@@ -144,6 +149,11 @@ class DetailActivity : AppCompatActivity() {
 
             // 뒤로가기 버튼
             it.buttonBack.setOnClickListener { onBackPressed() }
+            
+            // 도움말 버튼
+            it.buttonHelp.setOnClickListener { 
+                // TODO: 도움말 팝업
+            }
 
             // 확인 버튼
             it.buttonConfirm.setOnClickListener {
@@ -153,18 +163,11 @@ class DetailActivity : AppCompatActivity() {
 //                    item.printBucketItem()
                     DataUtil.DATA_CHANGED_LISTENER?.dataChanged()
                     if (this.done) {
-                        val alert = AlertDialog.Builder(this, R.style.AlertDialogStyle)
-                            .setIcon(R.drawable.basic)
-                            .setTitle("버킷리스트 달성!!")
-                            .setMessage("축하해요!!")
-                            .show()
-                        AnimationDialog(this, DataUtil.ANIM_TYPE.FIRE_WORK).let {
-                            it.setOnDismissListener {
-                                alert.cancel()
-                                onBackPressed()
-                            }
-                            it.show()
-                        }
+                        AlertAndAnimationUtil(this, this).build(
+                            "버킷리스트 달성!!",
+                            "축하해요!!",
+                            DataUtil.ANIM_TYPE.FIRE_WORK
+                        )
                     } else {
                         onBackPressed()
                     }

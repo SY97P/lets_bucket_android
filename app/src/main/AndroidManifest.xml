@@ -16,7 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LetsBucket"
-        tools:targetApi="31">
+        tools:targetApi="32">
         <provider
             android:authorities="com.bucket.letsbucket.fileprovider"
             android:name="androidx.core.content.FileProvider"
