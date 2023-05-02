@@ -1,5 +1,6 @@
 package com.bucket.letsbucket.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -35,6 +36,10 @@ class MainActivity : AppCompatActivity() {
         binding.tabLayout.setupWithViewPager(binding.viewPager)
         binding.viewPager.setOnClickListener {
             toast?.cancel()
+        }
+
+        binding.buttonSetting.setOnClickListener {
+            startActivity(Intent(this@MainActivity, SettingActivity::class.java))
         }
     }
 

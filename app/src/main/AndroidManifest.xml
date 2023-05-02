@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.bucket.letsbucket">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -17,17 +17,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LetsBucket"
         tools:targetApi="32">
+        <activity
+            android:name=".SettingActivity"
+            android:exported="false" />
+
         <provider
-            android:authorities="com.bucket.letsbucket.fileprovider"
             android:name="androidx.core.content.FileProvider"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:authorities="com.bucket.letsbucket.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/filepaths"/>
+                android:resource="@xml/filepaths" />
         </provider>
+
         <activity
-            android:name="com.bucket.letsbucket.activity.DetailActivity"
+            android:name=".DetailActivity"
             android:exported="false" />
         <activity
             android:name=".activity.LifeActivity"
