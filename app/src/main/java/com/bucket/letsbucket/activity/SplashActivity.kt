@@ -2,6 +2,7 @@ package com.bucket.letsbucket.activity
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.animation.AnimationUtils
 import android.widget.Toast
@@ -13,6 +14,8 @@ import com.bucket.letsbucket.R
 import com.bucket.letsbucket.data.BucketItem
 import com.bucket.letsbucket.databinding.ActivitySplashBinding
 import com.bucket.letsbucket.db.LifeBucketDB
+import com.bucket.letsbucket.db.SettingDB
+import com.bucket.letsbucket.db.SettingData
 import com.bucket.letsbucket.db.ThisYearBucketDB
 import com.bucket.letsbucket.fragment.AnimationDialog
 import com.bucket.letsbucket.util.DataUtil
@@ -30,6 +33,7 @@ class SplashActivity : AppCompatActivity() {
 
     private lateinit var thisYearBucketDB: ThisYearBucketDB
     private lateinit var lifeBucketDB: LifeBucketDB
+    private lateinit var settingDB: SettingDB
 
     private lateinit var binding: ActivitySplashBinding
 
@@ -59,14 +63,21 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private var thisYearDBDone: Boolean by Delegates.observable(false) { property, oldValue, newValue ->
-        val result = newValue && lifeDBDone && permissionDone
+        val result = newValue && lifeDBDone && permissionDone && settingDBDone
         if (result != dbTaskDone) {
             dbTaskDone = !dbTaskDone
         }
     }
 
     private var lifeDBDone: Boolean by Delegates.observable(false) { property, oldValue, newValue ->
-        val result = newValue && thisYearDBDone && permissionDone
+        val result = newValue && thisYearDBDone && permissionDone && settingDBDone
+        if (result != dbTaskDone) {
+            dbTaskDone = !dbTaskDone
+        }
+    }
+
+    private var settingDBDone: Boolean by Delegates.observable(false) { property, oldValue, newValue ->
+        val result = newValue && thisYearDBDone && lifeDBDone && permissionDone
         if (result != dbTaskDone) {
             dbTaskDone = !dbTaskDone
         }
@@ -79,6 +90,7 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("CommitPrefEdits")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -102,6 +114,7 @@ class SplashActivity : AppCompatActivity() {
 
         thisYearBucketDB = ThisYearBucketDB.getInstance(applicationContext)!!
         lifeBucketDB = LifeBucketDB.getInstance(applicationContext)!!
+        settingDB = SettingDB.getInstance(applicationContext)!!
     }
 
     override fun onStart() {
@@ -114,14 +127,16 @@ class SplashActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        thisYearDBDone = true
-        lifeDBDone = true
+        thisYearDBDone = false
+        lifeDBDone = false
+        settingDBDone = false
         super.onDestroy()
     }
 
     private fun getDBtoList() {
         getThisYearDB()
         getLifeDB()
+        getSetting()
     }
 
     private fun getLifeDB() {
@@ -158,6 +173,7 @@ class SplashActivity : AppCompatActivity() {
             }
 
             lifeDBDone = true
+            LogUtil.d(TAG, "LifeDBTask done")
         }
     }
 
@@ -191,6 +207,29 @@ class SplashActivity : AppCompatActivity() {
             }
 
             thisYearDBDone = true
+            LogUtil.d(TAG, "ThisYearDBTask done")
+        }
+    }
+
+    private fun getSetting() {
+        CoroutineScope(Dispatchers.Main).launch {
+            CoroutineScope(Dispatchers.IO).async {
+                if (settingDB.settingDao().getCount() == 0) {
+                    LogUtil.d(TAG, "SettingDB is Empty")
+                    CoroutineScope(Dispatchers.Default).async {
+                        settingDB.settingDao().insert(
+                            DataUtil.SETTING_DATA
+                        )
+                    }.await()
+                    LogUtil.d(TAG, "SettingDB insert Transaction done")
+                } else {
+                    LogUtil.d(TAG, "SettingDB has Data")
+                    DataUtil.SETTING_DATA = settingDB.settingDao().getSetting(0)
+                }
+                LogUtil.d(TAG, "SettingDBTask done")
+            }.await()
+
+            settingDBDone = true
         }
     }
 }

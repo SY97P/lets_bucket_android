@@ -54,11 +54,11 @@ class DetailActivity : AppCompatActivity(), AlertAndAnimationDismissListener {
     }
 
     // Camera Task -> Preview (Not Store)
-//    private val cameraPreviewLauncher = registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
-//        if (bitmap != null) {
-//            binding.bucketImage.setImageBitmap(bitmap)
-//        }
-//    }
+    private val cameraPreviewLauncher = registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
+        if (bitmap != null) {
+            binding.bucketImage.setImageBitmap(bitmap)
+        }
+    }
 
     // Parcelable Data
     private lateinit var data: DetailData
@@ -196,7 +196,6 @@ class DetailActivity : AppCompatActivity(), AlertAndAnimationDismissListener {
                 var selectedItem: Int? = null
                 AlertDialog.Builder(this, R.style.AlertDialogStyle)
                     .setTitle("인증샷 선택하기")
-//                    .setMessage("갤러리에서 선택하실래요, 사진을 찍으실래요?")
                     .setSingleChoiceItems(wayItems, -1) { dialog, which ->
                         selectedItem = which
                     }
@@ -206,14 +205,13 @@ class DetailActivity : AppCompatActivity(), AlertAndAnimationDismissListener {
                             when (selectedItem) {
                                 0 -> galleryLauncher.launch("image/*")
                                 1 -> {
-                                    try {
+                                    if (DataUtil.SETTING_DATA.storeImg) {
                                         pictureUri = createImageFile()
                                         cameraStoreLauncher.launch(pictureUri)
-                                    } catch (e: NullPointerException) {
-                                        e.printStackTrace()
+                                    } else {
+                                        cameraPreviewLauncher.launch(null)
                                     }
                                 }
-//                                2 -> cameraPreviewLauncher.launch(null)
                             }
                         }
                     }

@@ -3,6 +3,7 @@ package com.bucket.letsbucket.util
 import com.bucket.letsbucket.R
 import com.bucket.letsbucket.data.LifeTypeItem
 import com.bucket.letsbucket.data.BucketItem
+import com.bucket.letsbucket.db.SettingData
 
 object DataUtil {
     var THIS_YEAR_LIST: ArrayList<BucketItem> = arrayListOf()
@@ -20,6 +21,8 @@ object DataUtil {
         LifeTypeItem(R.drawable.relation, R.string.relation),
         LifeTypeItem(R.drawable.etc, R.string.etc),
     )
+
+    var SETTING_DATA: SettingData = SettingData(0, true, true)
 
     var DATA_CHANGED_LISTENER: DataChangedListener? = null
 
