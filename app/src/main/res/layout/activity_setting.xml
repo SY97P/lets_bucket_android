@@ -169,30 +169,30 @@
             android:background="@color/grey"/>
 
         <!--도움말 키고닫기-->
-        <LinearLayout
-            android:paddingVertical="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+<!--        <LinearLayout-->
+<!--            android:paddingVertical="20dp"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
 
-            <TextView
-                android:paddingLeft="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/dark_grey"
-                android:textSize="20dp"
-                android:text="⚙  도움말 켜기"/>
+<!--            <TextView-->
+<!--                android:paddingLeft="10dp"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textColor="@color/dark_grey"-->
+<!--                android:textSize="20dp"-->
+<!--                android:text="⚙  도움말 켜기"/>-->
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
+<!--            <View-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="0dp"-->
+<!--                android:layout_weight="1"/>-->
 
-            <Switch
-                android:id="@+id/button_switch_view_help"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+<!--            <Switch-->
+<!--                android:id="@+id/button_switch_view_help"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"/>-->
 
-        </LinearLayout>
+<!--        </LinearLayout>-->
 
 <!--        <View-->
 <!--            android:layout_width="match_parent"-->
