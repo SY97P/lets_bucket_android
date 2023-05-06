@@ -33,8 +33,6 @@ class LifeActivity : AppCompatActivity(), AlertAndAnimationDismissListener {
 
         lifeType = intent.getIntExtra("LIFE_TYPE", -1)
 
-        LogUtil.d(TAG, lifeType.toString())
-
         binding = DataBindingUtil.setContentView<ActivityLifeBinding?>(this, R.layout.activity_life)
             .apply {
                 lifecycleOwner = this@LifeActivity
@@ -46,7 +44,6 @@ class LifeActivity : AppCompatActivity(), AlertAndAnimationDismissListener {
 
                 lifeAdapter = BucketAdapter(
                     this@LifeActivity,
-                    DataUtil.FROM_TYPE.LIFE,
                     DataUtil.LIFE_LIST[lifeType!!]
                 )
                 lifeBucketList.adapter = lifeAdapter
@@ -59,7 +56,6 @@ class LifeActivity : AppCompatActivity(), AlertAndAnimationDismissListener {
                     }
                     AddPopupDialog(
                         this@LifeActivity,
-                        DataUtil.FROM_TYPE.LIFE,
                         lifeType
                     ).let {
                         it.setOnDismissListener {

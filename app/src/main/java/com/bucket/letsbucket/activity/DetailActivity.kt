@@ -18,7 +18,6 @@ import com.bucket.letsbucket.data.BucketItem
 import com.bucket.letsbucket.data.DetailData
 import com.bucket.letsbucket.databinding.ActivityDetailBinding
 import com.bucket.letsbucket.db.LifeBucketDB
-import com.bucket.letsbucket.db.ThisYearBucketDB
 import com.bucket.letsbucket.util.AlertAndAnimationDismissListener
 import com.bucket.letsbucket.util.AlertAndAnimationUtil
 import com.bucket.letsbucket.util.DataUtil
@@ -62,7 +61,6 @@ class DetailActivity : AppCompatActivity(), AlertAndAnimationDismissListener {
 
     // Parcelable Data
     private lateinit var data: DetailData
-    private lateinit var fromType: DataUtil.FROM_TYPE
 
     // Variable which changes View
     private var done: Boolean by Delegates.observable(false) { property, oldValue, newValue ->
@@ -95,7 +93,6 @@ class DetailActivity : AppCompatActivity(), AlertAndAnimationDismissListener {
         binding = ActivityDetailBinding.inflate(layoutInflater)
 
         data = intent.getParcelableExtra("DATA")!!
-        this.fromType = DataUtil.FROM_TYPE.values()[data.from]
         this.done = data.done
         this.doneDate = data.doneDate.toString()
         this.targetDate = data.targetDate.toString()
@@ -112,19 +109,12 @@ class DetailActivity : AppCompatActivity(), AlertAndAnimationDismissListener {
     }
 
     private fun checkInvalidAccess() {
-        if (fromType == DataUtil.FROM_TYPE.LIFE) {
-            if (data.lifetype == null) {
-                LogUtil.d(TAG, "lifeType is null -> invalid access")
-                onBackPressed()
-            } else if (data.idx < 0 || data.idx >= DataUtil.LIFE_LIST[data.lifetype!!].size) {
-                LogUtil.d(TAG,"index out of range -> invalid access")
-                onBackPressed()
-            }
-        } else if (fromType == DataUtil.FROM_TYPE.THIS_YEAR) {
-            if (data.idx < 0 || data.idx >= DataUtil.THIS_YEAR_LIST.size) {
-                LogUtil.d(TAG,"index out of range -> invalid access")
-                onBackPressed()
-            }
+        if (data.lifetype == null) {
+            LogUtil.d(TAG, "lifeType is null -> invalid access")
+            onBackPressed()
+        } else if (data.idx < 0 || data.idx >= DataUtil.LIFE_LIST[data.lifetype!!].size) {
+            LogUtil.d(TAG,"index out of range -> invalid access")
+            onBackPressed()
         }
     }
 
@@ -260,75 +250,36 @@ class DetailActivity : AppCompatActivity(), AlertAndAnimationDismissListener {
     }
 
     private fun modifyToList() {
-        when (fromType) {
-            DataUtil.FROM_TYPE.THIS_YEAR -> {
-                DataUtil.THIS_YEAR_LIST.set(
-                    data.idx,
-                    BucketItem(
-                        id = data.id,
-                        text = binding.bucketText.text.toString(),
-                        done = this.done,
-                        lifetype = data.lifetype,
-                        doneDate = this.doneDate,
-                        targetDate = this.targetDate,
-                        uri = this.uri,
-                        detailText = binding.bucketDetailText.text.toString()
-                    )
-                )
-            }
-            DataUtil.FROM_TYPE.LIFE -> {
-                DataUtil.LIFE_LIST[data.lifetype!!].set(
-                    data.idx,
-                    BucketItem(
-                        id = data.id,
-                        text = binding.bucketText.text.toString(),
-                        done = this.done,
-                        lifetype = data.lifetype,
-                        doneDate = this.doneDate,
-                        targetDate = this.targetDate,
-                        uri = this.uri,
-                        detailText = binding.bucketDetailText.text.toString()
-                    )
-                )
-            }
-            else -> {}
-        }
+        DataUtil.LIFE_LIST[data.lifetype!!].set(
+            data.idx,
+            BucketItem(
+                id = data.id,
+                text = binding.bucketText.text.toString(),
+                done = this.done,
+                lifetype = data.lifetype,
+                doneDate = this.doneDate,
+                targetDate = this.targetDate,
+                uri = this.uri,
+                detailText = binding.bucketDetailText.text.toString()
+            )
+        )
     }
 
     private fun modifyToDB() {
         // 아이템 텍스트 변경 시 DB 작업
         CoroutineScope(Dispatchers.Main).launch {
             CoroutineScope(Dispatchers.IO).async {
-                when (fromType) {
-                    DataUtil.FROM_TYPE.THIS_YEAR -> {
-                        val modifiedItem = DataUtil.THIS_YEAR_LIST.get(data.idx)
-                        ThisYearBucketDB.getInstance(this@DetailActivity)!!.thisYearBucketDao()
-                            .updateItem(
-                                modifiedItem.itemText,
-                                modifiedItem.itemDone,
-                                modifiedItem.itemDoneDate,
-                                modifiedItem.itemTargetDate,
-                                modifiedItem.itemUri,
-                                modifiedItem.itemDetailText,
-                                modifiedItem.itemId
-                            )
-                    }
-                    DataUtil.FROM_TYPE.LIFE -> {
-                        val modifiedItem = DataUtil.LIFE_LIST[data.lifetype!!].get(data.idx)
-                        LifeBucketDB.getInstance(this@DetailActivity)!!.lifebucketDao()
-                            .updateItem(
-                                modifiedItem.itemText,
-                                modifiedItem.itemDone,
-                                modifiedItem.itemDoneDate,
-                                modifiedItem.itemTargetDate,
-                                modifiedItem.itemUri,
-                                modifiedItem.itemDetailText,
-                                modifiedItem.itemId
-                            )
-                    }
-                    else -> {}
-                }
-
+                val modifiedItem = DataUtil.LIFE_LIST[data.lifetype!!].get(data.idx)
+                LifeBucketDB.getInstance(this@DetailActivity)!!.lifebucketDao()
+                    .updateItem(
+                        modifiedItem.itemText,
+                        modifiedItem.itemDone,
+                        modifiedItem.itemDoneDate,
+                        modifiedItem.itemTargetDate,
+                        modifiedItem.itemUri,
+                        modifiedItem.itemDetailText,
+                        modifiedItem.itemId
+                    )
             }.await()
         }
     }

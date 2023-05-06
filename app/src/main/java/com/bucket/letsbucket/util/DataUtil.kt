@@ -6,7 +6,6 @@ import com.bucket.letsbucket.data.BucketItem
 import com.bucket.letsbucket.db.SettingData
 
 object DataUtil {
-    var THIS_YEAR_LIST: ArrayList<BucketItem> = arrayListOf()
 
     var LIFE_LIST: Array<ArrayList<BucketItem>> = arrayOf(
         arrayListOf(), arrayListOf(), arrayListOf(), arrayListOf(), arrayListOf(), arrayListOf(), arrayListOf(),
@@ -25,10 +24,6 @@ object DataUtil {
     var SETTING_DATA: SettingData = SettingData(0, true, true)
 
     var DATA_CHANGED_LISTENER: DataChangedListener? = null
-
-    enum class FROM_TYPE {
-        LIFE, THIS_YEAR
-    }
 
     enum class ANIM_TYPE {
         FIRE_WORK, CLICK

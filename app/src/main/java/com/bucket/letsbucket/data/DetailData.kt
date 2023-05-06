@@ -4,7 +4,6 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class DetailData(
-    val from: Int,
     val id: Long,
     val text: String?,
     val done: Boolean,
@@ -16,7 +15,6 @@ data class DetailData(
     val idx: Int
 ): Parcelable {
     constructor(parcel: Parcel) : this(
-        parcel.readInt(),
         parcel.readLong(),
         parcel.readString(),
         parcel.readByte() != 0.toByte(),
@@ -29,7 +27,6 @@ data class DetailData(
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeInt(from)
         parcel.writeLong(id)
         parcel.writeString(text)
         parcel.writeByte(if (done) 1 else 0)

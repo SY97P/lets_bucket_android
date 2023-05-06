@@ -16,7 +16,7 @@ class AlertAndAnimationUtil(context: Context, dismissListener: AlertAndAnimation
     }
 
     fun build(title: String, message: String, animationType: DataUtil.ANIM_TYPE) {
-        var alert = AlertDialog.Builder(context, R.style.AlertDialogStyle)
+        val alert = AlertDialog.Builder(context, R.style.AlertDialogStyle)
             .setIcon(R.drawable.basic)
             .setTitle(title)
             .setMessage(message)

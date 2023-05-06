@@ -2,7 +2,6 @@ package com.bucket.letsbucket.activity
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.animation.AnimationUtils
 import android.widget.Toast
@@ -15,8 +14,6 @@ import com.bucket.letsbucket.data.BucketItem
 import com.bucket.letsbucket.databinding.ActivitySplashBinding
 import com.bucket.letsbucket.db.LifeBucketDB
 import com.bucket.letsbucket.db.SettingDB
-import com.bucket.letsbucket.db.SettingData
-import com.bucket.letsbucket.db.ThisYearBucketDB
 import com.bucket.letsbucket.fragment.AnimationDialog
 import com.bucket.letsbucket.util.DataUtil
 import com.bucket.letsbucket.util.LogUtil
@@ -31,7 +28,6 @@ class SplashActivity : AppCompatActivity() {
 
     private var TAG = "SplashActivity"
 
-    private lateinit var thisYearBucketDB: ThisYearBucketDB
     private lateinit var lifeBucketDB: LifeBucketDB
     private lateinit var settingDB: SettingDB
 
@@ -62,29 +58,22 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
-    private var thisYearDBDone: Boolean by Delegates.observable(false) { property, oldValue, newValue ->
-        val result = newValue && lifeDBDone && permissionDone && settingDBDone
-        if (result != dbTaskDone) {
-            dbTaskDone = !dbTaskDone
-        }
-    }
-
     private var lifeDBDone: Boolean by Delegates.observable(false) { property, oldValue, newValue ->
-        val result = newValue && thisYearDBDone && permissionDone && settingDBDone
+        val result = newValue && permissionDone && settingDBDone
         if (result != dbTaskDone) {
             dbTaskDone = !dbTaskDone
         }
     }
 
     private var settingDBDone: Boolean by Delegates.observable(false) { property, oldValue, newValue ->
-        val result = newValue && thisYearDBDone && lifeDBDone && permissionDone
+        val result = newValue && lifeDBDone && permissionDone
         if (result != dbTaskDone) {
             dbTaskDone = !dbTaskDone
         }
     }
 
     private var permissionDone: Boolean by Delegates.observable(false) { property, oldValue, newValue ->
-        val result = newValue && thisYearDBDone && lifeDBDone
+        val result = newValue && lifeDBDone && settingDBDone
         if (result != dbTaskDone) {
             dbTaskDone = !dbTaskDone
         }
@@ -112,7 +101,6 @@ class SplashActivity : AppCompatActivity() {
             }
         }
 
-        thisYearBucketDB = ThisYearBucketDB.getInstance(applicationContext)!!
         lifeBucketDB = LifeBucketDB.getInstance(applicationContext)!!
         settingDB = SettingDB.getInstance(applicationContext)!!
     }
@@ -127,14 +115,12 @@ class SplashActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        thisYearDBDone = false
         lifeDBDone = false
         settingDBDone = false
         super.onDestroy()
     }
 
     private fun getDBtoList() {
-        getThisYearDB()
         getLifeDB()
         getSetting()
     }
@@ -174,40 +160,6 @@ class SplashActivity : AppCompatActivity() {
 
             lifeDBDone = true
             LogUtil.d(TAG, "LifeDBTask done")
-        }
-    }
-
-    private fun getThisYearDB() {
-        CoroutineScope(Dispatchers.Main).launch {
-            val bucketList = CoroutineScope(Dispatchers.IO).async {
-                thisYearBucketDB.thisYearBucketDao().getAll()
-            }.await()
-
-            DataUtil.THIS_YEAR_LIST.clear()
-
-            for (bucket in bucketList) {
-                DataUtil.THIS_YEAR_LIST.add(
-                    bucket.convertToList()
-                )
-            }
-
-            if (DataUtil.THIS_YEAR_LIST.size <= 0) {
-                DataUtil.THIS_YEAR_LIST.add(
-                    BucketItem(
-                        System.currentTimeMillis(),
-                        "올해 목표를 세워보세요!",
-                        true,
-                        null,
-                        "",
-                        "",
-                        "",
-                        null
-                    )
-                )
-            }
-
-            thisYearDBDone = true
-            LogUtil.d(TAG, "ThisYearDBTask done")
         }
     }
 

@@ -8,7 +8,6 @@ import android.os.Bundle
 import com.bucket.letsbucket.data.BucketItem
 import com.bucket.letsbucket.databinding.DialogAddPopupBinding
 import com.bucket.letsbucket.db.LifeBucketDB
-import com.bucket.letsbucket.db.ThisYearBucketDB
 import com.bucket.letsbucket.util.DataUtil
 import com.bucket.letsbucket.util.LogUtil
 import kotlinx.coroutines.CoroutineScope
@@ -18,7 +17,6 @@ import kotlinx.coroutines.launch
 
 class AddPopupDialog(
     context: Context,
-    from: DataUtil.FROM_TYPE,
     type: Int?
 ) : Dialog(context) {
 
@@ -26,13 +24,11 @@ class AddPopupDialog(
 
     private lateinit var binding: DialogAddPopupBinding
 
-    private var fromType: DataUtil.FROM_TYPE
     private var lifeType: Int? = null
 
     private lateinit var addedBucketItem: BucketItem
 
     init {
-        this.fromType = from
         this.lifeType = type
     }
 
@@ -43,7 +39,7 @@ class AddPopupDialog(
         window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         setContentView(binding.root)
 
-        if (fromType == DataUtil.FROM_TYPE.LIFE && lifeType == null) {
+        if (lifeType == null) {
             LogUtil.d(TAG, "lifetype is null -> invalid access")
             onBackPressed()
         }
@@ -81,52 +77,24 @@ class AddPopupDialog(
     private fun addToDB() {
         CoroutineScope(Dispatchers.Main).launch {
             CoroutineScope(Dispatchers.IO).async {
-                when (fromType) {
-                    DataUtil.FROM_TYPE.THIS_YEAR -> {
-                        ThisYearBucketDB.getInstance(context)!!.thisYearBucketDao().insert(
-                            addedBucketItem.convertToThisYearEntity()
-                        )
-                    }
-                    DataUtil.FROM_TYPE.LIFE -> {
-                        LifeBucketDB.getInstance(context)!!.lifebucketDao().insert(
-                            addedBucketItem.convertToLifeEntity()
-                        )
-                    }
-                    else -> {}
-                }
+                LifeBucketDB.getInstance(context)!!.lifebucketDao().insert(
+                    addedBucketItem.convertToLifeEntity()
+                )
             }.await()
         }
     }
 
     private fun addToList() {
-        when (fromType) {
-            DataUtil.FROM_TYPE.THIS_YEAR -> {
-                addedBucketItem = BucketItem(
-                    id = System.currentTimeMillis(),
-                    text = binding.popupEditText.text.toString(),
-                    done = false,
-                    lifetype = null,
-                    doneDate = "",
-                    targetDate = "",
-                    uri = "",
-                    detailText = null
-                )
-                DataUtil.THIS_YEAR_LIST.add(addedBucketItem)
-            }
-            DataUtil.FROM_TYPE.LIFE -> {
-                addedBucketItem = BucketItem(
-                    id = System.currentTimeMillis(),
-                    text = binding.popupEditText.text.toString(),
-                    done = false,
-                    lifetype = lifeType,
-                    doneDate = "",
-                    targetDate = "",
-                    uri = "",
-                    detailText = null
-                )
-                DataUtil.LIFE_LIST[lifeType!!].add(addedBucketItem)
-            }
-            else -> {}
-        }
+        addedBucketItem = BucketItem(
+            id = System.currentTimeMillis(),
+            text = binding.popupEditText.text.toString(),
+            done = false,
+            lifetype = lifeType,
+            doneDate = "",
+            targetDate = "",
+            uri = "",
+            detailText = null
+        )
+        DataUtil.LIFE_LIST[lifeType!!].add(addedBucketItem)
     }
 }

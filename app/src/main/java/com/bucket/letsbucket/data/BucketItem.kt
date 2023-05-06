@@ -1,7 +1,6 @@
 package com.bucket.letsbucket.data
 
 import com.bucket.letsbucket.db.LifeBucket
-import com.bucket.letsbucket.db.ThisYearBucket
 
 data class BucketItem(
     private val id: Long,
@@ -33,21 +32,4 @@ data class BucketItem(
             this.itemUri,
             this.itemDetailText
         )
-
-    fun convertToThisYearEntity(): ThisYearBucket =
-        ThisYearBucket(
-            this.itemId,
-            this.itemText,
-            this.itemDone,
-            this.itemDoneDate,
-            this.itemTargetDate,
-            this.itemUri,
-            this.itemDetailText
-        )
-
-//    fun printBucketItem() {
-//        LogUtil.d(
-//            "itemId: ${itemId}\nitemText: ${itemText}\nitemDone: ${itemDone}\nitemType: ${itemType}\nitemDate: ${itemDate}"
-//        )
-//    }
 }

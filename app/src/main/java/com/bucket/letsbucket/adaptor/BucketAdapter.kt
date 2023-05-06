@@ -19,7 +19,6 @@ import com.bucket.letsbucket.R
 import com.bucket.letsbucket.data.BucketItem
 import com.bucket.letsbucket.data.DetailData
 import com.bucket.letsbucket.db.LifeBucketDB
-import com.bucket.letsbucket.db.ThisYearBucketDB
 import com.bucket.letsbucket.fragment.AnimationDialog
 import com.bucket.letsbucket.util.DataUtil
 import com.bucket.letsbucket.util.LogUtil
@@ -31,7 +30,6 @@ import kotlin.properties.Delegates
 
 class BucketAdapter(
     private val context: Context,
-    private val from: DataUtil.FROM_TYPE,
     private val dataSet: ArrayList<BucketItem>
 ) :
     RecyclerView.Adapter<BucketAdapter.ThisYearViewHolder>(), DataChangedListener {
@@ -101,21 +99,18 @@ class BucketAdapter(
         } else {
             holder.checkbox.setImageResource(R.drawable.unchecked)
         }
+        if (!dataSet[position].itemText.equals("올해 목표를 세워보세요!") && !dataSet[position].itemText.equals("꼭 이루고 싶은 걸 적어보세요")) {
+            holder.checkbox.visibility = View.GONE
+        }
 
         holder.checkbox.setOnClickListener {
-            if (!dataSet[position].itemText.equals("올해 목표를 세워보세요!") && !dataSet[position].itemText.equals(
-                    "꼭 이루고 싶은 걸 적어보세요"
-                )
-            ) {
+            if (!dataSet[position].itemText.equals("올해 목표를 세워보세요!") && !dataSet[position].itemText.equals("꼭 이루고 싶은 걸 적어보세요")) {
                 checkBucketItem(holder, position)
             }
         }
 
         holder.removeBtn.setOnClickListener {
-            if (!dataSet[position].itemText.equals("올해 목표를 세워보세요!") && !dataSet[position].itemText.equals(
-                    "꼭 이루고 싶은 걸 적어보세요"
-                )
-            ) {
+            if (!dataSet[position].itemText.equals("올해 목표를 세워보세요!") && !dataSet[position].itemText.equals("꼭 이루고 싶은 걸 적어보세요")) {
                 deleteBucketItem(holder, position)
             }
         }
@@ -130,7 +125,6 @@ class BucketAdapter(
             val data = dataSet[adapterPosition]
             intent.putExtra(
                 "DATA", DetailData(
-                    from.ordinal,
                     data.itemId, data.itemText, data.itemDone, data.itemType,
                     data.itemDoneDate, data.itemTargetDate, data.itemUri, data.itemDetailText,
                     adapterPosition,
@@ -165,21 +159,10 @@ class BucketAdapter(
 
         CoroutineScope(Dispatchers.Main).launch {
             CoroutineScope(Dispatchers.IO).async {
-                when (from) {
-                    DataUtil.FROM_TYPE.THIS_YEAR -> {
-                        ThisYearBucketDB.getInstance(context)!!.thisYearBucketDao().updateDone(
-                            dataSet[position].itemDone,
-                            dataSet[position].itemId
-                        )
-                    }
-                    DataUtil.FROM_TYPE.LIFE -> {
-                        LifeBucketDB.getInstance(context)!!.lifebucketDao().updateDone(
-                            dataSet[position].itemDone,
-                            dataSet[position].itemId
-                        )
-                    }
-                    else -> {}
-                }
+                LifeBucketDB.getInstance(context)!!.lifebucketDao().updateDone(
+                    dataSet[position].itemDone,
+                    dataSet[position].itemId
+                )
             }.await()
         }
     }
@@ -188,31 +171,17 @@ class BucketAdapter(
     private fun deleteBucketItem(holder: ThisYearViewHolder, position: Int) {
         var deletedItem: BucketItem? = null
 
-        if (from == DataUtil.FROM_TYPE.THIS_YEAR) {
-            deletedItem = dataSet[position]
-            DataUtil.THIS_YEAR_LIST.removeAt(position)
-        } else {
-            deletedItem = dataSet[position]
-            DataUtil.LIFE_LIST[deletedItem.itemType!!].removeAt(position)
-        }
+        deletedItem = dataSet[position]
+        DataUtil.LIFE_LIST[deletedItem.itemType!!].removeAt(position)
+
         holder.animToggle = !holder.animToggle
         notifyDataSetChanged()
 
         CoroutineScope(Dispatchers.Main).launch {
             CoroutineScope(Dispatchers.IO).async {
-                when (from) {
-                    DataUtil.FROM_TYPE.THIS_YEAR -> {
-                        ThisYearBucketDB.getInstance(context)!!.thisYearBucketDao().deleteById(
-                            deletedItem.itemId
-                        )
-                    }
-                    DataUtil.FROM_TYPE.LIFE -> {
-                        LifeBucketDB.getInstance(context)!!.lifebucketDao().deleteById(
-                            deletedItem.itemId
-                        )
-                    }
-                    else -> {}
-                }
+                LifeBucketDB.getInstance(context)!!.lifebucketDao().deleteById(
+                    deletedItem.itemId
+                )
             }.await()
         }
     }
