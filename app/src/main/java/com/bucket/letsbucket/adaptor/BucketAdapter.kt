@@ -61,19 +61,13 @@ class BucketAdapter(
         init {
             // click -> 수정
             view.setOnClickListener {
-                if (!dataSet[adapterPosition].itemText.equals("올해 목표를 세워보세요!") && !dataSet[adapterPosition].itemText.equals(
-                        "꼭 이루고 싶은 걸 적어보세요"
-                    )
-                ) {
+                if (!dataSet[adapterPosition].itemText.equals("꼭 이루고 싶은 걸 적어보세요")) {
                     modifyBucketItem(adapterPosition)
                 }
             }
 
             view.setOnLongClickListener {
-                if (adapterPosition != RecyclerView.NO_POSITION && !dataSet[adapterPosition].itemText.equals(
-                        "올해 목표를 세워보세요!"
-                    ) && !dataSet[adapterPosition].itemText.equals("꼭 이루고 싶은 걸 적어보세요")
-                ) {
+                if (!dataSet[adapterPosition].itemText.equals("꼭 이루고 싶은 걸 적어보세요")) {
                     animToggle = !animToggle
                     true
                 } else {
@@ -99,18 +93,18 @@ class BucketAdapter(
         } else {
             holder.checkbox.setImageResource(R.drawable.unchecked)
         }
-        if (!dataSet[position].itemText.equals("올해 목표를 세워보세요!") && !dataSet[position].itemText.equals("꼭 이루고 싶은 걸 적어보세요")) {
+        if (dataSet[position].itemText.equals("꼭 이루고 싶은 걸 적어보세요")) {
             holder.checkbox.visibility = View.GONE
         }
 
         holder.checkbox.setOnClickListener {
-            if (!dataSet[position].itemText.equals("올해 목표를 세워보세요!") && !dataSet[position].itemText.equals("꼭 이루고 싶은 걸 적어보세요")) {
+            if (!dataSet[position].itemText.equals("꼭 이루고 싶은 걸 적어보세요")) {
                 checkBucketItem(holder, position)
             }
         }
 
         holder.removeBtn.setOnClickListener {
-            if (!dataSet[position].itemText.equals("올해 목표를 세워보세요!") && !dataSet[position].itemText.equals("꼭 이루고 싶은 걸 적어보세요")) {
+            if (!dataSet[position].itemText.equals("꼭 이루고 싶은 걸 적어보세요")) {
                 deleteBucketItem(holder, position)
             }
         }

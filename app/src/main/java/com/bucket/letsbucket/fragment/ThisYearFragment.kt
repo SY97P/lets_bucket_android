@@ -16,7 +16,6 @@ class ThisYearFragment : Fragment() {
     private var TAG: String = "TYFragment"
 
     private lateinit var binding: FragmentThisyearBinding
-    private lateinit var bucketAdapter: BucketAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,22 +33,6 @@ class ThisYearFragment : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun setupBinding() {
-//        binding.fab.setOnClickListener(View.OnClickListener {
-//            if (DataUtil.THIS_YEAR_LIST.get(0).itemText.contains("옳해 목표를")) {
-//                DataUtil.THIS_YEAR_LIST.removeAt(0)
-//            }
-//            AddPopupDialog(requireContext(), DataUtil.FROM_TYPE.THIS_YEAR,null).let {
-//                it.setOnDismissListener {
-//                    bucketAdapter.notifyDataSetChanged()
-//                }
-//                it.show()
-//            }
-//        })
-//
-//        binding.thisYearBucketList.apply {
-//            bucketAdapter = BucketAdapter(requireContext(), DataUtil.FROM_TYPE.THIS_YEAR, DataUtil.THIS_YEAR_LIST)
-//            adapter = bucketAdapter
-//            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-//        }
+
     }
 }

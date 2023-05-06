@@ -228,6 +228,7 @@
                 <EditText
                     android:id="@+id/bucket_detail_text"
                     android:hint="계획이나 현황을 적어보세요!"
+                    android:textColorHint="@color/orange"
                     android:backgroundTint="@color/orange"
                     android:foregroundTint="@color/orange"
                     android:drawableTint="@color/orange"
