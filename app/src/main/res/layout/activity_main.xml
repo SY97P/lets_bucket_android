@@ -26,16 +26,19 @@
             >
 
             <com.google.android.material.tabs.TabItem
+                style="@style/TabItemTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/past" />
 
             <com.google.android.material.tabs.TabItem
+                style="@style/TabItemTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/this_year" />
 
             <com.google.android.material.tabs.TabItem
+                style="@style/TabItemTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/life" />

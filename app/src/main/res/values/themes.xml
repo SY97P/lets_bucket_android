@@ -15,6 +15,7 @@
         <!-- Customize your theme here. -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="fontFamily">@font/sincerity</item>
     </style>
     
     <style name="EditTextStyle" parent="Widget.Design.TextInputLayout">
@@ -38,21 +39,6 @@
         <!--    HighLight item color    -->
         <item name="colorControlHighlight">@color/orange</item>
         <item name="android:textColor">@color/red_orange</item>
-<!--        Calendar Background Color-->
-<!--        <item name="android:colorBackground">@color/white</item>-->
-<!--        &lt;!&ndash;Week TextColor&ndash;&gt;-->
-<!--        <item name="android:textColorSecondary">@color/pastel_light_orange</item>-->
-<!--        &lt;!&ndash;Calendar Number color arrow color&ndash;&gt;-->
-<!--        <item name="android:textColorPrimary">@color/pastel_orange</item>-->
-<!--        &lt;!&ndash;day, month textcolor&ndash;&gt;-->
-<!--        <item name="android:textColorPrimaryInverse">@color/pastel_orange</item>-->
-<!--        &lt;!&ndash;year&ndash;&gt;-->
-<!--        <item name="android:textColorSecondaryInverse">@color/pastel_light_orange</item>-->
-<!--        &lt;!&ndash;취소/확인 버튼 색상&ndash;&gt;-->
-<!--        <item name="android:textColor">@color/orange</item>-->
-<!--        <item name="android:textSize">20sp</item>-->
-<!--        <item name="cornerSize">16dp</item>-->
-<!--        <item name="windowActionBar">false</item>-->
     </style>
 
     <style name="AlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
@@ -74,5 +60,10 @@
 
     <style name="AlertDialogButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
         <item name="android:textColor">@color/orange</item>
+    </style>
+
+    <style name="TabItemTextStyle" parent="Widget.AppCompat.ActionBar.TabText">
+        <item name="android:textSize">30sp</item>
+        <item name="android:fontWeight">400</item>
     </style>
 </resources>

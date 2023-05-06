@@ -146,7 +146,7 @@ class SplashActivity : AppCompatActivity() {
                     DataUtil.LIFE_LIST[i].add(
                         BucketItem(
                             System.currentTimeMillis(),
-                            "꼭 이루고 싶은 걸 적어보세요",
+                            "버튼을 눌러 꼭 이루고 싶은 버킷리스트를 만들어보세요",
                             true,
                             i,
                             "",

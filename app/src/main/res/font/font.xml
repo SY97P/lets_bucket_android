@@ -7,4 +7,8 @@
     <font android:fontStyle="normal"
         android:fontWeight="400"
         android:font="@font/scdream8"/>
+
+    <font android:fontStyle="normal"
+        android:fontWeight="800"
+        android:font="@font/sincerity"/>
 </font-family>

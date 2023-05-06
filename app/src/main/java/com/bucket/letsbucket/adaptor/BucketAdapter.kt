@@ -61,13 +61,13 @@ class BucketAdapter(
         init {
             // click -> 수정
             view.setOnClickListener {
-                if (!dataSet[adapterPosition].itemText.equals("꼭 이루고 싶은 걸 적어보세요")) {
+                if (!dataSet[adapterPosition].itemText.equals("버튼을 눌러 꼭 이루고 싶은 버킷리스트를 만들어보세요")) {
                     modifyBucketItem(adapterPosition)
                 }
             }
 
             view.setOnLongClickListener {
-                if (!dataSet[adapterPosition].itemText.equals("꼭 이루고 싶은 걸 적어보세요")) {
+                if (!dataSet[adapterPosition].itemText.equals("버튼을 눌러 꼭 이루고 싶은 버킷리스트를 만들어보세요")) {
                     animToggle = !animToggle
                     true
                 } else {
@@ -93,18 +93,18 @@ class BucketAdapter(
         } else {
             holder.checkbox.setImageResource(R.drawable.unchecked)
         }
-        if (dataSet[position].itemText.equals("꼭 이루고 싶은 걸 적어보세요")) {
+        if (dataSet[position].itemText.equals("버튼을 눌러 꼭 이루고 싶은 버킷리스트를 만들어보세요")) {
             holder.checkbox.visibility = View.GONE
         }
 
         holder.checkbox.setOnClickListener {
-            if (!dataSet[position].itemText.equals("꼭 이루고 싶은 걸 적어보세요")) {
+            if (!dataSet[position].itemText.equals("버튼을 눌러 꼭 이루고 싶은 버킷리스트를 만들어보세요")) {
                 checkBucketItem(holder, position)
             }
         }
 
         holder.removeBtn.setOnClickListener {
-            if (!dataSet[position].itemText.equals("꼭 이루고 싶은 걸 적어보세요")) {
+            if (!dataSet[position].itemText.equals("버튼을 눌러 꼭 이루고 싶은 버킷리스트를 만들어보세요")) {
                 deleteBucketItem(holder, position)
             }
         }
