@@ -7,6 +7,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/life_type_list"
+        android:layout_gravity="center_horizontal"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="20dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/item_life_type_recycler_view"/>

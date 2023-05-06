@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bucket.letsbucket.adaptor.LifeTypeAdapter
 import com.bucket.letsbucket.databinding.FragmentLifeTypeBinding
@@ -27,7 +28,7 @@ class LifeTypeFragment : Fragment() {
         binding = FragmentLifeTypeBinding.inflate(inflater, container, false)
         lifeTypeAdapter = LifeTypeAdapter(requireContext(), DataUtil.LIFE_TYPE_LIST)
         binding.lifeTypeList.adapter = lifeTypeAdapter
-        binding.lifeTypeList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        binding.lifeTypeList.layoutManager = GridLayoutManager(context, 3)
         return binding.root
     }
 }
