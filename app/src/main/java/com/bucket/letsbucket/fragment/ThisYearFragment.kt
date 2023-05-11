@@ -22,7 +22,7 @@ class ThisYearFragment : Fragment() {
 
     private lateinit var mContext: Context
 
-    private var pageIndex = 0
+    var pageIndex = 0
     private lateinit var currentDate: Date
 
     companion object {
