@@ -5,6 +5,7 @@
     <string name="life">Life</string>
     <string name="add">Add</string>
     <string name="bucketlist">버킷리스트</string>
+    <string name="bucket_notice">꼭 이루고 싶은 버킷리스트를 작성해보세요!</string>
     <string name="health">건강</string>
     <string name="trip">여행</string>
     <string name="hobby">취미</string>
@@ -13,4 +14,5 @@
     <string name="relation">관계</string>
     <string name="etc">기타</string>
     <string name="no_img">인증샷을 남겨보세요!</string>
+    <string name="calendar_year_month_format">YYYY년 MM월</string>
 </resources>

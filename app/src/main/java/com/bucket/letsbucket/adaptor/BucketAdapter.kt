@@ -32,12 +32,12 @@ class BucketAdapter(
     private val context: Context,
     private val dataSet: ArrayList<BucketItem>
 ) :
-    RecyclerView.Adapter<BucketAdapter.ThisYearViewHolder>(), DataChangedListener {
+    RecyclerView.Adapter<BucketAdapter.BucketItemViewHolder>(), DataChangedListener {
 
     private var TAG = "BucketAdapter"
 
     @SuppressLint("NotifyDataSetChanged")
-    inner class ThisYearViewHolder(context: Context, view: View) : RecyclerView.ViewHolder(view) {
+    inner class BucketItemViewHolder(context: Context, view: View) : RecyclerView.ViewHolder(view) {
         val textView: TextView = itemView.findViewById(R.id.text)
         val checkbox: ImageView = itemView.findViewById(R.id.checkbox)
         val removeBtn: ImageView = itemView.findViewById(R.id.remove)
@@ -77,16 +77,16 @@ class BucketAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ThisYearViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BucketItemViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_bucket_recycler_view, parent, false)
         // 데이터 변경 감지 리스너 등록
         DataUtil.DATA_CHANGED_LISTENER = this
-        return ThisYearViewHolder(this.context, view)
+        return BucketItemViewHolder(this.context, view)
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    override fun onBindViewHolder(holder: ThisYearViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: BucketItemViewHolder, position: Int) {
         holder.textView.text = dataSet[position].itemText
         if (dataSet[position].itemDone) {
             holder.checkbox.setImageResource(R.drawable.checked)
@@ -129,7 +129,7 @@ class BucketAdapter(
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun checkBucketItem(holder: ThisYearViewHolder, position: Int) {
+    private fun checkBucketItem(holder: BucketItemViewHolder, position: Int) {
         dataSet[position].itemDone = !dataSet[position].itemDone
 
         if (dataSet[position].itemDone) {
@@ -162,7 +162,7 @@ class BucketAdapter(
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun deleteBucketItem(holder: ThisYearViewHolder, position: Int) {
+    private fun deleteBucketItem(holder: BucketItemViewHolder, position: Int) {
         var deletedItem: BucketItem? = null
 
         deletedItem = dataSet[position]
