@@ -9,9 +9,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.viewpager2.widget.ViewPager2
 import com.bucket.letsbucket.R
 import com.bucket.letsbucket.adaptor.ViewPagerAdapter
-import com.bucket.letsbucket.data.DatePage
+import com.bucket.letsbucket.data.CalendarInfo
 import com.bucket.letsbucket.databinding.FragmentThisyearBinding
-import com.bucket.letsbucket.util.LogUtil
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -58,19 +57,14 @@ class ThisYearFragment : Fragment() {
         calendar = Calendar.getInstance()
         calendar.add(Calendar.MONTH, -(BOUND/2))
 
-        val list: ArrayList<DatePage> = arrayListOf()
+        val list: ArrayList<CalendarInfo> = arrayListOf()
         for (i in 0 .. BOUND) {
-            list.add(
-                DatePage(
-                    SimpleDateFormat("yyyy-MM", Locale.KOREA).format(calendar.time),
-                    calendar
-                )
-            )
+            list.add(CalendarInfo(calendar.clone() as Calendar))
             calendar.add(Calendar.MONTH, 1)
         }
 
         calendar.add(Calendar.MONTH, -(BOUND/2+1))
-        adapter = ViewPagerAdapter(list)
+        adapter = ViewPagerAdapter(requireContext(), list)
     }
 
     override fun onCreateView(
@@ -92,6 +86,8 @@ class ThisYearFragment : Fragment() {
     private fun setupBinding() {
         binding.let {
             it.viewPager.registerOnPageChangeCallback(pageChangeCallback)
+            it.calendarYearMonthText.text = SimpleDateFormat("yyyy년 M월", Locale.KOREA)
+                .format(calendar.time)
         }
     }
 }
