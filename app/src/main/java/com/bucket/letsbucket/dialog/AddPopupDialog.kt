@@ -1,4 +1,4 @@
-package com.bucket.letsbucket.fragment
+package com.bucket.letsbucket.dialog
 
 import android.app.Dialog
 import android.content.Context

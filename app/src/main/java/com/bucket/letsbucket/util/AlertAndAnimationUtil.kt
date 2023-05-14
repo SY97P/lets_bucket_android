@@ -3,28 +3,32 @@ package com.bucket.letsbucket.util
 import android.content.Context
 import androidx.appcompat.app.AlertDialog
 import com.bucket.letsbucket.R
-import com.bucket.letsbucket.fragment.AnimationDialog
+import com.bucket.letsbucket.dialog.AlertUtilDialog
+import com.bucket.letsbucket.dialog.AnimationDialog
+import com.bucket.letsbucket.listener.DismissListener
 
-class AlertAndAnimationUtil(context: Context, dismissListener: AlertAndAnimationDismissListener) {
+class AlertAndAnimationUtil(context: Context) {
 
     private var context: Context
-    private var aaalistener: AlertAndAnimationDismissListener
+    private lateinit var dismissListener: DismissListener
 
     init {
         this.context = context
-        this.aaalistener = dismissListener
     }
 
-    fun build(title: String, message: String, animationType: DataUtil.ANIM_TYPE) {
-        val alert = AlertDialog.Builder(context, R.style.AlertDialogStyle)
-            .setIcon(R.drawable.basic)
-            .setTitle(title)
-            .setMessage(message)
-            .show()
+    fun setDismissListener(onDismissListener: DismissListener) {
+        this.dismissListener = onDismissListener
+    }
+
+    fun build(animationType: DataUtil.ANIM_TYPE) {
+        val alert = AlertUtilDialog(context, DataUtil.DIALOG_TYPE.BUCKET_DONE).let {
+            it.build()
+            it.show()
+        }
         AnimationDialog(context, animationType).let {
             it.setOnDismissListener {
                 alert.cancel()
-                aaalistener.onDismiss()
+                dismissListener.onDismiss()
             }
             it.show()
         }

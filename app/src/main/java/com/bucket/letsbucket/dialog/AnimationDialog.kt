@@ -1,4 +1,4 @@
-package com.bucket.letsbucket.fragment
+package com.bucket.letsbucket.dialog
 
 import android.animation.Animator
 import android.app.Dialog

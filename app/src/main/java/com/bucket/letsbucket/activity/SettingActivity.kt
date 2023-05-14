@@ -11,6 +11,7 @@ import com.bucket.letsbucket.R
 import com.bucket.letsbucket.databinding.ActivitySettingBinding
 import com.bucket.letsbucket.db.SettingDB
 import com.bucket.letsbucket.db.SettingData
+import com.bucket.letsbucket.dialog.AlertUtilDialog
 import com.bucket.letsbucket.util.DataUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -39,14 +40,10 @@ class SettingActivity : AppCompatActivity() {
             it.buttonBack.setOnClickListener { onBackPressed() }
 
             it.layoutAppInfo.setOnClickListener {
-                var data = arrayOf<String>("🎃 개발자: 박세영", "📋 버전 : ${BuildConfig.VERSION_NAME}")
-                AlertDialog.Builder(this@SettingActivity, R.style.AlertDialogStyle)
-                    .setIcon(R.drawable.basic)
-                    .setTitle("어플리케이션 정보")
-                    .setItems(data, DialogInterface.OnClickListener { dialog, which ->
-                        //
-                    })
-                    .show()
+                AlertUtilDialog(this@SettingActivity, DataUtil.DIALOG_TYPE.APP_INFO).let {
+                    it.build()
+                    it.show()
+                }
             }
 
             it.layoutMarketReview.setOnClickListener {

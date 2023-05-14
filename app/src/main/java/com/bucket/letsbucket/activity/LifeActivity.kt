@@ -7,16 +7,15 @@ import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bucket.letsbucket.fragment.AddPopupDialog
+import com.bucket.letsbucket.dialog.AddPopupDialog
 import com.bucket.letsbucket.R
 import com.bucket.letsbucket.adaptor.BucketAdapter
 import com.bucket.letsbucket.databinding.ActivityLifeBinding
-import com.bucket.letsbucket.util.AlertAndAnimationDismissListener
-import com.bucket.letsbucket.util.AlertAndAnimationUtil
+import com.bucket.letsbucket.listener.DismissListener
 import com.bucket.letsbucket.util.DataUtil
 import com.bucket.letsbucket.util.LogUtil
 
-class LifeActivity : AppCompatActivity(), AlertAndAnimationDismissListener {
+class LifeActivity : AppCompatActivity(), DismissListener {
 
     private var TAG: String = "LifeActivity"
 

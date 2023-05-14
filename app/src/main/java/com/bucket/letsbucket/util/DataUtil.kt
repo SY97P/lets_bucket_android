@@ -4,6 +4,7 @@ import com.bucket.letsbucket.R
 import com.bucket.letsbucket.data.LifeTypeItem
 import com.bucket.letsbucket.data.BucketItem
 import com.bucket.letsbucket.db.SettingData
+import com.bucket.letsbucket.listener.DataChangedListener
 
 object DataUtil {
 
@@ -27,6 +28,10 @@ object DataUtil {
 
     enum class ANIM_TYPE {
         FIRE_WORK, CLICK
+    }
+
+    enum class DIALOG_TYPE {
+        BUCKET_DONE, APP_INFO, SNAPSHOT, CALENDAR, DEFAULT
     }
 
     val permissionList = arrayOf(

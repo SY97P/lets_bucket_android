@@ -11,14 +11,14 @@ import android.provider.MediaStore
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
 import coil.load
 import com.bucket.letsbucket.R
 import com.bucket.letsbucket.data.BucketItem
 import com.bucket.letsbucket.data.DetailData
 import com.bucket.letsbucket.databinding.ActivityDetailBinding
 import com.bucket.letsbucket.db.LifeBucketDB
-import com.bucket.letsbucket.util.AlertAndAnimationDismissListener
+import com.bucket.letsbucket.listener.DismissListener
+import com.bucket.letsbucket.dialog.AlertUtilDialog
 import com.bucket.letsbucket.util.AlertAndAnimationUtil
 import com.bucket.letsbucket.util.DataUtil
 import com.bucket.letsbucket.util.LogUtil
@@ -30,7 +30,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.properties.Delegates
 
-class DetailActivity : AppCompatActivity(), AlertAndAnimationDismissListener {
+class DetailActivity : AppCompatActivity(), DismissListener {
     private val TAG = "DetailActivity"
 
     // Binding
@@ -108,6 +108,20 @@ class DetailActivity : AppCompatActivity(), AlertAndAnimationDismissListener {
         onBackPressed()
     }
 
+    override fun onDismiss(itemIdx: Int) {
+        when (itemIdx) {
+            0 -> galleryLauncher.launch("image/*")
+            1 -> {
+                if (DataUtil.SETTING_DATA.storeImg) {
+                    pictureUri = createImageFile()
+                    cameraStoreLauncher.launch(pictureUri)
+                } else {
+                    cameraPreviewLauncher.launch(null)
+                }
+            }
+        }
+    }
+
     private fun checkInvalidAccess() {
         if (data.lifetype == null) {
             LogUtil.d(TAG, "lifeType is null -> invalid access")
@@ -153,11 +167,10 @@ class DetailActivity : AppCompatActivity(), AlertAndAnimationDismissListener {
 //                    item.printBucketItem()
                     DataUtil.DATA_CHANGED_LISTENER?.dataChanged()
                     if (this.done) {
-                        AlertAndAnimationUtil(this, this).build(
-                            "버킷리스트 달성!!",
-                            "축하해요!!",
-                            DataUtil.ANIM_TYPE.FIRE_WORK
-                        )
+                        AlertAndAnimationUtil(this).let {
+                            it.build(DataUtil.ANIM_TYPE.FIRE_WORK)
+                            it.setDismissListener(this)
+                        }
                     } else {
                         onBackPressed()
                     }
@@ -182,34 +195,11 @@ class DetailActivity : AppCompatActivity(), AlertAndAnimationDismissListener {
             // 이미지뷰
             it.bucketImage.setOnClickListener {
                 LogUtil.d(TAG, "choose image from local gallery")
-                val wayItems = arrayOf("갤러리에서 선택할래요", "카메라로 찍을래요")
-                var selectedItem: Int? = null
-                AlertDialog.Builder(this, R.style.AlertDialogStyle)
-                    .setTitle("인증샷 선택하기")
-                    .setSingleChoiceItems(wayItems, -1) { dialog, which ->
-                        selectedItem = which
-                    }
-                    .setPositiveButton("확인") { dialog, which ->
-                        LogUtil.d(TAG, "${selectedItem} Task Selected")
-                        if (selectedItem != null) {
-                            when (selectedItem) {
-                                0 -> galleryLauncher.launch("image/*")
-                                1 -> {
-                                    if (DataUtil.SETTING_DATA.storeImg) {
-                                        pictureUri = createImageFile()
-                                        cameraStoreLauncher.launch(pictureUri)
-                                    } else {
-                                        cameraPreviewLauncher.launch(null)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    .setNegativeButton("취소") { dialog, which ->
-                        LogUtil.d(TAG, "Cancel Image Select Task")
-                    }
-                    .setIcon(R.drawable.basic)
-                    .show()
+                AlertUtilDialog(this@DetailActivity, DataUtil.DIALOG_TYPE.SNAPSHOT).let {
+                    it.setDismissListener(this@DetailActivity)
+                    it.build()
+                    it.show()
+                }
             }
         }
     }

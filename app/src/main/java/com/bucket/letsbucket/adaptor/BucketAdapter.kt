@@ -14,12 +14,13 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.bucket.letsbucket.util.DataChangedListener
+import com.bucket.letsbucket.listener.DataChangedListener
 import com.bucket.letsbucket.R
 import com.bucket.letsbucket.data.BucketItem
 import com.bucket.letsbucket.data.DetailData
 import com.bucket.letsbucket.db.LifeBucketDB
-import com.bucket.letsbucket.fragment.AnimationDialog
+import com.bucket.letsbucket.dialog.AnimationDialog
+import com.bucket.letsbucket.util.AlertAndAnimationUtil
 import com.bucket.letsbucket.util.DataUtil
 import com.bucket.letsbucket.util.LogUtil
 import kotlinx.coroutines.CoroutineScope
@@ -134,17 +135,9 @@ class BucketAdapter(
 
         if (dataSet[position].itemDone) {
             holder.checkbox.setImageResource(R.drawable.checked)
-            val alert = AlertDialog.Builder(context, R.style.AlertDialogStyle)
-                .setIcon(R.drawable.basic)
-                .setTitle("버킷리스트 달성!!")
-                .setMessage("축하해요!!")
-                .show()
-            AnimationDialog(context, DataUtil.ANIM_TYPE.FIRE_WORK).let {
-                it.setOnDismissListener {
-                    alert.cancel()
-                }
-                it.show()
-            }
+            AlertAndAnimationUtil(context).build(
+                DataUtil.ANIM_TYPE.FIRE_WORK
+            )
         } else {
             holder.checkbox.setImageResource(R.drawable.unchecked)
         }

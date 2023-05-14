@@ -29,5 +29,8 @@ class CalendarAdapter(private val context: Context, private val dataList: ArrayL
 
     override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
         holder.bind(dataList[position], position, context)
+        holder.itemView.setOnClickListener {
+
+        }
     }
 }
