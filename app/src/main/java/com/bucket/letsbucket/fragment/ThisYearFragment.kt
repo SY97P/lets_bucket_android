@@ -21,12 +21,14 @@ class ThisYearFragment : Fragment() {
 
     private var TAG: String = javaClass.simpleName
 
+    private final val BOUND = 240
+
     private lateinit var binding: FragmentThisyearBinding
 
     private lateinit var adapter: ViewPagerAdapter
 
     private lateinit var calendar: Calendar
-    private var mPosition: Int by Delegates.observable(0) { property, oldValue, newValue ->
+    private var mPosition: Int by Delegates.observable(BOUND/2) { property, oldValue, newValue ->
         if (oldValue < newValue) {
             calendar.run {
                 add(Calendar.MONTH, 1)
@@ -54,11 +56,20 @@ class ThisYearFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         calendar = Calendar.getInstance()
+        calendar.add(Calendar.MONTH, -(BOUND/2))
 
-        val list: ArrayList<DatePage> = arrayListOf(
-            DatePage("1 page"),
-            DatePage("2 page")
-        )
+        val list: ArrayList<DatePage> = arrayListOf()
+        for (i in 0 .. BOUND) {
+            list.add(
+                DatePage(
+                    SimpleDateFormat("yyyy-MM", Locale.KOREA).format(calendar.time),
+                    calendar
+                )
+            )
+            calendar.add(Calendar.MONTH, 1)
+        }
+
+        calendar.add(Calendar.MONTH, -(BOUND/2+1))
         adapter = ViewPagerAdapter(list)
     }
 
@@ -71,6 +82,7 @@ class ThisYearFragment : Fragment() {
 
         binding.viewPager.adapter = adapter
         binding.viewPager.orientation = ViewPager2.ORIENTATION_VERTICAL
+        binding.viewPager.setCurrentItem(mPosition, true)
 
         setupBinding()
 

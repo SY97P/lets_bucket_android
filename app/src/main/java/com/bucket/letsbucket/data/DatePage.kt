@@ -1,3 +1,5 @@
 package com.bucket.letsbucket.data
 
-class DatePage(var title: String)
+import java.util.*
+
+class DatePage(var title: String, var calendar: Calendar)

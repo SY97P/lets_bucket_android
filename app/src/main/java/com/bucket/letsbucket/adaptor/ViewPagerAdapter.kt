@@ -28,7 +28,7 @@ class ViewPagerAdapter(private val listData: ArrayList<DatePage>) : RecyclerView
 
     override fun onBindViewHolder(holder: ViewHolderPage, position: Int) {
         val viewHolder: ViewHolderPage = holder
-        viewHolder.onBind(listData[position % listData.size])
+        viewHolder.onBind(listData[position])
     }
 
     override fun getItemCount(): Int = Int.MAX_VALUE
