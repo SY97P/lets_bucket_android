@@ -19,7 +19,7 @@ import com.bucket.letsbucket.databinding.ActivityDetailBinding
 import com.bucket.letsbucket.db.LifeBucketDB
 import com.bucket.letsbucket.listener.DismissListener
 import com.bucket.letsbucket.dialog.AlertUtilDialog
-import com.bucket.letsbucket.util.AlertAndAnimationUtil
+import com.bucket.letsbucket.dialog.AlertNAnimDialog
 import com.bucket.letsbucket.util.DataUtil
 import com.bucket.letsbucket.util.LogUtil
 import kotlinx.coroutines.CoroutineScope
@@ -167,7 +167,7 @@ class DetailActivity : AppCompatActivity(), DismissListener {
 //                    item.printBucketItem()
                     DataUtil.DATA_CHANGED_LISTENER?.dataChanged()
                     if (this.done) {
-                        AlertAndAnimationUtil(this).let {
+                        AlertNAnimDialog(this).let {
                             it.build(DataUtil.ANIM_TYPE.FIRE_WORK)
                             it.setDismissListener(this)
                         }

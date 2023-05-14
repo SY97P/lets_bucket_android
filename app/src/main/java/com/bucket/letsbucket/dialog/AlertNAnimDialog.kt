@@ -1,13 +1,10 @@
-package com.bucket.letsbucket.util
+package com.bucket.letsbucket.dialog
 
 import android.content.Context
-import androidx.appcompat.app.AlertDialog
-import com.bucket.letsbucket.R
-import com.bucket.letsbucket.dialog.AlertUtilDialog
-import com.bucket.letsbucket.dialog.AnimationDialog
 import com.bucket.letsbucket.listener.DismissListener
+import com.bucket.letsbucket.util.DataUtil
 
-class AlertAndAnimationUtil(context: Context) {
+class AlertNAnimDialog(context: Context) {
 
     private var context: Context
     private lateinit var dismissListener: DismissListener
