@@ -47,12 +47,19 @@ class SplashActivity : AppCompatActivity() {
 
     val imgRes = MutableLiveData<Int>(R.drawable.loading)
 
+    private var buttonClickable: Boolean = false
+
     private var dbTaskDone: Boolean by Delegates.observable(false) { property, oldValue, newValue ->
         if (newValue) {
             Thread.sleep(1000)
             imgRes.value = R.drawable.start
             binding.button.startAnimation(AnimationUtils.loadAnimation(this, R.anim.cover_appear))
-            AnimationDialog(this, DataUtil.ANIM_TYPE.CLICK).show()
+            AnimationDialog(this, DataUtil.ANIM_TYPE.CLICK).let {
+                it.setOnDismissListener {
+                    buttonClickable = true
+                }
+                it.show()
+            }
         } else {
             imgRes.value = R.drawable.loading
         }
@@ -91,7 +98,7 @@ class SplashActivity : AppCompatActivity() {
             lifecycleOwner = this@SplashActivity
             activity = this@SplashActivity
             button.setOnClickListener {
-                if (dbTaskDone) {
+                if (buttonClickable) {
                     val intent = Intent(applicationContext, MainActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)
