@@ -8,6 +8,8 @@ import com.bucket.letsbucket.R
 import com.bucket.letsbucket.listener.DismissListener
 import com.bucket.letsbucket.util.DataUtil
 import com.bucket.letsbucket.util.LogUtil
+import java.util.*
+import kotlin.collections.ArrayList
 
 class AlertUtilDialog(private val context: Context, private val type: DataUtil.DIALOG_TYPE) {
 
@@ -19,13 +21,15 @@ class AlertUtilDialog(private val context: Context, private val type: DataUtil.D
 
     private final val data = arrayOf<String>("🎃 개발자: 박세영", "📋 버전 : ${BuildConfig.VERSION_NAME}")
     private final val wayItems = arrayOf("갤러리에서 선택할래요", "카메라로 찍을래요")
+    private var bucketTypeItems= arrayListOf<String>()
+    private lateinit var bucketTypes: ArrayList<Int>
     private var selectedItem: Int? = null
 
     fun setDismissListener(onDismissListener: DismissListener) {
         this.dismissListener = onDismissListener
     }
 
-    fun build() {
+    fun build(info: String?) {
         dialog = AlertDialog.Builder(context, R.style.AlertDialogStyle).setIcon(R.drawable.basic)
         when (type) {
             DataUtil.DIALOG_TYPE.BUCKET_DONE -> {
@@ -54,6 +58,23 @@ class AlertUtilDialog(private val context: Context, private val type: DataUtil.D
             }
             DataUtil.DIALOG_TYPE.CALENDAR -> {
                 // TODO: 오늘 날짜에 대한 버킷리스트 테마별 이동
+                dialog
+                    .setTitle(info)
+                if (bucketTypeItems.isEmpty()) {
+                    dialog.setMessage("선택한 날짜로 설정한 버킷리스트가 없어요")
+                } else {
+                    dialog
+                        .setSingleChoiceItems(bucketTypeItems.toTypedArray(), -1) { dialog, which ->
+                            selectedItem = bucketTypes[which]
+                        }
+                        .setPositiveButton("확인") { dialog, which ->
+                            LogUtil.d(TAG, "${selectedItem} Task Selected")
+                            dismissListener.onDismiss(selectedItem!!)
+                        }
+                        .setNegativeButton("취소") { dialog, which ->
+                            LogUtil.d(TAG, "Cancel Image Select Task")
+                        }
+                }
             }
             DataUtil.DIALOG_TYPE.DEFAULT -> {
                 // NONE
@@ -63,5 +84,12 @@ class AlertUtilDialog(private val context: Context, private val type: DataUtil.D
 
     fun show(): AlertDialog {
         return dialog.show()
+    }
+
+    fun setBucketTypeList(bucketTypes: ArrayList<Int>) {
+        this.bucketTypes = bucketTypes
+        bucketTypes.forEach {
+            bucketTypeItems.add(context.getString(DataUtil.LIFE_TYPE_LIST[it].lifeString))
+        }
     }
 }

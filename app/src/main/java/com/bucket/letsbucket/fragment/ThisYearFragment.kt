@@ -27,7 +27,7 @@ class ThisYearFragment : Fragment() {
     private lateinit var adapter: ViewPagerAdapter
 
     private lateinit var calendar: Calendar
-    private var mPosition: Int by Delegates.observable(BOUND/2) { property, oldValue, newValue ->
+    private var mPosition: Int by Delegates.observable(BOUND/2+1) { property, oldValue, newValue ->
         if (oldValue < newValue) {
             calendar.run {
                 add(Calendar.MONTH, 1)

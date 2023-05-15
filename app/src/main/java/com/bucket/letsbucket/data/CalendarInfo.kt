@@ -15,16 +15,20 @@ class CalendarInfo(private var calendar: Calendar) {
     private var monthStartDate = 0
     private var monthDateCnt = 0
 
-    inner class DateInfo(private val dateinfo: String) {
-        var year: Int = 0
-        var month: Int = 0
-        var day: Int = 0
+    inner class DateInfo(private val dateinfo: String?) {
+        var year: String = ""
+        var month: String = ""
+        var day: String = ""
         var bucketTypes: ArrayList<Int> = arrayListOf()
         var validDate = false
 
         init {
-            if (!dateinfo.isBlank()) {
+            if (dateinfo != null) {
                 validDate = true
+                val data = dateinfo.split("/")
+                year = data[0]
+                month = data[1]
+                day = data[2]
                 for (typeIdx in 0 until DataUtil.BUCKET_LIST.size) {
                     DataUtil.BUCKET_LIST[typeIdx].forEach {
                         if (dateinfo.equals(it.itemTargetDate) || dateinfo.equals(it.itemDoneDate)) {
@@ -32,11 +36,15 @@ class CalendarInfo(private var calendar: Calendar) {
                         }
                     }
                 }
-                LogUtil.d(TAG, "DateInfo: $dateinfo -> bucketTypes: ${bucketTypes.size}")
+                if (!bucketTypes.isEmpty()) {
+                    LogUtil.d(TAG, "DateInfo: $dateinfo -> bucketTypes: ${bucketTypes.size}")
+                }
             } else {
                 validDate = false
             }
         }
+
+        fun getDateString() = "$year/$month/$day"
     }
 
     fun makeCalendar() {
@@ -45,15 +53,18 @@ class CalendarInfo(private var calendar: Calendar) {
         monthStartDate = mCalendar.get(Calendar.DAY_OF_WEEK) % 8
         monthDateCnt = mCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)
 
+        val year = mCalendar.get(Calendar.YEAR).toString()
+        val month = mCalendar.get(Calendar.MONTH).toString()
+
         for (i in 1 until monthStartDate) {
             dateList.add(
-                DateInfo("")
+                DateInfo(null)
             )
         }
 
         for (i in 1 .. monthDateCnt) {
             dateList.add(
-                DateInfo("${mCalendar.get(Calendar.YEAR)}/${mCalendar.get(Calendar.MONTH)}/$i")
+                DateInfo("$year/$month/$i")
             )
         }
     }

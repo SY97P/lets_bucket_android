@@ -41,7 +41,7 @@ class SettingActivity : AppCompatActivity() {
 
             it.layoutAppInfo.setOnClickListener {
                 AlertUtilDialog(this@SettingActivity, DataUtil.DIALOG_TYPE.APP_INFO).let {
-                    it.build()
+                    it.build(null)
                     it.show()
                 }
             }

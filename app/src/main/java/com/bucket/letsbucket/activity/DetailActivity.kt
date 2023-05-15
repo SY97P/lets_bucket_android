@@ -197,7 +197,7 @@ class DetailActivity : AppCompatActivity(), DismissListener {
                 LogUtil.d(TAG, "choose image from local gallery")
                 AlertUtilDialog(this@DetailActivity, DataUtil.DIALOG_TYPE.SNAPSHOT).let {
                     it.setDismissListener(this@DetailActivity)
-                    it.build()
+                    it.build(null)
                     it.show()
                 }
             }

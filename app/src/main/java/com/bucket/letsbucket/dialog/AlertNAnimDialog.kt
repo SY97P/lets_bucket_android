@@ -19,7 +19,7 @@ class AlertNAnimDialog(context: Context) {
 
     fun build(animationType: DataUtil.ANIM_TYPE) {
         val alert = AlertUtilDialog(context, DataUtil.DIALOG_TYPE.BUCKET_DONE).let {
-            it.build()
+            it.build(null)
             it.show()
         }
         AnimationDialog(context, animationType).let {
