@@ -126,7 +126,7 @@ class DetailActivity : AppCompatActivity(), DismissListener {
         if (data.lifetype == null) {
             LogUtil.d(TAG, "lifeType is null -> invalid access")
             onBackPressed()
-        } else if (data.idx < 0 || data.idx >= DataUtil.LIFE_LIST[data.lifetype!!].size) {
+        } else if (data.idx < 0 || data.idx >= DataUtil.BUCKET_LIST[data.lifetype!!].size) {
             LogUtil.d(TAG,"index out of range -> invalid access")
             onBackPressed()
         }
@@ -240,7 +240,7 @@ class DetailActivity : AppCompatActivity(), DismissListener {
     }
 
     private fun modifyToList() {
-        DataUtil.LIFE_LIST[data.lifetype!!].set(
+        DataUtil.BUCKET_LIST[data.lifetype!!].set(
             data.idx,
             BucketItem(
                 id = data.id,
@@ -259,7 +259,7 @@ class DetailActivity : AppCompatActivity(), DismissListener {
         // 아이템 텍스트 변경 시 DB 작업
         CoroutineScope(Dispatchers.Main).launch {
             CoroutineScope(Dispatchers.IO).async {
-                val modifiedItem = DataUtil.LIFE_LIST[data.lifetype!!].get(data.idx)
+                val modifiedItem = DataUtil.BUCKET_LIST[data.lifetype!!].get(data.idx)
                 LifeBucketDB.getInstance(this@DetailActivity)!!.lifebucketDao()
                     .updateItem(
                         modifiedItem.itemText,

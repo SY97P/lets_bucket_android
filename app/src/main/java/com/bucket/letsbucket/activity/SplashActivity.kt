@@ -138,19 +138,19 @@ class SplashActivity : AppCompatActivity() {
                 lifeBucketDB.lifebucketDao().getAll()
             }.await()
 
-            for (itemList in DataUtil.LIFE_LIST) {
+            for (itemList in DataUtil.BUCKET_LIST) {
                 itemList.clear()
             }
 
             for (bucket in bucketList) {
-                DataUtil.LIFE_LIST[bucket.type].add(
+                DataUtil.BUCKET_LIST[bucket.type].add(
                     bucket.converToBucket()
                 )
             }
 
-            for (i in 0 until DataUtil.LIFE_LIST.size) {
-                if (DataUtil.LIFE_LIST[i].size <= 0) {
-                    DataUtil.LIFE_LIST[i].add(
+            for (i in 0 until DataUtil.BUCKET_LIST.size) {
+                if (DataUtil.BUCKET_LIST[i].size <= 0) {
+                    DataUtil.BUCKET_LIST[i].add(
                         BucketItem(
                             System.currentTimeMillis(),
                             "버튼을 눌러 꼭 이루고 싶은 버킷리스트를 만들어보세요",

@@ -8,7 +8,7 @@ import com.bucket.letsbucket.listener.DataChangedListener
 
 object DataUtil {
 
-    var LIFE_LIST: Array<ArrayList<BucketItem>> = arrayOf(
+    var BUCKET_LIST: Array<ArrayList<BucketItem>> = arrayOf(
         arrayListOf(), arrayListOf(), arrayListOf(), arrayListOf(), arrayListOf(), arrayListOf(), arrayListOf(),
     )
 

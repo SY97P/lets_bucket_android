@@ -93,6 +93,7 @@
 
             <LinearLayout
                 android:id="@+id/calendar_layout"
+                android:paddingVertical="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 

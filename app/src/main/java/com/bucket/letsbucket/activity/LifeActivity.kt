@@ -15,7 +15,7 @@ import com.bucket.letsbucket.listener.DismissListener
 import com.bucket.letsbucket.util.DataUtil
 import com.bucket.letsbucket.util.LogUtil
 
-class LifeActivity : AppCompatActivity(), DismissListener {
+class LifeActivity : AppCompatActivity() {
 
     private var TAG: String = "LifeActivity"
 
@@ -43,15 +43,15 @@ class LifeActivity : AppCompatActivity(), DismissListener {
 
                 lifeAdapter = BucketAdapter(
                     this@LifeActivity,
-                    DataUtil.LIFE_LIST[lifeType!!]
+                    DataUtil.BUCKET_LIST[lifeType!!]
                 )
                 lifeBucketList.adapter = lifeAdapter
                 lifeBucketList.layoutManager =
                     LinearLayoutManager(this@LifeActivity, LinearLayoutManager.VERTICAL, false)
 
                 fab.setOnClickListener(View.OnClickListener {
-                    if (DataUtil.LIFE_LIST[lifeType!!].get(0).itemText.contains("꼭 이루고")) {
-                        DataUtil.LIFE_LIST[lifeType!!].removeAt(0)
+                    if (DataUtil.BUCKET_LIST[lifeType!!].get(0).itemText.contains("꼭 이루고")) {
+                        DataUtil.BUCKET_LIST[lifeType!!].removeAt(0)
                     }
                     AddPopupDialog(
                         this@LifeActivity,
@@ -73,12 +73,8 @@ class LifeActivity : AppCompatActivity(), DismissListener {
 
     override fun onResume() {
         super.onResume()
-        for (item in DataUtil.LIFE_LIST[lifeType!!]) {
+        for (item in DataUtil.BUCKET_LIST[lifeType!!]) {
             LogUtil.d(TAG, item.itemId.toString() + " " + item.itemText + " " + item.itemDone)
         }
-    }
-
-    override fun onDismiss() {
-        TODO("Not yet implemented")
     }
 }

@@ -53,10 +53,10 @@ class AlertUtilDialog(private val context: Context, private val type: DataUtil.D
                     }
             }
             DataUtil.DIALOG_TYPE.CALENDAR -> {
-
+                // TODO: 오늘 날짜에 대한 버킷리스트 테마별 이동
             }
             DataUtil.DIALOG_TYPE.DEFAULT -> {
-
+                // NONE
             }
         }
     }

@@ -95,6 +95,6 @@ class AddPopupDialog(
             uri = "",
             detailText = null
         )
-        DataUtil.LIFE_LIST[lifeType!!].add(addedBucketItem)
+        DataUtil.BUCKET_LIST[lifeType!!].add(addedBucketItem)
     }
 }

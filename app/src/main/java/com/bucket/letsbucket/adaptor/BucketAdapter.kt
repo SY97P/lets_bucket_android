@@ -157,7 +157,7 @@ class BucketAdapter(
         var deletedItem: BucketItem? = null
 
         deletedItem = dataSet[position]
-        DataUtil.LIFE_LIST[deletedItem.itemType!!].removeAt(position)
+        DataUtil.BUCKET_LIST[deletedItem.itemType!!].removeAt(position)
 
         holder.animToggle = !holder.animToggle
         notifyDataSetChanged()
