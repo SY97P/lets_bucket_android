@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bucket.letsbucket.R
+import com.bucket.letsbucket.data.CalendarInfo
 import com.bucket.letsbucket.dialog.AlertUtilDialog
 import com.bucket.letsbucket.util.DataUtil
 import com.bucket.letsbucket.util.LogUtil
 
-class BucketTypeAdapter(private val context: Context, private val bucketTypeList: ArrayList<Int>)
+class BucketTypeAdapter(private val context: Context, private val dateinfo: CalendarInfo.DateInfo)
     : RecyclerView.Adapter<BucketTypeAdapter.BucketTypeHolder>() {
 
     private val TAG = javaClass.simpleName
@@ -31,12 +32,12 @@ class BucketTypeAdapter(private val context: Context, private val bucketTypeList
         return BucketTypeHolder(view)
     }
 
-    override fun getItemCount(): Int = bucketTypeList.size
+    override fun getItemCount(): Int = dateinfo.bucketTypes.size
 
     override fun onBindViewHolder(holder: BucketTypeHolder, position: Int) {
-        holder.onBind(bucketTypeList[position])
+        holder.onBind(dateinfo.bucketTypes[position])
         holder.itemView.setOnClickListener {
-            LogUtil.d(TAG, "여기서?!")
+            LogUtil.d(TAG, dateinfo.getDateString() + " " + dateinfo.bucketTypes.forEach { it })
         }
     }
 

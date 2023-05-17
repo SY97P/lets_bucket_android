@@ -27,7 +27,7 @@ class ThisYearFragment : Fragment() {
     private lateinit var adapter: ViewPagerAdapter
 
     private lateinit var calendar: Calendar
-    private var mPosition: Int by Delegates.observable(BOUND/2+1) { property, oldValue, newValue ->
+    private var mPosition: Int by Delegates.observable(BOUND/2) { property, oldValue, newValue ->
         if (oldValue < newValue) {
             calendar.run {
                 add(Calendar.MONTH, 1)
@@ -55,15 +55,17 @@ class ThisYearFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         calendar = Calendar.getInstance()
-        calendar.add(Calendar.MONTH, -(BOUND/2))
+
+        val tempCalendar: Calendar = calendar.clone() as Calendar
+        tempCalendar.add(Calendar.MONTH, -(BOUND/2))
+        tempCalendar.add(Calendar.DATE, -(tempCalendar.get(Calendar.DATE)-1))
 
         val list: ArrayList<CalendarInfo> = arrayListOf()
         for (i in 0 .. BOUND) {
-            list.add(CalendarInfo(calendar.clone() as Calendar))
-            calendar.add(Calendar.MONTH, 1)
+            list.add(CalendarInfo(tempCalendar.clone() as Calendar))
+            tempCalendar.add(Calendar.MONTH, 1)
         }
 
-        calendar.add(Calendar.MONTH, -(BOUND/2+1))
         adapter = ViewPagerAdapter(requireContext(), list)
     }
 

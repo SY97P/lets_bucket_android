@@ -32,7 +32,7 @@
             android:paddingVertical="5dp"
             android:paddingHorizontal="5dp"
             tools:listitem="@layout/item_bucket_type"
-            app:spanCount="3"/>
+            app:spanCount="2"/>
 
     </LinearLayout>
 

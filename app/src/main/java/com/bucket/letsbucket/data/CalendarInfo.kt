@@ -36,9 +36,6 @@ class CalendarInfo(private var calendar: Calendar) {
                         }
                     }
                 }
-                if (!bucketTypes.isEmpty()) {
-                    LogUtil.d(TAG, "DateInfo: $dateinfo -> bucketTypes: ${bucketTypes.size}")
-                }
             } else {
                 validDate = false
             }
@@ -50,11 +47,15 @@ class CalendarInfo(private var calendar: Calendar) {
     fun makeCalendar() {
         dateList.clear()
 
-        monthStartDate = mCalendar.get(Calendar.DAY_OF_WEEK) % 8
+        LogUtil.d(TAG, mCalendar.time.toString())
+
+        monthStartDate = mCalendar.get(Calendar.DAY_OF_WEEK)
         monthDateCnt = mCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)
 
+        LogUtil.d(TAG, "$monthStartDate, $monthDateCnt")
+
         val year = mCalendar.get(Calendar.YEAR).toString()
-        val month = mCalendar.get(Calendar.MONTH).toString()
+        val month = (mCalendar.get(Calendar.MONTH)+1).toString()
 
         for (i in 1 until monthStartDate) {
             dateList.add(

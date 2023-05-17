@@ -33,7 +33,7 @@ class CalendarAdapter(private val context: Context, private val dataList: ArrayL
 
         fun bind(data: CalendarInfo.DateInfo) {
             itemCalendarDateText.text = data.day
-            itemRecyclerView.adapter = BucketTypeAdapter(context, data.bucketTypes)
+            itemRecyclerView.adapter = BucketTypeAdapter(context, data)
             itemRecyclerView.layoutManager = GridLayoutManager(context, 2)
             if (!data.validDate) {
                 itemView.findViewById<ConstraintLayout>(R.id.layout_date).background = null
@@ -49,10 +49,9 @@ class CalendarAdapter(private val context: Context, private val dataList: ArrayL
     override fun getItemCount(): Int = dataList.size
 
     override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
-//        holder.bind(dataList[position], position, context)
         holder.bind(dataList[position])
         holder.itemCalendarLayout.setOnClickListener {
-            if (dataList[position].validDate) {
+            if(dataList[position].validDate) {
                 LogUtil.d(TAG, dataList[position].getDateString())
                 // TODO : AlertUtilDialog 작업
                 AlertUtilDialog(context, DataUtil.DIALOG_TYPE.CALENDAR).let {
