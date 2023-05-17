@@ -29,12 +29,21 @@ class CalendarAdapter(private val context: Context, private val dataList: ArrayL
     inner class CalendarViewHolder(itemView: View?): RecyclerView.ViewHolder(itemView!!) {
         var itemCalendarLayout: LinearLayout = itemView!!.findViewById(R.id.item_calendar_layout)
         var itemCalendarDateText: TextView = itemView!!.findViewById(R.id.item_calendar_date_text)
-        var itemRecyclerView: RecyclerView = itemView!!.findViewById(R.id.item_calendar_recycler_view)
+        var imgViewList: ArrayList<ImageView> = arrayListOf(
+            itemView!!.findViewById(R.id.img1),
+            itemView!!.findViewById(R.id.img2),
+            itemView!!.findViewById(R.id.img3),
+            itemView!!.findViewById(R.id.img4),
+            itemView!!.findViewById(R.id.img5),
+            itemView!!.findViewById(R.id.img6),
+            itemView!!.findViewById(R.id.img7),
+        )
 
         fun bind(data: CalendarInfo.DateInfo) {
             itemCalendarDateText.text = data.day
-            itemRecyclerView.adapter = BucketTypeAdapter(context, data)
-            itemRecyclerView.layoutManager = GridLayoutManager(context, 2)
+            for (i in 0 until data.bucketTypes.size) {
+                imgViewList[i].setImageResource(DataUtil.LIFE_TYPE_LIST[data.bucketTypes[i]].lifeImage)
+            }
             if (!data.validDate) {
                 itemView.findViewById<ConstraintLayout>(R.id.layout_date).background = null
             }
