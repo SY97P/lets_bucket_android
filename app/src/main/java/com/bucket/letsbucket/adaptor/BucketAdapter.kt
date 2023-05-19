@@ -19,6 +19,7 @@ import com.bucket.letsbucket.data.BucketItem
 import com.bucket.letsbucket.data.DetailData
 import com.bucket.letsbucket.db.LifeBucketDB
 import com.bucket.letsbucket.dialog.AlertNAnimDialog
+import com.bucket.letsbucket.listener.DismissListener
 import com.bucket.letsbucket.util.DataUtil
 import com.bucket.letsbucket.util.LogUtil
 import kotlinx.coroutines.CoroutineScope
@@ -31,7 +32,7 @@ class BucketAdapter(
     private val context: Context,
     private val dataSet: ArrayList<BucketItem>
 ) :
-    RecyclerView.Adapter<BucketAdapter.BucketItemViewHolder>(), DataChangedListener {
+    RecyclerView.Adapter<BucketAdapter.BucketItemViewHolder>(), DataChangedListener, DismissListener {
 
     private var TAG = "BucketAdapter"
 
@@ -133,9 +134,10 @@ class BucketAdapter(
 
         if (dataSet[position].itemDone) {
             holder.checkbox.setImageResource(R.drawable.checked)
-            AlertNAnimDialog(context).build(
-                DataUtil.ANIM_TYPE.FIRE_WORK
-            )
+            AlertNAnimDialog(context).let {
+                it.build(DataUtil.ANIM_TYPE.FIRE_WORK)
+                it.setDismissListener(this)
+            }
         } else {
             holder.checkbox.setImageResource(R.drawable.unchecked)
         }
@@ -175,5 +177,13 @@ class BucketAdapter(
     override fun dataChanged() {
         LogUtil.d(TAG, "데이터 변경 감지! -> notifyDataSetChange()")
         notifyDataSetChanged()
+    }
+
+    override fun onDismiss() {
+        //
+    }
+
+    override fun onDismiss(itemIdx: Int) {
+        //
     }
 }

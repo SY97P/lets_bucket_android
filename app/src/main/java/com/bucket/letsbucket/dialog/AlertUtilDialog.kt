@@ -76,6 +76,14 @@ class AlertUtilDialog(private val context: Context, private val type: DataUtil.D
                         }
                 }
             }
+            DataUtil.DIALOG_TYPE.BLANK_BUCKET -> {
+                dialog.setTitle("버킷리스트가 비었어요!")
+                if (info!!.length <= 0) {
+                    dialog.setMessage("최소 한 글자는 입력해야해요.")
+                } else if (info.length >= 15) {
+                    dialog.setMessage("최대 15 글자까지 입력해야해요.")
+                }
+            }
             DataUtil.DIALOG_TYPE.DEFAULT -> {
                 // NONE
             }

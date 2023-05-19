@@ -31,7 +31,7 @@ object DataUtil {
     }
 
     enum class DIALOG_TYPE {
-        BUCKET_DONE, APP_INFO, SNAPSHOT, CALENDAR, DEFAULT
+        BUCKET_DONE, APP_INFO, SNAPSHOT, CALENDAR, BLANK_BUCKET, DEFAULT
     }
 
     val permissionList = arrayOf(

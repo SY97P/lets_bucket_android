@@ -111,7 +111,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/dark_grey"
-            android:text="확인"
+            android:text="세부페이지로 이동"
             style="?android:attr/borderlessButtonStyle"/>
     </LinearLayout>
     <!--  확인 버튼  -->

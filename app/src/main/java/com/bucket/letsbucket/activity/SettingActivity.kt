@@ -1,24 +1,21 @@
 package com.bucket.letsbucket.activity
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
-import com.bucket.letsbucket.BuildConfig
-import com.bucket.letsbucket.R
 import com.bucket.letsbucket.databinding.ActivitySettingBinding
 import com.bucket.letsbucket.db.SettingDB
 import com.bucket.letsbucket.db.SettingData
 import com.bucket.letsbucket.dialog.AlertUtilDialog
+import com.bucket.letsbucket.listener.DismissListener
 import com.bucket.letsbucket.util.DataUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-class SettingActivity : AppCompatActivity() {
+class SettingActivity : AppCompatActivity(), DismissListener {
 
     private lateinit var binding: ActivitySettingBinding
 
@@ -42,6 +39,7 @@ class SettingActivity : AppCompatActivity() {
             it.layoutAppInfo.setOnClickListener {
                 AlertUtilDialog(this@SettingActivity, DataUtil.DIALOG_TYPE.APP_INFO).let {
                     it.build(null)
+                    it.setDismissListener(this)
                     it.show()
                 }
             }
@@ -80,5 +78,13 @@ class SettingActivity : AppCompatActivity() {
                 )
             }
         }
+    }
+
+    override fun onDismiss() {
+        //
+    }
+
+    override fun onDismiss(itemIdx: Int) {
+        //
     }
 }

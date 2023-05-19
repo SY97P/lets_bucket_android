@@ -2,10 +2,14 @@ package com.bucket.letsbucket.dialog
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import androidx.core.content.ContextCompat
+import com.bucket.letsbucket.activity.DetailActivity
 import com.bucket.letsbucket.data.BucketItem
+import com.bucket.letsbucket.data.DetailData
 import com.bucket.letsbucket.databinding.DialogAddPopupBinding
 import com.bucket.letsbucket.db.LifeBucketDB
 import com.bucket.letsbucket.util.DataUtil
@@ -63,14 +67,29 @@ class AddPopupDialog(
 
         // 확인 버튼
         binding.popupConfirmBtn.setOnClickListener {
-            if (binding.popupEditText.text!!.isNotBlank()) {
+            if (binding.popupEditText.text!!.length in 1..15) {
                 addToList()
                 addToDB()
             } else {
                 LogUtil.d(TAG, "text is blank -> Adding item denied")
+                AlertUtilDialog(context, DataUtil.DIALOG_TYPE.BLANK_BUCKET).let {
+                    it.build(binding.popupEditText.text.toString())
+                    it.show()
+                }
             }
-
             dismiss()
+
+            val intent = Intent(context, DetailActivity::class.java)
+            val idx = DataUtil.BUCKET_LIST[lifeType!!].lastIndex
+            val data = DataUtil.BUCKET_LIST[lifeType!!].get(idx)
+            intent.putExtra(
+                "DATA", DetailData(
+                    data.itemId, data.itemText, data.itemDone, data.itemType,
+                    data.itemDoneDate, data.itemTargetDate, data.itemUri, data.itemDetailText,
+                    idx,
+                )
+            )
+            ContextCompat.startActivity(context, intent, null)
         }
     }
 
