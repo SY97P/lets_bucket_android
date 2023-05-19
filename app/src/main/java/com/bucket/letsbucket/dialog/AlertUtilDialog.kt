@@ -84,6 +84,10 @@ class AlertUtilDialog(private val context: Context, private val type: DataUtil.D
                     dialog.setMessage("최대 15 글자까지 입력해야해요.")
                 }
             }
+            DataUtil.DIALOG_TYPE.HELP -> {
+                dialog.setTitle("도움말")
+                    .setMessage("버킷리스트를 꾹 누르면 삭제할 수 있어요")
+            }
             DataUtil.DIALOG_TYPE.DEFAULT -> {
                 // NONE
             }

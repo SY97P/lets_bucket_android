@@ -61,8 +61,7 @@ class CalendarAdapter(private val context: Context, private val dataList: ArrayL
         holder.bind(dataList[position])
         holder.itemCalendarLayout.setOnClickListener {
             if(dataList[position].validDate) {
-                LogUtil.d(TAG, dataList[position].getDateString())
-                // TODO : AlertUtilDialog 작업
+//                LogUtil.d(TAG, dataList[position].getDateString())
                 AlertUtilDialog(context, DataUtil.DIALOG_TYPE.CALENDAR).let {
                     it.setBucketTypeList(dataList[position].bucketTypes)
                     it.build(dataList[position].getDateString())

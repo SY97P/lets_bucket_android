@@ -12,7 +12,7 @@ import com.bucket.letsbucket.R
 import com.bucket.letsbucket.adaptor.BucketAdapter
 import com.bucket.letsbucket.data.BucketItem
 import com.bucket.letsbucket.databinding.ActivityLifeBinding
-import com.bucket.letsbucket.listener.DismissListener
+import com.bucket.letsbucket.dialog.AlertUtilDialog
 import com.bucket.letsbucket.util.DataUtil
 import com.bucket.letsbucket.util.LogUtil
 
@@ -32,6 +32,10 @@ class LifeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         lifeType = intent.getIntExtra("LIFE_TYPE", -1)
+
+        if (lifeType!! < 0 || lifeType!! >= DataUtil.LIFE_TYPE_LIST.size) {
+            onBackPressed()
+        }
 
         if (DataUtil.BUCKET_LIST[lifeType!!].size == 0) {
             DataUtil.BUCKET_LIST[lifeType!!].add(
@@ -53,8 +57,14 @@ class LifeActivity : AppCompatActivity() {
                 lifecycleOwner = this@LifeActivity
                 activity = this@LifeActivity
 
-                subjectImgRes.value = DataUtil.LIFE_TYPE_LIST.get(lifeType!!).lifeImage
-                subjectString.value = getString(DataUtil.LIFE_TYPE_LIST.get(lifeType!!).lifeString)
+                subjectImgRes.value = DataUtil.LIFE_TYPE_LIST[lifeType!!].lifeImage
+                subjectString.value = getString(DataUtil.LIFE_TYPE_LIST[lifeType!!].lifeString)
+
+                if (DataUtil.SETTING_DATA.viewHelp) {
+                    buttonHelp.visibility = View.VISIBLE
+                } else {
+                    buttonHelp.visibility = View.GONE
+                }
 
                 lifeAdapter = BucketAdapter(
                     this@LifeActivity,
@@ -65,13 +75,10 @@ class LifeActivity : AppCompatActivity() {
                     LinearLayoutManager(this@LifeActivity, LinearLayoutManager.VERTICAL, false)
 
                 fab.setOnClickListener(View.OnClickListener {
-                    if (DataUtil.BUCKET_LIST[lifeType!!].get(0).itemText.contains("꼭 이루고")) {
+                    if (DataUtil.BUCKET_LIST[lifeType!!].size > 0 && DataUtil.BUCKET_LIST[lifeType!!][0].itemText.contains("꼭 이루고")) {
                         DataUtil.BUCKET_LIST[lifeType!!].removeAt(0)
                     }
-                    AddPopupDialog(
-                        this@LifeActivity,
-                        lifeType
-                    ).let {
+                    AddPopupDialog(this@LifeActivity, lifeType).let {
                         it.setOnDismissListener {
                             lifeAdapter.notifyDataSetChanged()
                         }
@@ -79,17 +86,12 @@ class LifeActivity : AppCompatActivity() {
                     }
                 })
 
-//                buttonHelp.setOnClickListener {
-//                    AlertAndAnimationUtil(this@LifeActivity, this@LifeActivity)
-//                        .build("버킷리스트 클릭!!", "버킷리스트 ")
-//                }
+                buttonHelp.setOnClickListener {
+                    AlertUtilDialog(this@LifeActivity, DataUtil.DIALOG_TYPE.HELP).let {
+                        it.build(null)
+                        it.show()
+                    }
+                }
             }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        for (item in DataUtil.BUCKET_LIST[lifeType!!]) {
-            LogUtil.d(TAG, item.itemId.toString() + " " + item.itemText + " " + item.itemDone)
-        }
     }
 }

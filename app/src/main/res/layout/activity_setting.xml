@@ -56,15 +56,15 @@
                     android:textAlignment="center"
                     android:paddingBottom="50dp"
                     android:textColor="@color/dark_grey"
-                    android:textSize="20dp"
-                    android:text="행복한가 그렇지 못한가는\n결국 우리들 자신에게 달려있다."/>
+                    android:textSize="20sp"
+                    android:text="@string/sentence1"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/dark_grey"
                     android:layout_gravity="center_horizontal"
-                    android:text="아리스토텔레스"/>
+                    android:text="@string/sentence1_man"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -171,16 +171,15 @@
         <!--도움말 키고닫기-->
         <LinearLayout
             android:paddingVertical="20dp"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
-                android:paddingLeft="10dp"
+                android:paddingStart="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/dark_grey"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:text="⚙  도움말 켜기"/>
 
             <View

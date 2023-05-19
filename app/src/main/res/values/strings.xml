@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">렛츠버킷</string>
     <string name="past">Past</string>
-    <string name="this_year">2023</string>
     <string name="life">Life</string>
+    <string name="calendar">Calendar</string>
     <string name="add">Add</string>
     <string name="bucketlist">버킷리스트</string>
     <string name="bucket_notice">꼭 이루고 싶은 버킷리스트를 작성해보세요!</string>
@@ -15,4 +15,6 @@
     <string name="etc">기타</string>
     <string name="no_img">인증샷을 남겨보세요!</string>
     <string name="calendar_year_month_format">YYYY년 MM월</string>
+    <string name="sentence1">행복한가 그렇지 못한가는\n결국 우리들 자신에게 달려있다.</string>
+    <string name="sentence1_man">아리스토텔레스</string>
 </resources>

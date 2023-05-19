@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
         val adapter = TabAdapter(supportFragmentManager)
         adapter.addFragment(LifeTypeFragment(), getString(R.string.life))
-        adapter.addFragment(ThisYearFragment(), getString(R.string.this_year))
+        adapter.addFragment(ThisYearFragment(), getString(R.string.calendar))
 //        adapter.addFragment(PastFragment(), getString(R.string.past))
 
         binding.viewPager.adapter = adapter

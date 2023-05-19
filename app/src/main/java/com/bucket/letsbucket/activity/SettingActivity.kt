@@ -65,7 +65,7 @@ class SettingActivity : AppCompatActivity(), DismissListener {
 
     private fun updateSetting() {
         DataUtil.SETTING_DATA.storeImg = binding.buttonSwitchStoreImg.isChecked
-//        DataUtil.SETTING_DATA?.viewHelp = binding.buttonSwitchViewHelp.isChecked
+        DataUtil.SETTING_DATA.viewHelp = binding.buttonSwitchViewHelp.isChecked
 
         CoroutineScope(Dispatchers.Main).launch {
             CoroutineScope(Dispatchers.IO).async {
@@ -76,7 +76,7 @@ class SettingActivity : AppCompatActivity(), DismissListener {
                         binding.buttonSwitchViewHelp.isChecked
                     )
                 )
-            }
+            }.await()
         }
     }
 

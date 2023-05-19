@@ -2,6 +2,7 @@ package com.bucket.letsbucket.activity
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.animation.AnimationUtils
 import android.widget.Toast
@@ -14,6 +15,7 @@ import com.bucket.letsbucket.data.BucketItem
 import com.bucket.letsbucket.databinding.ActivitySplashBinding
 import com.bucket.letsbucket.db.LifeBucketDB
 import com.bucket.letsbucket.db.SettingDB
+import com.bucket.letsbucket.db.SettingData
 import com.bucket.letsbucket.dialog.AnimationDialog
 import com.bucket.letsbucket.util.DataUtil
 import com.bucket.letsbucket.util.LogUtil
