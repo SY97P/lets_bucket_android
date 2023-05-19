@@ -161,10 +161,13 @@ class DetailActivity : AppCompatActivity(), DismissListener {
 
             // 확인 버튼
             it.buttonConfirm.setOnClickListener {
-                if (binding.bucketText.text.length > 0) {
+                if (binding.bucketText.text.length in 1 .. 15) {
+                    if (this.done && this.doneDate.isBlank()) {
+                        var today = GregorianCalendar()
+                        this.doneDate = "${today.get(Calendar.YEAR)}/${today.get(Calendar.MONTH)+1}/${today.get(Calendar.DAY_OF_MONTH)}"
+                    }
                     modifyToList()
                     modifyToDB()
-//                    item.printBucketItem()
                     DataUtil.DATA_CHANGED_LISTENER?.dataChanged()
                     if (this.done) {
                         AlertNAnimDialog(this).let {
@@ -176,6 +179,10 @@ class DetailActivity : AppCompatActivity(), DismissListener {
                     }
                 } else {
                     Toast.makeText(this, "버킷리스트를 작성해주세요!", Toast.LENGTH_SHORT).show()
+                    AlertUtilDialog(this@DetailActivity, DataUtil.DIALOG_TYPE.BLANK_BUCKET).let {
+                        it.build(binding.bucketText.text.toString())
+                        it.show()
+                    }
                 }
             }
 
