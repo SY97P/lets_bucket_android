@@ -26,6 +26,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.properties.Delegates
 
 class BucketAdapter(
@@ -138,6 +140,13 @@ class BucketAdapter(
                 it.build(DataUtil.ANIM_TYPE.FIRE_WORK)
                 it.setDismissListener(this)
             }
+            // 완료 버튼 클릭 시 완료일이 비어있으면
+            // 1. 완료일을 오늘날짜로 바인딩 -> DataUtil.BUCKET_LIST
+            // 2. 완료일을 오늘날짜로 바인딩 -> LIFEBUCKET_DB
+            if (dataSet[position].itemDoneDate.isBlank()) {
+                val today = GregorianCalendar()
+                dataSet[position].itemDoneDate = "${today.get(Calendar.YEAR)}/${today.get(Calendar.MONTH)+1}/${today.get(Calendar.DAY_OF_MONTH)}"
+            }
         } else {
             holder.checkbox.setImageResource(R.drawable.unchecked)
         }
@@ -148,6 +157,7 @@ class BucketAdapter(
             CoroutineScope(Dispatchers.IO).async {
                 LifeBucketDB.getInstance(context)!!.lifebucketDao().updateDone(
                     dataSet[position].itemDone,
+                    dataSet[position].itemDoneDate,
                     dataSet[position].itemId
                 )
             }.await()

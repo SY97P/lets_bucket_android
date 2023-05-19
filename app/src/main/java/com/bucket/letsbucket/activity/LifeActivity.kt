@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bucket.letsbucket.dialog.AddPopupDialog
 import com.bucket.letsbucket.R
 import com.bucket.letsbucket.adaptor.BucketAdapter
+import com.bucket.letsbucket.data.BucketItem
 import com.bucket.letsbucket.databinding.ActivityLifeBinding
 import com.bucket.letsbucket.listener.DismissListener
 import com.bucket.letsbucket.util.DataUtil
@@ -32,6 +33,21 @@ class LifeActivity : AppCompatActivity() {
 
         lifeType = intent.getIntExtra("LIFE_TYPE", -1)
 
+        if (DataUtil.BUCKET_LIST[lifeType!!].size == 0) {
+            DataUtil.BUCKET_LIST[lifeType!!].add(
+                BucketItem(
+                    System.currentTimeMillis(),
+                    "버튼을 눌러 꼭 이루고 싶은 버킷리스트를 만들어보세요",
+                    true,
+                    lifeType,
+                    "",
+                    "",
+                    "",
+                    null
+                )
+            )
+        }
+
         binding = DataBindingUtil.setContentView<ActivityLifeBinding?>(this, R.layout.activity_life)
             .apply {
                 lifecycleOwner = this@LifeActivity
@@ -39,7 +55,6 @@ class LifeActivity : AppCompatActivity() {
 
                 subjectImgRes.value = DataUtil.LIFE_TYPE_LIST.get(lifeType!!).lifeImage
                 subjectString.value = getString(DataUtil.LIFE_TYPE_LIST.get(lifeType!!).lifeString)
-
 
                 lifeAdapter = BucketAdapter(
                     this@LifeActivity,

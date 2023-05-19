@@ -33,11 +33,11 @@ class AnimationDialog (context: Context, animType: DataUtil.ANIM_TYPE): Dialog(c
         when (animationType) {
             DataUtil.ANIM_TYPE.FIRE_WORK -> {
                 binding.layoutAnimation.setAnimation(R.raw.firework_animation)
-                binding.layoutAnimation.repeatCount = 4
+                binding.layoutAnimation.repeatCount = 3
             }
             DataUtil.ANIM_TYPE.CLICK -> {
                 binding.layoutAnimation.setAnimation(R.raw.click)
-                binding.layoutAnimation.repeatCount = 1
+                binding.layoutAnimation.repeatCount = 0
             }
         }
 
