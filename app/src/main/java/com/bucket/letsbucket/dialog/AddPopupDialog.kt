@@ -70,6 +70,17 @@ class AddPopupDialog(
             if (binding.popupEditText.text!!.length in 1..15) {
                 addToList()
                 addToDB()
+                val intent = Intent(context, DetailActivity::class.java)
+                val idx = DataUtil.BUCKET_LIST[lifeType!!].lastIndex
+                val data = DataUtil.BUCKET_LIST[lifeType!!].get(idx)
+                intent.putExtra(
+                    "DATA", DetailData(
+                        data.itemId, data.itemText, data.itemDone, data.itemType,
+                        data.itemDoneDate, data.itemTargetDate, data.itemUri, data.itemDetailText,
+                        idx,
+                    )
+                )
+                ContextCompat.startActivity(context, intent, null)
             } else {
                 LogUtil.d(TAG, "text is blank -> Adding item denied")
                 AlertUtilDialog(context, DataUtil.DIALOG_TYPE.BLANK_BUCKET).let {
@@ -78,18 +89,6 @@ class AddPopupDialog(
                 }
             }
             dismiss()
-
-            val intent = Intent(context, DetailActivity::class.java)
-            val idx = DataUtil.BUCKET_LIST[lifeType!!].lastIndex
-            val data = DataUtil.BUCKET_LIST[lifeType!!].get(idx)
-            intent.putExtra(
-                "DATA", DetailData(
-                    data.itemId, data.itemText, data.itemDone, data.itemType,
-                    data.itemDoneDate, data.itemTargetDate, data.itemUri, data.itemDetailText,
-                    idx,
-                )
-            )
-            ContextCompat.startActivity(context, intent, null)
         }
     }
 
