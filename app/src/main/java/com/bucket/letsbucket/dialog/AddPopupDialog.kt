@@ -6,6 +6,8 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.Editable
+import android.view.KeyEvent
 import androidx.core.content.ContextCompat
 import com.bucket.letsbucket.activity.DetailActivity
 import com.bucket.letsbucket.data.BucketItem
