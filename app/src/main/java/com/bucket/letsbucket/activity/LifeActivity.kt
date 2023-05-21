@@ -74,6 +74,7 @@ class LifeActivity : AppCompatActivity() {
                 lifeBucketList.layoutManager =
                     LinearLayoutManager(this@LifeActivity, LinearLayoutManager.VERTICAL, false)
 
+                // 추가 버튼
                 fab.setOnClickListener(View.OnClickListener {
                     if (DataUtil.BUCKET_LIST[lifeType!!].size > 0 && DataUtil.BUCKET_LIST[lifeType!!][0].itemText.contains("꼭 이루고")) {
                         DataUtil.BUCKET_LIST[lifeType!!].removeAt(0)
@@ -84,6 +85,7 @@ class LifeActivity : AppCompatActivity() {
                         }
                         it.show()
                     }
+
                 })
 
                 buttonHelp.setOnClickListener {

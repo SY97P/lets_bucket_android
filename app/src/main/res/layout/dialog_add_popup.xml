@@ -83,10 +83,12 @@
                 android:id="@+id/popup_edit_text"
                 android:imeOptions="actionDone"
                 android:singleLine="true"
+                android:maxLines="1"
+                android:inputType="text"
                 android:textColorHighlight="@color/orange"
                 android:textColor="@color/orange"
                 android:textColorHint="@color/orange"
-                android:hint="나는 토마토가 될테야"
+                android:hint="예) 나는 토마토가 될테야"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>

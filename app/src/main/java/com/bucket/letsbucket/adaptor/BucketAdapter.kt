@@ -97,6 +97,8 @@ class BucketAdapter(
         }
         if (dataSet[position].itemText.equals("버튼을 눌러 꼭 이루고 싶은 버킷리스트를 만들어보세요")) {
             holder.checkbox.visibility = View.GONE
+        } else {
+            holder.checkbox.visibility = View.VISIBLE
         }
 
         holder.checkbox.setOnClickListener {
